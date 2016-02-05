@@ -1,17 +1,23 @@
 var path = require('path');
+var webpack = require('webpack');
 // var projectPath = path.join(__dirname, './')
 module.exports = {
-	contentBase: './dist',
+	// contentBase: './dist',
 
-	entry: {
-		javascript: "./src/index.js",
-  		html: "./src/index.html"
-	},
+	entry: [
+        'webpack-dev-server/client?http://0.0.0.0:3000',
+		// 'webpack/hot/only-dev-server',
+		'webpack/hot/dev-server'
+		'./src/index.js'
+	],
 	output: {
 		path: path.join(__dirname, 'dist'),
         publicPath: '/',
 		filename: 'bundle.js'
 	},
+	plugins: [
+		new webpack.HotModuleReplacementPlugin()
+	],
 	module: {
 		loaders: [
 			{
@@ -27,6 +33,10 @@ module.exports = {
 			{
 				test: /\.html$/,
 				loaders: [ 'file?name=[name].[ext]' ]
+			},
+			{
+		        test: /\.scss$/,
+        		loaders: ["style", "css", "sass"]
 			}
 		]
 	}
