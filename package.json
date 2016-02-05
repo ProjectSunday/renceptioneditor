@@ -2,8 +2,9 @@
   "name": "renceptioneditor",
   "version": "0.0.1",
   "description": "The Inception Editor in React + Redux",
-  "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server.js"  
+  },
   "repository": {
     "type": "git",
     "url": "git@github.exacttarget.com:hai-nguyen/renceptioneditor.git"
@@ -46,6 +47,7 @@
     "babel-plugin-react-transform": "^1.1.0",
     "concurrently": "^0.1.1",
     "express": "^4.13.3",
+    "file-loader": "^0.8.5",
     "react-transform-hmr": "^1.0.0",
     "redux-devtools": "^3.0.0",
     "redux-devtools-dock-monitor": "^1.0.1",
