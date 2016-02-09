@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux'
-import reducer1 from './reducer1'
+import slots from './slots'
 import reducer2 from './reducer2'
 
-const reducers = combineReducers({
-	reducer1, 
+export default combineReducers({
+	slots, 
 	reducer2
 })
-
-export default reducers
 

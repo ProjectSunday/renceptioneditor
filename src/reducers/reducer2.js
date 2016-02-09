@@ -1,4 +1,4 @@
-const reducer2 = (state = [], action) => {
+let reducer2 = (state = [], action) => {
 	switch (action.type) {
 		case 'BLAH2':
 			return [

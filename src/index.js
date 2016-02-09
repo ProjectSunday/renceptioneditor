@@ -1,26 +1,20 @@
 import './styles/style.scss'
 
-
 import 'babel-core/polyfill'
 
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-// import store from './store'
+import Components from './components'
 
-import reducers from './reducers'
-
-let store = createStore(reducers);
-
+import store from './store'
 window.store = store;
-
-import Root from './containers/Root'
+//console.log(store.getState());
 
 render(
 	<Provider store={store}>
-		<Root />
+		<Components />
 	</Provider>,
 	document.getElementById('main')
 )

@@ -1,11 +1,13 @@
 import React from 'react'
 
-export default ({ blah, onClick }) => (
+const Slot = ({ slot, onClick }) => (
 	<div 
 		style={{ background: '#eee' }} 
 		onClick = { onClick }
 		>
 			<div>I am child</div>
-			this is blah:  {blah}
+			slot: {JSON.stringify(slot)}
 	</div>
 )
+
+export default Slot
