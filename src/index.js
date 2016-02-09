@@ -1,10 +1,26 @@
-import 'babel-core/polyfill';
+import './styles/style.scss'
 
-import React from 'react';
-import { render } from 'react-dom';
 
-import './styles/style.scss';
+import 'babel-core/polyfill'
 
-import Root from './components/root';
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
-render(<Root />, document.getElementById('main'))
+// import store from './store'
+
+import reducers from './reducers'
+
+let store = createStore(reducers);
+
+window.store = store;
+
+import Root from './containers/Root'
+
+render(
+	<Provider store={store}>
+		<Root />
+	</Provider>,
+	document.getElementById('main')
+)

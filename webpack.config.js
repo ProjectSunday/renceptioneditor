@@ -2,12 +2,12 @@ var path = require('path');
 var webpack = require('webpack');
 // var projectPath = path.join(__dirname, './')
 module.exports = {
-	// contentBase: './dist',
 
 	entry: [
         'webpack-dev-server/client?http://0.0.0.0:3000',
 		// 'webpack/hot/only-dev-server',
-		'webpack/hot/dev-server'
+		'webpack/hot/dev-server',
+		'./src/index.html',
 		'./src/index.js'
 	],
 	output: {
@@ -22,7 +22,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js?$/,
-				loaders: [ 'babel-loader' ],
+				loaders: [ 'react-hot', 'babel-loader' ],
 				exclude: [
 					path.resolve(__dirname, 'node_modules')
 				],
