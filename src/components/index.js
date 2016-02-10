@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 
 import { addTest } from '../actions'
 
+import EditorLeft from './EditorLeft'
 import EditorRight from './EditorRight'
 
 const Components = ({ dispatch }) => (
 	<div>
-		<div>this is root</div>
-
+		<div>editor top here</div>
+		<EditorLeft />
 		<EditorRight />
-
 	</div>
 )
 
