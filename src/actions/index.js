@@ -9,8 +9,6 @@ let id = 0;
 export const addBlock = (slotId, block) => {
 	return {
 		type: 'ADD_BLOCK',
-		slotId,
-		id: id++,
-		value
+		block
 	}
 }

@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onClick: (value) => {
-			dispatch(addBlock('slotId', 'blockobject'))
+			dispatch(addBlock('slotId', { name: 'blockname', bool: true }))
 		}
 	}
 }
