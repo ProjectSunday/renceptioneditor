@@ -10,14 +10,11 @@ let EditorRight = ({ slots, onClick }) => {
 	console.log('slots ', slots);
 
 	return (
-		<div>
-			<div>EditorRight</div>
-
+		<div id="editorright" className="row">
 			<Slot 
 				slot = { slots }
 				onClick = { onClick }
 			/>
-
 		</div>
 	)
 }
