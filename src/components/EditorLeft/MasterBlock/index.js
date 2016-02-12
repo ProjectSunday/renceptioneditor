@@ -5,12 +5,11 @@ import './imageblock.png'
 import './textblock.png'
 import './textplusimageblock.png'
 
+import './imageblock-drag.png'
+import './textblock-drag.png'
+import './textplusimageblock-drag.png'
+
 let MasterBlock = ({ block }) => {
-
-	// var s = require('../../' + block.src);
-
-	// var s = "blah";
-
 
 	const onDragStart = (e) => {
 		// this.isMasterBlock = true;
@@ -18,11 +17,9 @@ let MasterBlock = ({ block }) => {
 
 		let dragImage = e.currentTarget.querySelector('.dragimage');
 
-		console.log('dragimage', dragImage);
 		e.dataTransfer.setData("text/plain", "<strong>Body</strong>");
 		e.dataTransfer.setDragImage(dragImage, 58, 29);
 	}
-
 
 	const dragImageStyles = {
 		background: 'url(' + block.dragImage + ')',
@@ -32,7 +29,7 @@ let MasterBlock = ({ block }) => {
 		position: 'absolute',
 		top: '50%',
 		left: '50%',
-		zIndex: -1,
+		zIndex: -1
 	}
 
 	return (

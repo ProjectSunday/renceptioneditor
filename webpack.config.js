@@ -9,7 +9,7 @@ module.exports = {
     devtool: 'eval',
 	entry: {
 		app: [
-        	'webpack-dev-server/client?http://localhost:3000',
+        	'webpack-dev-server/client?http://localhost:7000',
 			'webpack/hot/dev-server',
 			'./src/index'
 		]
@@ -35,8 +35,8 @@ module.exports = {
 			{ test: /\.css$/, loader: 'style-loader!css-loader'	},
 			{ 
 				test: /\.png$/, 
-				loader: 'file?name=[path]/[name].[ext]',
-				include: src + '/images'
+				loader: 'file?name=[name].[ext]',
+				include: src
 			},
 			{ 
 				test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
