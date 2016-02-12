@@ -6,7 +6,7 @@ import EditorRight from './EditorRight'
 
 const Components = ({ dispatch }) => (
 	<div>
-		<div>editor top here</div>
+		<div>editor 222 here</div>
 		<div className="col-xs-4 pull-left">
 			<EditorLeft />
 		</div>

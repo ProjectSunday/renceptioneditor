@@ -1,16 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
+var path 		= require('path');
+var webpack 	= require('webpack');
+
+var node_modules 	= path.resolve(__dirname, 'node_modules');
+var src 			= path.resolve(__dirname, 'src');
+var dist 			= path.resolve(__dirname, 'dist');
 
 module.exports = {
-    // devtool: 'eval',  //i dont know what this does
-	entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-		// 'webpack/hot/only-dev-server',
-		'webpack/hot/dev-server',
-		'./src/index'
-	],
+    devtool: 'eval',
+	entry: {
+		app: [
+        	'webpack-dev-server/client?http://localhost:3000',
+			'webpack/hot/dev-server',
+			'./src/index'
+		]
+	},
 	output: {
-		path: __dirname + '/dist',
+		path: dist,
         publicPath: '/',
 		filename: 'bundle.js'
 	},
@@ -21,8 +26,9 @@ module.exports = {
 		loaders: [
 			{ 
 				test: /\.js$/, 
-				loaders: [ 'react-hot', 'babel-loader' ], 
-				include: path.resolve(__dirname, 'src') 
+				loaders: [ 'react-hot', 'babel-loader' ],
+				exclude: node_modules,
+				include: src 
 			},
 			{ test: /\.html$/, loader: 'file?name=[name].[ext]' },
 			{ test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
@@ -30,12 +36,12 @@ module.exports = {
 			{ 
 				test: /\.png$/, 
 				loader: 'file?name=images/[name].[ext]',
-				include: path.resolve(__dirname, 'src/images')
+				include: src + '/images'
 			},
 			{ 
 				test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
 				loader: 'url-loader?limit=100000',
-				exclude: path.resolve(__dirname, 'src')
+				exclude: src
 			}
 		]
 	}
