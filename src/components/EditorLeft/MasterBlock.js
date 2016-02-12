@@ -11,9 +11,34 @@ let MasterBlock = ({ block }) => {
 
 	// var s = "blah";
 
+
+	const onDragStart = (e) => {
+		// this.isMasterBlock = true;
+		// this.masterBlockInfo = masterInfo;
+
+		let dragImage = e.currentTarget.querySelector('.dragimage');
+
+		console.log('dragimage', dragImage);
+		e.dataTransfer.setData("text/plain", "<strong>Body</strong>");
+		e.dataTransfer.setDragImage(dragImage, 58, 29);
+	}
+
+
+	const dragImageStyles = {
+		background: 'url(' + block.dragImage + ')',
+	    backgroundSize: '116px 58px',
+		width: '116',
+		height: '58',
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		zIndex: -1,
+	}
+
 	return (
-		<div className="masterblock">
+		<div className="masterblock" onDragStart={onDragStart}>
 			<img src={block.src} />
+			<div className="dragimage" style={dragImageStyles} />
 		</div>
 	)
 }
@@ -65,16 +90,7 @@ export default MasterBlock
 // 			console.error("Master Block: unable to determine block type")
 // 		}
 
-// 		var dragImageStyles = {
-// 			background: dragImage,
-// 		    backgroundSize: '116px 58px',
-// 			width: '116',
-// 			height: '58',
-// 			position: 'absolute',
-// 			top: '50%',
-// 			left: '50%',
-// 			zIndex: -1,
-// 		};
+
 
 // 		return (
 // 			<div
@@ -85,11 +101,7 @@ export default MasterBlock
 // 				>
 // 				{content}
 
-// 				<div
-// 					className="dragimage"
-// 					style={dragImageStyles}
-// 					>
-// 				</div>
+
 
 // 			</div>
 // 		)
