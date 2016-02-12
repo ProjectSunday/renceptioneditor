@@ -9,7 +9,7 @@ import './imageblock-drag.png'
 import './textblock-drag.png'
 import './textplusimageblock-drag.png'
 
-let MasterBlock = ({ block }) => {
+let MasterBlock = ({ masterBlock }) => {
 
 	const onDragStart = (e) => {
 		// this.isMasterBlock = true;
@@ -22,7 +22,7 @@ let MasterBlock = ({ block }) => {
 	}
 
 	const dragImageStyles = {
-		background: 'url(' + block.dragImage + ')',
+		background: 'url(' + masterBlock.dragImage + ')',
 	    backgroundSize: '116px 58px',
 		width: '116',
 		height: '58',
@@ -34,7 +34,7 @@ let MasterBlock = ({ block }) => {
 
 	return (
 		<div className="masterblock" onDragStart={onDragStart}>
-			<img src={block.src} />
+			<img src={masterBlock.src} />
 			<div className="dragimage" style={dragImageStyles} />
 		</div>
 	)
@@ -49,7 +49,7 @@ let MasterBlock = ({ block }) => {
 // const mapDispatchToProps = (dispatch) => {
 // 	return {
 // 		onClick: (value) => {
-// 			dispatch(addBlock('slotId', { name: 'blockname', bool: true }))
+// 			dispatch(addmasterblock('slotId', { name: 'blockname', bool: true }))
 // 		}
 // 	}
 // }

@@ -10,7 +10,7 @@ let EditorLeft = ({ masterBlocks }) => {
 		<div id="editorleft">
 			<h3>Blocks</h3>
 			{masterBlocks.map(b => 
-				<MasterBlock key={b.type} block = {b} />
+				<MasterBlock key={b.type} masterBlock = {b} />
 			)}			
 		</div>
 	)
