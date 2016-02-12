@@ -1,9 +1,9 @@
 import React from 'react'
 // import { connect } from 'react-redux'
 
-// import { addBlock } from '../../actions'
-
-// import 'images/imageblock.png'
+import './imageblock.png'
+import './textblock.png'
+import './textplusimageblock.png'
 
 let MasterBlock = ({ block }) => {
 
