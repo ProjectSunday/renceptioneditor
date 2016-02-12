@@ -1,9 +1,6 @@
 import React from 'react'
 // import { connect } from 'react-redux'
 
-import 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.css'
-
 import EditorLeft from './EditorLeft'
 import EditorRight from './EditorRight'
 

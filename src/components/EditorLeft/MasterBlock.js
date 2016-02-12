@@ -3,12 +3,17 @@ import React from 'react'
 
 // import { addBlock } from '../../actions'
 
+// import 'images/imageblock.png'
 
-let MasterBlock = ({ type }) => {
+let MasterBlock = ({ block }) => {
+
+	// var s = require('../../' + block.src);
+
+	// var s = "blah";
 
 	return (
 		<div className="masterblock">
-			masterblock type: {type}
+			<img src={block.src} />
 		</div>
 	)
 }

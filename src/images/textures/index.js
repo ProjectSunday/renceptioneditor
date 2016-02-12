@@ -1,0 +1,6 @@
+import './clean_gray_paper.png'
+import './debut_light.png'
+import './p5.png'
+import './p6.png'
+import './skin_side_up.png'
+import './subtlenet.png'

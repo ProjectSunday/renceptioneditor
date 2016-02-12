@@ -1,6 +1,11 @@
-import './styles/style.scss'
+import 'babel-core/polyfill'  //i guess this needs to be first?
 
-import 'babel-core/polyfill'
+import './index.html'
+import './images'
+
+import 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
+import './styles/style.scss'
 
 import React from 'react'
 import { render } from 'react-dom'
@@ -18,3 +23,5 @@ render(
 	</Provider>,
 	document.getElementById('main')
 )
+
+//hmn can't s
