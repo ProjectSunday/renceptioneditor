@@ -9,6 +9,8 @@ import './imageblock-drag.png'
 import './textblock-drag.png'
 import './textplusimageblock-drag.png'
 
+import './masterblock.less'
+
 let MasterBlock = ({ masterBlock }) => {
 
 	const onDragStart = (e) => {
@@ -57,8 +59,6 @@ let MasterBlock = ({ masterBlock }) => {
 
 // export default connect(mapStateToProps, mapDispatchToProps)(MasterBlock)
 export default MasterBlock
-
-
 
 // module.exports = React.createClass({
 // 	dragStart: function (e) {

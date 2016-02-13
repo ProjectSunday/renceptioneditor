@@ -1,6 +1,8 @@
 import React from 'react'
 // import { connect } from 'react-redux'
 
+import './components.less'
+
 import EditorLeft from './EditorLeft'
 import EditorRight from './EditorRight'
 

@@ -1,9 +1,17 @@
-var path 		= require('path');
-var webpack 	= require('webpack');
+var path 				= require('path');
+var webpack 			= require('webpack');
 
 var node_modules 	= path.resolve(__dirname, 'node_modules');
 var src 			= path.resolve(__dirname, 'src');
 var dist 			= path.resolve(__dirname, 'dist');
+
+
+// var sassLoaders = [
+//   'css-loader',
+//   'postcss-loader',
+//   'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, './src')
+// ]
+
 
 module.exports = {
     devtool: 'eval',
@@ -30,9 +38,13 @@ module.exports = {
 				exclude: node_modules,
 				include: src 
 			},
+
 			{ test: /\.html$/, loader: 'file?name=[name].[ext]' },
-			{ test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
-			{ test: /\.css$/, loader: 'style-loader!css-loader'	},
+            {
+                test: /\.less$/,
+                loader: "style!css!less"
+            },
+			{ test: /\.css$/, loaders: [ 'style', 'css' ] },
 			{ 
 				test: /\.png$/, 
 				loader: 'file?name=[name].[ext]',

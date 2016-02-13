@@ -6,7 +6,7 @@ import './index.html'
 import 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 
-import './styles/style.scss'
+import './index.less'
 
 import React from 'react'
 import { render } from 'react-dom'
