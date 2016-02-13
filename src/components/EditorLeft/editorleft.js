@@ -6,7 +6,7 @@ import './editorleft.less'
 
 // import { addBlock } from '../../actions'
 
-import MasterBlock from './MasterBlock'
+import MasterBlock from './MasterBlock/masterblock'
 
 let EditorLeft = ({ masterBlocks }) => {
 	return (

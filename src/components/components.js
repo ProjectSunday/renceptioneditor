@@ -3,8 +3,8 @@ import React from 'react'
 
 import './components.less'
 
-import EditorLeft from './EditorLeft'
-import EditorRight from './EditorRight'
+import EditorLeft from './EditorLeft/editorleft'
+import EditorRight from './EditorRight/editorright'
 
 const Components = ({ dispatch }) => (
 	<div>

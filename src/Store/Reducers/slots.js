@@ -1,4 +1,4 @@
-let id = 0;
+let id = 1000;
 
 const slot = (state, action) => {
 	switch (action.type) {

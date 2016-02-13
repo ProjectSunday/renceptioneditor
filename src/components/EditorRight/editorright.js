@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addBlock } from '../../actions'
+import { addBlock } from '../../Actions/actions'
 
 import './editorright.less'
 
-import Slot from './Slot'
+import Slot from './Slot/slot'
 
 let EditorRight = ({ slots, onClick }) => {
 
