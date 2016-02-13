@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+
+import './editorleft.less'
+
 // import { addBlock } from '../../actions'
 
 import MasterBlock from './MasterBlock'
