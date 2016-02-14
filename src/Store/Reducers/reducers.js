@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux'
-import slots from './slots'
+
+import blocks 		from './blocks'
+import slots 		from './slots'
 import masterBlocks from './masterBlocks'
 
 export default combineReducers({
+	blocks,
 	masterBlocks,
 	slots
 })

@@ -7,19 +7,13 @@ import './editorright.less'
 
 import Slot from './Slot/slot'
 
-let EditorRight = ({ slots, onClick }) => {
-
-	console.log('slots ', slots);
-
-	return (
-		<div id="editorright" className="row">
-			<Slot 
-				slot = { slots }
-				onClick = { onClick }
-			/>
-		</div>
-	)
-}
+let EditorRight = ({ slots }) => (
+	<div id="editorright" className="row">
+		{slots.map(slot => 
+			<Slot key={slot.id} slot={slot} />
+		)}
+	</div>
+)
 
 const mapStateToProps = (state) => {
 	return {
@@ -27,13 +21,13 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onClick: (value) => {
-			dispatch(addBlock('slotId', { name: 'blockname', bool: true }))
-		}
-	}
-}
+// const mapDispatchToProps = (dispatch) => {
+// 	return {
+// 		onClick: (value) => {
+// 			dispatch(addBlock('slotId', { name: 'blockname', bool: true }))
+// 		}
+// 	}
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorRight)
+export default connect(mapStateToProps)(EditorRight)

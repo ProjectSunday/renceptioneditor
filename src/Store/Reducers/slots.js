@@ -1,32 +1,37 @@
-let id = 1000;
+// import blocks from './blocks'
 
-const slot = (state, action) => {
-	switch (action.type) {
-		case 'ADD_BLOCK':
-			return Object.assign(
-				{},
-				action.block,
-				{
-					id: id++
-				}
-			)
-		default: 
-			return state
-	}
-}
+// let id = 500;
+
+
+// const slot = (state, action) => {
+// 	switch (action.type) {
+// 		case 'ADD_BLOCK':
+
+// 			return state.map()
+// 			return [
+// 				...slot,
+
+
+// 			Object.assign(
+// 				{},
+// 				action.block,
+// 				{
+// 					id: id++
+// 				}
+// 			)
+// 		default: 
+// 			return slot
+// 	}
+// }
 
 const slots = (state = [], action) => {
 	switch (action.type) {
-		case 'ADD_TEST':
-			return [
-				...state,
-				{ value: action.value }
-			]
 		case 'ADD_BLOCK':
-			return [
-				...state,
-				slot(undefined, action)
-			]
+			return state.map(slot => {
+				slot.id == action.slotId) ? 
+					slot.blocks.push(action.block.id) : 
+					slot
+			})
 		default:
 			return state
 	}

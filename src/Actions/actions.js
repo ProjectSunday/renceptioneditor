@@ -1,14 +1,9 @@
-export const addTest = (value) => {
-	return {
-		type: 'ADD_TEST',
-		value
-	}
-}
+let blockId = 2000
 
-let id = 0;
 export const addBlock = (slotId, block) => {
 	return {
 		type: 'ADD_BLOCK',
-		block
+		slotId,
+		block: { id: blockId++, ...block }
 	}
 }

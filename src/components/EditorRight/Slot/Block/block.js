@@ -1,27 +1,47 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { addBlock } from '../../../../Actions/actions'
+
 import './block.less'
 
-const Block = ({ block }) => {
+const Block = ({ block, onClick }) => {
 
 	const onDragStart = () => {
-
+		console.log('context', this.context);
 	}
+
+	// const onClick = () => {
+	// 	console.log('context', this.context);
+	// }
 
 	return (
 		<div className="block" onDragStart={onDragStart}>
-			<span className="name">block name and id</span>
+			<button style={{margin: 'auto', display: 'block'}} onClick={onClick}>clicky</button>
+			<span className="name">{block.name}{block.id}</span>
 		</div>
 	)
 
+}
 
+// const mapStateToProps = (state) => {
+// 	return {
+// 		block: state.slot
+// 	}
+// }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onClick: () => {
+			dispatch(addBlock({ name: 'yooo '}))
+		}
+	}
 }
 
 
-export default Block
+// export default Block
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Block)
+export default connect(undefined, mapDispatchToProps)(Block)
 
 
 

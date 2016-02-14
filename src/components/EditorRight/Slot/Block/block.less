@@ -1,5 +1,5 @@
 .block {
-	height: 100px;
+	height: 50px;
 	margin: 3px;
 	background: blue;
 	border-radius: 0;
@@ -8,9 +8,9 @@
 	position: relative;
 	overflow: hidden;
 
-	> * {
-		pointer-events: none;
-	}
+	// > * {
+	// 	// pointer-events: none;
+	// }
 
 	&.image > div {
 		height: 100%;
@@ -36,6 +36,8 @@
 	}
 
 	> .name {
+		margin-left: 5px;
+		margin-top: 5px;
 		display: block;
 		position: absolute;
 		top: 0;
