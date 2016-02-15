@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { dragBlock } from '../../../../Actions/actions'
 
 import './block.less'
 
-const Block = ({ block, slotId, onDragStart }) => {
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		onDragStart: () => {
+			// console.log('yo', ownProps);
+			// dispatch(addBlock())
+
+			dispatch(dragBlock(ownProps.slotId, ownProps.block.id))
+		}
+	}
+}
+
+@connect(undefined, mapDispatchToProps)
+export default class Block extends Component {
+
+	const { block, slotId, onDragStart } = this.props;
+
+
 
 	// const onDragStart = () => {
 	// 	console.log('context', this.context);
@@ -23,13 +40,14 @@ const Block = ({ block, slotId, onDragStart }) => {
 		blockInnards = <p className="innards" style={ { height: 75 } }>draggingdraggingdraggingdraggingdraggingdraggingdragging</p>
 	}
 
-
-	return (
-		<div className="block" onDragStart={onDragStart} draggable="true" style={styles}>
-			<span className="name">{block.name}{block.id}</span>
-			{blockInnards}
-		</div>
-	)
+	render() {
+		return (
+			<div className="block" onDragStart={onDragStart} draggable="true" style={styles}>
+				<span className="name">{block.name}{block.id}</span>
+				{blockInnards}
+			</div>
+		)
+	}
 
 }
 
@@ -42,21 +60,12 @@ const Block = ({ block, slotId, onDragStart }) => {
 			// <button style={{margin: 'auto', display: 'block'}} onClick={onClick}>clicky</button>
 
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		onDragStart: () => {
-			// console.log('yo', ownProps);
-			// dispatch(addBlock())
 
-			dispatch(dragBlock(ownProps.slotId, ownProps.block.id))
-		}
-	}
-}
 
 
 // export default Block
 
-export default connect(undefined, mapDispatchToProps)(Block)
+// export default connect(undefined, mapDispatchToProps)(Block)
 
 
 
