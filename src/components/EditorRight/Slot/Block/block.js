@@ -1,26 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addBlock } from '../../../../Actions/actions'
+import { dragBlock } from '../../../../Actions/actions'
 
 import './block.less'
 
-const Block = ({ block, onClick }) => {
+const Block = ({ block, slotId, onDragStart }) => {
 
-	console.count('block')
-
-	const onDragStart = () => {
-		console.log('context', this.context);
-	}
-
-	// const onClick = () => {
+	// const onDragStart = () => {
 	// 	console.log('context', this.context);
 	// }
 
+	console.count('block render');
+
+	let styles = { display: 'block' }
+
+	let blockInnards = <div className="innards" style={ { background: 'blue' } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
+
+	if (block.name == 'dragging') {
+		blockInnards = <div className="innards">draggingdraggingdraggingdraggingdraggingdraggingdragging</div>
+	}
+
+
 	return (
-		<div className="block" onDragStart={onDragStart}>
-			<button style={{margin: 'auto', display: 'block'}} onClick={onClick}>clicky</button>
+		<div className="block" onDragStart={onDragStart} draggable="true" style={styles}>
 			<span className="name">{block.name}{block.id}</span>
+			{blockInnards}
 		</div>
 	)
 
@@ -32,11 +37,17 @@ const Block = ({ block, onClick }) => {
 // 	}
 // }
 
-const mapDispatchToProps = (dispatch) => {
+			// <button style={{margin: 'auto', display: 'block'}} onClick={onClick}>clicky</button>
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		// onClick: () => {
-		// 	dispatch(addBlock({ name: 'yooo '}))
-		// }
+		onDragStart: () => {
+			// console.log('yo', ownProps);
+			// dispatch(addBlock())
+
+			dispatch(dragBlock(ownProps.slotId, ownProps.block.id))
+		}
 	}
 }
 

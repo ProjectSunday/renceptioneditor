@@ -8,9 +8,6 @@ import './editorright.less'
 import Slot from './Slot/slot'
 
 let EditorRight = ({ slots }) => {
-
-	// console.count('editor right')
-
 	return (
 		<div id="editorright" className="row">
 			{slots.map(s => 
@@ -22,17 +19,8 @@ let EditorRight = ({ slots }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		slots: [ ...state.slots ]
+		slots: state.slots
 	}
 }
-
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		onClick: (value) => {
-// 			dispatch(addBlock('slotId', { name: 'blockname', bool: true }))
-// 		}
-// 	}
-// }
-
 
 export default connect(mapStateToProps)(EditorRight)

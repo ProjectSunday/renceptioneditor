@@ -4,7 +4,7 @@
 	background: blue;
 	border-radius: 0;
 	margin: 0;
-	border: 1px solid transparent;
+	// border: 1px solid transparent;
 	position: relative;
 	overflow: hidden;
 
@@ -33,6 +33,13 @@
 
 	&.active {
 		background: blue;
+	}
+
+	> .innards {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: gray;
 	}
 
 	> .name {

@@ -7,21 +7,18 @@ import './slot.less'
 
 import Block from './Block/block'
 
-const Slot = ({ slot, blocks, onAddBlockClick }) => {
+const Slot = ({ slot, blocks, onClick }) => {
 
-	console.count('slot')
-	
 	return (
 		<div className = "slot">
-			<button onClick={onAddBlockClick(slot.id)}>Add Block</button>
-
+			<button onClick={onClick}>Add Block</button>
+			{blocks.map(b =>
+				<Block key={b.id} block={b} slotId={slot.id}/>
+			)}
 		</div>
 	)
 }
 
-			// {blocks.map(b =>
-			// 	<Block key={b.id} block={b} />
-			// )}
 const mapStateToProps = (state, ownProps) => {
 	return {
 		blocks: ownProps.slot.blocks.map(id => 
@@ -32,10 +29,10 @@ const mapStateToProps = (state, ownProps) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		onAddBlockClick: (slotId) => {
-			dispatch(addBlock(slotId, { name: 'test' }))
+		onClick: () => { 
+			dispatch(addBlock(ownProps.slot.id, { name: 'test' }))
 		}
 	}
 }

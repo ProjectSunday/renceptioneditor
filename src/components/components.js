@@ -7,8 +7,6 @@ import EditorLeft from './EditorLeft/editorleft'
 import EditorRight from './EditorRight/editorright'
 
 const Components = () => {
-	console.count('components');
-	
 	return (
 		<div>
 			<div className="col-xs-4 pull-left">
@@ -22,5 +20,4 @@ const Components = () => {
 }
 
 
-// export default connect()(Components)
 export default Components
