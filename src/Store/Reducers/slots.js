@@ -26,12 +26,12 @@
 
 const slots = (state = [], action) => {
 	switch (action.type) {
-		case 'ADD_BLOCK':
-			return state.map(slot => {
-				slot.id == action.slotId) ? 
-					slot.blocks.push(action.block.id) : 
-					slot
-			})
+		// case 'ADD_BLOCK':
+		// 	return state.map(slot => {
+		// 		slot.id === action.slotId ? 
+		// 			slot.blocks.push(action.block.id) : 
+		// 			slot
+		// 	})
 		default:
 			return state
 	}

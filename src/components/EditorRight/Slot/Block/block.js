@@ -7,6 +7,8 @@ import './block.less'
 
 const Block = ({ block, onClick }) => {
 
+	console.count('block')
+
 	const onDragStart = () => {
 		console.log('context', this.context);
 	}
@@ -32,9 +34,9 @@ const Block = ({ block, onClick }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onClick: () => {
-			dispatch(addBlock({ name: 'yooo '}))
-		}
+		// onClick: () => {
+		// 	dispatch(addBlock({ name: 'yooo '}))
+		// }
 	}
 }
 

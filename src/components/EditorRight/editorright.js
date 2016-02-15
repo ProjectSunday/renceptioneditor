@@ -7,13 +7,18 @@ import './editorright.less'
 
 import Slot from './Slot/slot'
 
-let EditorRight = ({ slots }) => (
-	<div id="editorright" className="row">
-		{slots.map(slot => 
-			<Slot key={slot.id} slot={slot} />
-		)}
-	</div>
-)
+let EditorRight = ({ slots }) => {
+
+	console.count('editor right')
+
+	return (
+		<div id="editorright" className="row">
+			{slots.map(s => 
+				<Slot key={s.id} slot={s} />
+			)}
+		</div>
+	)
+}
 
 const mapStateToProps = (state) => {
 	return {
