@@ -46,7 +46,7 @@ module.exports = {
             },
 			{ test: /\.css$/, loaders: [ 'style', 'css' ] },
 			{ 
-				test: /\.png$/, 
+				test: /\.(png|ico)$/, 
 				loader: 'file?name=[name].[ext]',
 				include: src
 			},

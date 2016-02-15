@@ -14,14 +14,14 @@ const Slot = ({ slot, blocks, onAddBlockClick }) => {
 	return (
 		<div className = "slot">
 			<button onClick={onAddBlockClick(slot.id)}>Add Block</button>
-			{blocks.map(b =>
-				<Block key={b.id} block={b} />
-			)}
+
 		</div>
 	)
 }
 
-
+			// {blocks.map(b =>
+			// 	<Block key={b.id} block={b} />
+			// )}
 const mapStateToProps = (state, ownProps) => {
 	return {
 		blocks: ownProps.slot.blocks.map(id => 

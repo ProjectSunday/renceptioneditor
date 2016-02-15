@@ -9,7 +9,7 @@ import Slot from './Slot/slot'
 
 let EditorRight = ({ slots }) => {
 
-	console.count('editor right')
+	// console.count('editor right')
 
 	return (
 		<div id="editorright" className="row">
@@ -22,7 +22,7 @@ let EditorRight = ({ slots }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		slots: state.slots
+		slots: [ ...state.slots ]
 	}
 }
 
