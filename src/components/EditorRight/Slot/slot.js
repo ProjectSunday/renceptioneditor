@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		blocks: ownProps.slot.blocks.map(id => 
 			state.blocks.find(b =>
-				b.id === id 
+				b.id === id
 			)
 		)
 	}

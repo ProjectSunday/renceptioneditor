@@ -15,10 +15,12 @@ const Block = ({ block, slotId, onDragStart }) => {
 
 	let styles = { display: 'block' }
 
-	let blockInnards = <div className="innards" style={ { background: 'blue' } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
+	let blockInnards = <div className="innards" style={ { background: 'blue', height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
 
 	if (block.name == 'dragging') {
-		blockInnards = <div className="innards">draggingdraggingdraggingdraggingdraggingdraggingdragging</div>
+
+
+		blockInnards = <p className="innards" style={ { height: 75 } }>draggingdraggingdraggingdraggingdraggingdraggingdragging</p>
 	}
 
 

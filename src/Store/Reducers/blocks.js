@@ -9,11 +9,14 @@ const blocks = (state = [], action) => {
 			]
 		case 'DRAG_BLOCK':
 			let index = state.findIndex(s => s.id === action.blockId)
-			return [
-				...state.slice(0, index),
+			var blah = [
 				Object.assign({}, state[index], { name: 'dragging'}),
-				...state.slice(index + 1)
+				...state.slice(0, 2)
 			]
+
+			console.log('blah', blah);
+
+			return blah
 		default:
 			return state
 	}
