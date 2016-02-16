@@ -10,7 +10,7 @@ import './block.less'
 const blockSource = {
 	beginDrag(props) {
 		return {
-			id: props.block.id,
+			block: props.block,
 			index: props.index
 		}
 	}
@@ -60,7 +60,7 @@ const blockTarget = {
 	    // Generally it's better to avoid mutations,
 	    // but it's good here for the sake of performance
 	    // to avoid expensive index searches.
-	    // monitor.getItem().index = hoverIndex;
+	    monitor.getItem().index = hoverIndex;
 
 
 
@@ -88,7 +88,9 @@ export default class Block extends Component {
 	render() {
 		const { index, block, moveBlock, connectDragSource, connectDropTarget, isDragging } = this.props;
 	
-		let styles = { display: 'block', opacity: isDragging ? 0 : 1 }
+		console.log('block render', block.id)
+
+		let styles = { display: 'block', opacity: isDragging ? 0.75 : 1 }
 
 
 		

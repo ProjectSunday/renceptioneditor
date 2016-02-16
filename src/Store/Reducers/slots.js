@@ -32,7 +32,7 @@ const slots = (state = [], action) => {
 					return slot
 				}
 			})
-			console.log('foo', foo)
+			// console.log('foo', foo[0].blocks)
 			return foo
 		default:
 			return state
