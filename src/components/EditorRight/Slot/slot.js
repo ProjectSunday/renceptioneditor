@@ -1,19 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addBlock } from '../../../Actions/actions'
+import { addBlock, moveBlock } from '../../../Actions/actions'
 
 import './slot.less'
 
 import Block from './Block/block'
 
-const Slot = ({ slot, blocks, onClick }) => {
+const Slot = ({ slot, blocks, onClick, moveBlock }) => {
 
 	return (
 		<div className = "slot">
 			<button onClick={onClick}>Add Block</button>
 			{blocks.map((b, i) =>
-				<Block key={i} index={i} block={b} />
+				<Block key={i} index={i} block={b} moveBlock={moveBlock}/>
 			)}
 		</div>
 	)
@@ -33,6 +33,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onClick: () => { 
 			dispatch(addBlock(ownProps.slot.id, { name: 'test' }))
+		},
+		moveBlock: (fromIndex, toIndex) => {
+			console.log('index ', fromIndex, '    ', toIndex);
+			dispatch(moveBlock(ownProps.slot.id, fromIndex, toIndex));
 		}
 	}
 }

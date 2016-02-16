@@ -15,3 +15,12 @@ export const dragBlock = (slotId, blockId) => {
 		blockId
 	}
 }
+
+export const moveBlock = (slotId, fromIndex, toIndex) => {
+	return {
+		type: 'MOVE_BLOCK',
+		slotId,
+		fromIndex,
+		toIndex
+	}
+}

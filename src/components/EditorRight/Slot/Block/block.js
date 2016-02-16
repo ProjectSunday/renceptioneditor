@@ -54,7 +54,7 @@ const blockTarget = {
 	    }
 
 	    // Time to actually perform the action
-	    console.log(`props.moveCard(${dragIndex}, ${hoverIndex})`)
+	    props.moveBlock(dragIndex, hoverIndex);
 
 	    // Note: we're mutating the monitor item here!
 	    // Generally it's better to avoid mutations,
@@ -86,7 +86,7 @@ const blockTarget = {
 }))
 export default class Block extends Component {
 	render() {
-		const { index, block, connectDragSource, connectDropTarget, isDragging } = this.props;
+		const { index, block, moveBlock, connectDragSource, connectDropTarget, isDragging } = this.props;
 	
 		let styles = { display: 'block', opacity: isDragging ? 0 : 1 }
 

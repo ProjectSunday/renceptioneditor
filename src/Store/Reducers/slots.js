@@ -22,6 +22,18 @@ const slots = (state = [], action) => {
 
 			console.log('slots', blah)
 			return blah
+		case 'MOVE_BLOCK':
+			let foo = state.map(slot => {
+				if (slot.id === action.slotId) {
+					let blocks = slot.blocks.slice();
+					blocks.splice(action.toIndex, 0, blocks.splice(action.fromIndex, 1)[0])
+					return { ...slot, blocks: blocks }
+				} else {
+					return slot
+				}
+			})
+			console.log('foo', foo)
+			return foo
 		default:
 			return state
 	}
