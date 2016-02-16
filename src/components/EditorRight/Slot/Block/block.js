@@ -20,7 +20,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 @connect(undefined, mapDispatchToProps)
 export default class Block extends Component {
 
-	const { block, slotId, onDragStart } = this.props;
 
 
 
@@ -28,19 +27,24 @@ export default class Block extends Component {
 	// 	console.log('context', this.context);
 	// }
 
-	console.count('block render');
+	// console.count('block render');
 
-	let styles = { display: 'block' }
-
-	let blockInnards = <div className="innards" style={ { background: 'blue', height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
-
-	if (block.name == 'dragging') {
-
-
-		blockInnards = <p className="innards" style={ { height: 75 } }>draggingdraggingdraggingdraggingdraggingdraggingdragging</p>
-	}
-
+	
 	render() {
+		const { block, slotId, onDragStart } = this.props;
+	
+		let styles = { display: 'block' }
+
+
+		let blockInnards = <div className="innards" style={ { background: 'blue', height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
+
+		if (block.name == 'dragging') {		
+
+
+			blockInnards = <p className="innards" style={ { height: 75 } }>draggingdraggingdraggingdraggingdraggingdraggingdragging</p>
+		}
+
+
 		return (
 			<div className="block" onDragStart={onDragStart} draggable="true" style={styles}>
 				<span className="name">{block.name}{block.id}</span>

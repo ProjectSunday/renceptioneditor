@@ -19,6 +19,7 @@ module.exports = {
 		app: [
         	'webpack-dev-server/client?http://localhost:7000',
 			'webpack/hot/dev-server',
+			'babel-polyfill',
 			'./src/index'
 		]
 	},
@@ -34,10 +35,13 @@ module.exports = {
 		loaders: [
 			{ 
 				test: /\.js$/, 
-				loaders: [ 'react-hot', 'babel-loader' ],
+		        loader: "babel-loader",
 				exclude: node_modules,
 				include: src,
-				query: { stage: 0 }
+		        query: {
+        	  		plugins: [ 'transform-runtime', 'transform-decorators-legacy' ],
+          			presets: [ 'es2015', 'stage-0', 'react' ],
+        		}
 			},
 
 			{ test: /\.html$/, loader: 'file?name=[name].[ext]' },

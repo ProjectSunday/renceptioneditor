@@ -1,4 +1,4 @@
-import 'babel-core/polyfill'  //i guess this needs to be first?
+// import 'babel-core/polyfill'  //i guess this needs to be first?
 
 import './index.html'
 
