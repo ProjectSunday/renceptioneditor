@@ -90,7 +90,8 @@ export default class Block extends Component {
 	
 		console.log('block render', block.id)
 
-		let styles = { display: 'block', opacity: isDragging ? 0.75 : 1 }
+		let styles = { display: isDragging ? 'none' : 'block' }
+		//acity: isDragging ? 0.75 : 1 }
 
 
 		
