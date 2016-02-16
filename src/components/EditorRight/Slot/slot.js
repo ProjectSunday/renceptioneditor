@@ -12,8 +12,8 @@ const Slot = ({ slot, blocks, onClick }) => {
 	return (
 		<div className = "slot">
 			<button onClick={onClick}>Add Block</button>
-			{blocks.map(b =>
-				<Block key={b.id} block={b} slotId={slot.id}/>
+			{blocks.map((b, i) =>
+				<Block key={i} index={i} block={b} />
 			)}
 		</div>
 	)

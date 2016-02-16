@@ -5,14 +5,6 @@ var node_modules 	= path.resolve(__dirname, 'node_modules');
 var src 			= path.resolve(__dirname, 'src');
 var dist 			= path.resolve(__dirname, 'dist');
 
-
-// var sassLoaders = [
-//   'css-loader',
-//   'postcss-loader',
-//   'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, './src')
-// ]
-
-
 module.exports = {
     devtool: 'eval',
 	entry: {
@@ -43,13 +35,16 @@ module.exports = {
           			presets: [ 'es2015', 'stage-0', 'react' ],
         		}
 			},
-
-			{ test: /\.html$/, loader: 'file?name=[name].[ext]' },
+			{ 
+				test: /\.html$/, 
+				loader: 'file?name=[name].[ext]' },
             {
                 test: /\.less$/,
                 loader: "style!css!less"
             },
-			{ test: /\.css$/, loaders: [ 'style', 'css' ] },
+			{ 
+				test: /\.css$/, 
+				loaders: [ 'style', 'css' ] },
 			{ 
 				test: /\.(png|ico)$/, 
 				loader: 'file?name=[name].[ext]',
