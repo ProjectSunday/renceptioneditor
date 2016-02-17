@@ -33,7 +33,7 @@ const blockTarget = {
 
 
 	    console.log('huh', props);
-	    props.insertDropZone(0)
+	    props.insertDropZone(hoverIndex)
 
 		if (dragIndex == hoverIndex) { return }
 
@@ -106,7 +106,7 @@ export default class Block extends Component {
 
 
 		//hmn figure out how to add in moving pieces
-		let styles = { display: 'block' }
+		let styles = { display: isDragging ? 'none' : 'block' }
 		//acity: isDragging ? 0.75 : 1 }
 
 		if (isOver) {
