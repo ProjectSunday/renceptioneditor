@@ -10,8 +10,8 @@ import Slot from './Slot/slot'
 let EditorRight = ({ slots }) => {
 	return (
 		<div id="editorright" className="row">
-			{slots.map(s => 
-				<Slot key={s.id} slot={s} />
+			{slots.map((s, i) => 
+				<Slot key={i} index={i} slot={s} />
 			)}
 		</div>
 	)

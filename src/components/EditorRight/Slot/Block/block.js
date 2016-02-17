@@ -19,8 +19,21 @@ const blockSource = {
 const blockTarget = {
 	hover(props, monitor, component) {
 
+		// console.log(component);
+
+
+
 	    const dragIndex = monitor.getItem().index;
 	    const hoverIndex = props.index;
+
+
+	    // props.blah = true;
+
+	    // component.props.blah = true;
+
+
+	    console.log('huh', props);
+	    props.insertDropZone(0)
 
 		if (dragIndex == hoverIndex) { return }
 
@@ -54,13 +67,13 @@ const blockTarget = {
 	    }
 
 	    // Time to actually perform the action
-	    props.moveBlock(dragIndex, hoverIndex);
+	    //props.moveBlock(dragIndex, hoverIndex);
 
 	    // Note: we're mutating the monitor item here!
 	    // Generally it's better to avoid mutations,
 	    // but it's good here for the sake of performance
 	    // to avoid expensive index searches.
-	    monitor.getItem().index = hoverIndex;
+	    //monitor.getItem().index = hoverIndex;
 
 
 
@@ -77,8 +90,9 @@ const blockTarget = {
 
 
 // @connect(undefined, mapDispatchToProps)
-@DropTarget('BLOCK', blockTarget, (connect) => ({
-	connectDropTarget: connect.dropTarget()
+@DropTarget('BLOCK', blockTarget, (connect, monitor) => ({
+	connectDropTarget: connect.dropTarget(),
+	isOver: monitor.isOver()
 }))
 @DragSource('BLOCK', blockSource, (connect, monitor) => ({
 	connectDragSource: connect.dragSource(),
@@ -86,21 +100,25 @@ const blockTarget = {
 }))
 export default class Block extends Component {
 	render() {
-		const { index, block, moveBlock, connectDragSource, connectDropTarget, isDragging } = this.props;
+		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
 		console.log('block render', block.id)
 
-		let styles = { display: isDragging ? 'none' : 'block' }
+
+		//hmn figure out how to add in moving pieces
+		let styles = { display: 'block' }
 		//acity: isDragging ? 0.75 : 1 }
 
-
+		if (isOver) {
+			styles.background = '#eee'
+		}
 		
-		let blockInnards = <div className="innards" style={ { background: 'blue', height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
+		// let blockInnards = <div className="innards" style={ { height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
 
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
 				<span className="name">{block.name}{block.id}</span>
-				{blockInnards}
+				I am a block
 			</div>
 		))
 	}

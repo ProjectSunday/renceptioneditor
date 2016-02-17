@@ -24,3 +24,13 @@ export const moveBlock = (slotId, fromIndex, toIndex) => {
 		toIndex
 	}
 }
+
+export const insertDropZone = (slotIndex, blockIndex) => {
+
+	console.log('blah', slotIndex, blockIndex)
+	return {
+		type: 'INSERT_DROPZONE',
+		slotIndex,
+		blockIndex
+	}
+}

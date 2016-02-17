@@ -17,10 +17,7 @@ const slots = (state = [], action) => {
 				} else {
 					return slot
 				}
-			}
-			)
-
-			console.log('slots', blah)
+			})
 			return blah
 		case 'MOVE_BLOCK':
 			let foo = state.map(slot => {
@@ -32,7 +29,6 @@ const slots = (state = [], action) => {
 					return slot
 				}
 			})
-			// console.log('foo', foo[0].blocks)
 			return foo
 		default:
 			return state
