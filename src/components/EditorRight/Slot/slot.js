@@ -6,6 +6,7 @@ import { addBlock, moveBlock, insertDropZone } from '../../../Actions/actions'
 import './slot.less'
 
 import Block from './Block/block'
+import DropZone from './DropZone/dropzone'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -24,11 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(addBlock(ownProps.slot.id, { name: 'test' }))
 		},
 		moveBlock: (fromIndex, toIndex) => {
-			// console.log('index ', fromIndex, '    ', toIndex);
 			dispatch(moveBlock(ownProps.slot.id, fromIndex, toIndex))
 		},
 		insertDropZone: (blockIndex) => {
-			console.log('foo', blockIndex)
 			dispatch(insertDropZone(ownProps.index, blockIndex))
 		}
 	}
@@ -38,20 +37,29 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default class Slot extends Component {
 	render() {
 		const { slot, index, dropzone, blocks, onClick, moveBlock, insertDropZone } = this.props
-		console.count('slot render')
-		// console.log('blocks ', blocks[0].id, blocks[1].id, blocks[2].id)
-		console.log('dropzone', dropzone)
 
-		let hasDropZone = (index === dropzone.slotIndex)
+		// console.group('slot')
+		// console.count()
+		// console.log('blocks ', blocks[0].id, blocks[1].id, blocks[2].id)
+		// console.log('dropzone', dropzone)
+
+
+		// let hasDropZone = (index === dropzone.slotIndex || index === dropzone.previous.slotIndex)
+
+		let hasDropZoneAppearing 	= index === dropzone.slotIndex
+		let hasDropZoneDisappearing = index === dropzone.previous.slotIndex
 
 		let blockNodes = []
 		blocks.forEach((b, i) => {
-			if (hasDropZone && i == dropzone.blockIndex) {
-				blockNodes.push(<div key="dropzone">dropzone</div>)
+			if (hasDropZoneAppearing && i === dropzone.blockIndex) {
+				blockNodes.push(<DropZone key="dropzone-appearing" isAppearing={true} />)
+			} else if (hasDropZoneDisappearing && i === dropzone.previous.blockIndex) {
+				blockNodes.push(<DropZone key="dropzone-disappearing" isAppearing={false} />)
 			}
 			blockNodes.push(<Block key={i} index={i} block={b} moveBlock={moveBlock} insertDropZone={insertDropZone}/>)
 		})
 
+		// console.groupEnd()
 		return (
 			<div className = "slot">
 				<button onClick={onClick}>Add Block</button>

@@ -32,7 +32,7 @@ const blockTarget = {
 	    // component.props.blah = true;
 
 
-	    console.log('huh', props);
+	    // console.log('huh', props);
 	    props.insertDropZone(hoverIndex)
 
 		if (dragIndex == hoverIndex) { return }
@@ -100,9 +100,11 @@ const blockTarget = {
 }))
 export default class Block extends Component {
 	render() {
+		//console.groupCollapsed('block render')
+		//console.count()
 		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
-		console.log('block render', block.id)
+		//console.log('block render', block.id)
 
 
 		//hmn figure out how to add in moving pieces
@@ -114,7 +116,7 @@ export default class Block extends Component {
 		}
 		
 		// let blockInnards = <div className="innards" style={ { height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
-
+		//console.groupEnd()
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
 				<span className="name">{block.name}{block.id}</span>
