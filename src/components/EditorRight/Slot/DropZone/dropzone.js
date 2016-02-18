@@ -50,6 +50,9 @@ class DropzoneChild extends React.Component {
 	constructor() {
 		super()
 		this.render = this.render.bind(this)
+		this.state = {
+			height: 20
+		}
 	}
 
 	componentWillAppear(callback) {
@@ -68,12 +71,17 @@ class DropzoneChild extends React.Component {
 	componentDidAppear() {
 		console.log('componentDidAppear');
 
+		console.log('111', this.refs.child.style.height)
+		this.setState({
+			height: 200
+		});
 
-		let child = findDOMNode(this.refs.child);
+		console.log('222', this.refs.child.style.height)
 
-		child.style.height = '500px';
+		// let child = findDOMNode(this.refs.child);
 
-		
+		// child.style.height = '500px';
+
 		// console.log(this.refs.child)
 	}
 
@@ -81,8 +89,13 @@ class DropzoneChild extends React.Component {
 
 		const { blah } = this.props
 
+		let styles = {
+			height: this.state.height,
+			transition: 'height 3s ease-in-out'
+		}
+
 		return (
-			<div ref="child"> dropzone child {blah} </div>
+			<div ref="child" style={styles}> dropzone child {blah} </div>
 		)
 	}
 
@@ -197,8 +210,8 @@ export default class Dropzone extends React.Component {
 		// }
 
 
-		this.state.things.forEach(t => {
-			child.push(<DropzoneChild key={t} blah={t} />)
+		this.state.things.forEach((t, i) => {
+			child.push(<DropzoneChild key={i} blah={t} />)
 		});
 
 
