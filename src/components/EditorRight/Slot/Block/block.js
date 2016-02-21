@@ -54,7 +54,7 @@ export default class Block extends Component {
 		//console.count()
 		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
-		//console.log('block render', block.id)
+		console.log('block render', this.props)
 
 
 		//hmn figure out how to add in moving pieces
