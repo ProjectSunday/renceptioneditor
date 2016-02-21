@@ -58,41 +58,47 @@ const mapStateToProps = (state, ownProps) => {
 //   return blah;
 // }
 
+
+
 @connect(mapStateToProps)
 export default class Slot extends React.Component {
 	constructor() {
 		super()
 		this.render = this.render.bind(this)
+		this.insertDropZone = this.insertDropZone.bind(this)
 	}
 
-	insertDropZone() {
-		console.log('insertDropZone this', this)
+	insertDropZone(blockIndex, position) {
+		console.log('insertDropZone', blockIndex, position)
 
-		var insertIndex = (position === 'ABOVE') ? blockIndex : blockIndex++
+		const { dispatch, index, dropzone } = this.props
 
-		if (insertIndex !== stateProps.dropzone.index) {
-			this.props.dispatch(Actions.insertDropZone(ownProps.index, insertIndex))
+		let insertIndex = (position === 'ABOVE') ? blockIndex : ++blockIndex
+
+		console.log('insertIndex', insertIndex)
+		if (insertIndex !== dropzone.index) {
+			dispatch(Actions.insertDropZone(index, insertIndex))
 		}
 
 	}
 
 	render() {
 
-		console.table(this.props);
+		// console.table(this.props);
 		const { slot, index, dropzone, blocks, dispatch } = this.props
 
 		let hasDropZone = index === dropzone.slotIndex
 
 
-	    let boundActionCreators = bindActionCreators(Actions, dispatch)
-	    console.log('boundActionCreators', boundActionCreators)
+	    // let boundActionCreators = bindActionCreators(Actions, dispatch)
+	    // console.log('boundActionCreators', boundActionCreators)
 
 		let blockNodes = []
 		blocks.forEach((b, i) => {
 			if (hasDropZone && i === dropzone.index) {
-				blockNodes.push(<DropZone key={'dropzone' + i} appearing={true} {...boundActionCreators}/>)
+				blockNodes.push(<DropZone key={'dropzone' + i} />)
 			}
-			blockNodes.push(<Block key={i} index={i} block={b} {...boundActionCreators}/>)
+			blockNodes.push(<Block key={i} index={i} block={b} insertDropZone={this.insertDropZone}/>)
 		})
 
 		return (
