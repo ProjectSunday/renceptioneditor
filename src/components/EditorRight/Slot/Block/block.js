@@ -9,6 +9,8 @@ import './block.less'
 
 const blockSource = {
 	beginDrag(props) {
+
+
 		return {
 			index: props.index
 		}
