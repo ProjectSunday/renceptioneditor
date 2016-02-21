@@ -10,7 +10,6 @@ import './block.less'
 const blockSource = {
 	beginDrag(props) {
 		return {
-			block: props.block,
 			index: props.index
 		}
 	}
@@ -18,64 +17,15 @@ const blockSource = {
 
 const blockTarget = {
 	hover(props, monitor, component) {
-
-		// console.log(component);
-
-
-
-	    const dragIndex = monitor.getItem().index;
-	    const hoverIndex = props.index;
-
-
-	    // props.blah = true;
-
-	    // component.props.blah = true;
-
-
-	    // console.log('huh', props);
-	    props.insertDropZone(hoverIndex)
-
-		if (dragIndex == hoverIndex) { return }
-
-		// console.count('hover')
-		// console.log(props)
-
-
 	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-
-	    // Get vertical middle
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
 	    // Determine mouse position
-	    const clientOffset = monitor.getClientOffset();
-
-	    // Get pixels to the top
-	    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-	    // Only perform the move when the mouse has crossed half of the items height
-	    // When dragging downwards, only move when the cursor is below 50%
-	    // When dragging upwards, only move when the cursor is above 50%
-
-	    // Dragging downwards
-	    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-	      return;
-	    }
-
-	    // Dragging upwards
-	    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-	      return;
-	    }
-
-	    // Time to actually perform the action
-	    //props.moveBlock(dragIndex, hoverIndex);
-
-	    // Note: we're mutating the monitor item here!
-	    // Generally it's better to avoid mutations,
-	    // but it's good here for the sake of performance
-	    // to avoid expensive index searches.
-	    //monitor.getItem().index = hoverIndex;
+	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top;
 
 
+	    const position = (hoverClientY > hoverMiddleY) ? 'ABOVE' : 'BELOW';
+	    props.insertDropZone(props.index, position);
 
 	}
 }
@@ -111,9 +61,9 @@ export default class Block extends Component {
 		let styles = { display: isDragging ? 'none' : 'block' }
 		//acity: isDragging ? 0.75 : 1 }
 
-		if (isOver) {
-			styles.background = '#eee'
-		}
+		// if (isOver) {
+		// 	styles.background = '#eee'
+		// }
 		
 		// let blockInnards = <div className="innards" style={ { height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
 		//console.groupEnd()
