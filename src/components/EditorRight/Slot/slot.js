@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+
+import ReactTransitionGroup from 'react-addons-transition-group'
 
 import { addBlock, moveBlock, insertDropZone } from '../../../Actions/actions'
 
@@ -34,7 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Slot extends Component {
+export default class Slot extends React.Component {
 	render() {
 		const { slot, index, dropzone, blocks, onClick, moveBlock, insertDropZone } = this.props
 
@@ -61,9 +63,11 @@ export default class Slot extends Component {
 
 		// console.groupEnd()
 		return (
-			<div className = "slot">
-				<button onClick={onClick}>Add Block</button>
+			<div>
+			<button onClick={onClick}>Add Block</button>
+			<ReactTransitionGroup component="div">
 				{blockNodes}
+			</ReactTransitionGroup>
 			</div>
 		)
 	}

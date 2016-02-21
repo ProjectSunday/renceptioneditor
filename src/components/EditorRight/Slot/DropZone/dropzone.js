@@ -3,7 +3,7 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 
 
-import ReactTransitionGroup from 'react-addons-transition-group'
+// import ReactTransitionGroup from 'react-addons-transition-group'
 // import { DragSource, DropTarget } from 'react-dnd'
 
 // import { dragBlock } from '../../../../Actions/actions'
@@ -46,143 +46,243 @@ import ReactTransitionGroup from 'react-addons-transition-group'
 // 	connectDragSource: connect.dragSource(),
 //   	isDragging: monitor.isDragging()
 // }))
-class DropzoneChild extends React.Component {
-	constructor() {
-		super()
-		this.render = this.render.bind(this)
-		this.state = {
-			height: 20
-		}
-	}
+// class DropzoneChild extends React.Component {
+// 	constructor() {
+// 		super()
+// 		this.render = this.render.bind(this)
+// 		this.state = {
+// 			height: 20
+// 		}
+// 	}
 
-	componentWillAppear(callback) {
-		console.log('componentWillAppear');
+// 	componentWillAppear(callback) {
+// 		console.log('componentWillAppear');
 
-		// this.refs.child.style.height = 100
+// 		// this.refs.child.style.height = 100
 
-		// console.log(child);
+// 		// console.log(child);
 
-		// findDOMNode(this.refs.child).style.height = 500;
+// 		// findDOMNode(this.refs.child).style.height = 500;
 
-		callback();
-	}
-
-
-	componentDidAppear() {
-		console.log('componentDidAppear');
-
-		console.log('111', this.refs.child.style.height)
-		this.setState({
-			height: 200
-		});
-
-		console.log('222', this.refs.child.style.height)
-
-		// let child = findDOMNode(this.refs.child);
-
-		// child.style.height = '500px';
-
-		// console.log(this.refs.child)
-	}
-
-	render() {
-
-		const { blah } = this.props
-
-		let styles = {
-			height: this.state.height,
-			transition: 'height 3s ease-in-out'
-		}
-
-		return (
-			<div ref="child" style={styles}> dropzone child {blah} </div>
-		)
-	}
+// 		callback();
+// 	}
 
 
+// 	componentDidAppear() {
+// 		console.log('componentDidAppear');
 
-}
+// 		console.log('111', this.refs.child.style.height)
+// 		this.setState({
+// 			height: 200
+// 		});
+
+// 		console.log('222', this.refs.child.style.height)
+
+// 		// let child = findDOMNode(this.refs.child);
+
+// 		// child.style.height = '500px';
+
+// 		// console.log(this.refs.child)
+// 	}
+
+// 	render() {
+
+// 		const { blah } = this.props
+
+// 		let styles = {
+// 			height: this.state.height,
+// 			transition: 'height 3s ease-in-out'
+// 		}
+
+// 		return (
+// 			<div ref="child" style={styles}> dropzone child {blah} </div>
+// 		)
+// 	}
+
+
+
+// }
 
 export default class Dropzone extends React.Component {
 
 	constructor() {
 		super()
 		this.render = this.render.bind(this)
-		this.handleClick = this.handleClick.bind(this)
-		this.state = { 
-			things: [ 'a' ]
-		}
+		// this.handleClick = this.handleClick.bind(this)
+		// this.componentDidEnter = this.componentDidEnter.bind(this)
+		// this.componentWillAppear = this.componentWillAppear.bind(this)
+		// this.componentDidAppear = this.componentDidAppear.bind(this)
+
+		// this.state = { 
+		// 	things: [ 'a' ]
+		// }
+
 	}
 
 	// componentDidUpdate() {
-	// 	// console.group('componentDidUpdate');
-	// 	// console.count();
+	// 	console.log('componentDidUpdate');
+	// // 	// console.count();
 
-	// 	// console.log('refs', this.refs);
-	// 	// console.log('props', this.props);
+	// // 	// console.log('refs', this.refs);
+	// // 	// console.log('props', this.props);
 
-	// 	// // this.refs.dropzone.style.height = '50px'
-	// 	// // this.refs.dropzone.style['background-color'] = 'green'
+	// // 	// // this.refs.dropzone.style.height = '50px'
+	// // 	// // this.refs.dropzone.style['background-color'] = 'green'
 
-	// 	// let blah = findDOMNode(this.refs.dropzone);
+	// // 	// let blah = findDOMNode(this.refs.dropzone);
 
-	// 	// blah.style['height'] = '50px'
+	// // 	// blah.style['height'] = '50px'
 
-	// 	// console.groupEnd();
+	// // 	// console.groupEnd();
 
 	// }
 
-	componentDidMount() {
-		console.groupCollapsed('componentDidMount');
-		console.count();
+	// componentWillAppear(callback) {
+	// 	console.log('componentWillAppear')
 
-		// console.log('refs', this.refs);
-		// console.log('props', this.props);
+	// 	// let blah = findDOMNode(this.refs.dropzone)
 
-		// this.refs.dropzone.style.height = '50px'
-		// this.refs.dropzone.style['background-color'] = 'green'
+	// 	// blah.style.height = '30px'
+	// 	// blah.style.transition = 'height 3s ease-in-out'
+
+	// 	setTimeout(callback, 0)
+
+	// }
+
+	// componentDidAppear() {
 
 
-		// let blah = findDOMNode(this.refs.dropzone);
+	// 	console.log('componentDidAppear')
 
-		// blah.style['height'] = '50px'
+	// 	// console.log('111', this.refs.child.style.height)
+	// 	// this.setState({
+	// 	// 	height: 200
+	// 	// });
+	// 	// let blah = findDOMNode(this.refs.dropzone)
+
+	// 	// console.log('111', blah.style.height, blah.style.transition)
+
+	// 	// blah.style.height = '100px'
+	// 	// blah.style.opacity = 1
 
 
-		// let blah = findDOMNode(this.refs.dropzone);
+	// 	// console.log('222', blah.style.height, blah.style.transition)
 
-		// blah.style['height'] = '50px'
-		
-		// this.setProps({
-		// 	blah: 'blah'
-		// })
 
+
+	// 	// child.style.height = '500px';
+
+	// 	// console.log(this.refs.child)
+
+	// 	// callback()
+	// }
+
+
+
+
+
+	componentWillEnter(callback) {
+	// 	console.log('componentWillEnter')
+
+	// 	let blah = findDOMNode(this.refs.dropzone)
+
+	// 	// blah.style.opacity = 0
+	// 	// blah.style.transition = 'opacity 1s'
+
+	// 	// console.log('aaa', blah.style.height)
+	// 	// blah.style.height = '0px';
+	// 	// console.log('bbb', blah.style.height)
+	// 	// blah.style.transition = 'height 1s'
+
+		setTimeout(callback, 0)
+
+	// callback()
+
+	}
+
+	componentDidEnter() {
+
+
+		console.log('componentDidEnter')
+
+		// console.log('111', this.refs.child.style.height)
 		// this.setState({
-		// 	isMounted: true
-		// })
+		// 	height: 200
+		// });
+		let blah = findDOMNode(this.refs.dropzone)
 
-		console.groupEnd();
+		console.table(blah.style)
+		console.log('111', blah.style.height, blah.style.transition)
+
+		// blah.style.height = '100px'
+
+
+
+		blah.style.height = '50px'
+		// blah.style.opacity = 1
+
+		console.log('222', blah.style.height)
+		// child.style.height = '500px';
+
+		// console.log(this.refs.child)
+
 	}
 
-	handleClick() {
-		console.log('handleClick');
 
-		var things = this.state.things.splice();
+	// componentDidMount() {
+	// 	console.log('componentDidMount');
+	// // 	console.count();
 
-		things.push("b");
+	// // 	// console.log('refs', this.refs);
+	// // 	// console.log('props', this.props);
 
-		this.setState({
-			things: things
-		});
+	// // 	// this.refs.dropzone.style.height = '50px'
+	// // 	// this.refs.dropzone.style['background-color'] = 'green'
 
-	}
+
+	// // 	// let blah = findDOMNode(this.refs.dropzone);
+
+	// // 	// blah.style['height'] = '50px'
+
+
+	// // 	// let blah = findDOMNode(this.refs.dropzone);
+
+	// // 	// blah.style['height'] = '50px'
+		
+	// // 	// this.setProps({
+	// // 	// 	blah: 'blah'
+	// // 	// })
+
+	// // 	// this.setState({
+	// // 	// 	isMounted: true
+	// // 	// })
+
+	// // 	console.groupEnd();
+	// // }
+
+	// // handleClick() {
+	// // 	console.log('handleClick');
+
+	// // 	var things = this.state.things.splice();
+
+	// // 	things.push("b");
+
+	// // 	this.setState({
+	// // 		things: things
+	// // 	});
+
+	// }
 
 	render() {
 
-		console.group('dropzone render')
-		console.count()
+		// console.group('dropzone render')
+		// console.count()
 
-		const { isAppearing, blah } = this.props;
+		// const { isAppearing, blah } = this.props;
 	
+
+		console.log('block render')
+
 		// console.log(isAppearing, blah)
 		// var styles = {
 		// 	background: 'pink',
@@ -193,7 +293,7 @@ export default class Dropzone extends React.Component {
 		// console.log('isMounted', this.state.isMounted)
 
 
-		let child = []
+		// let child = []
 
 		// if (this.state.isMounted) {
 
@@ -210,9 +310,9 @@ export default class Dropzone extends React.Component {
 		// }
 
 
-		this.state.things.forEach((t, i) => {
-			child.push(<DropzoneChild key={i} blah={t} />)
-		});
+		// this.state.things.forEach((t, i) => {
+		// 	child.push(<DropzoneChild key={i} blah={t} />)
+		// });
 
 
 
@@ -221,19 +321,19 @@ export default class Dropzone extends React.Component {
 
 		// console.log('child ', child)
 
-		console.groupEnd()
+		// console.groupEnd()
 
+		var style = {
+			background: 'green',
+			height: 0,
+			transition: 'height 0.5s'
+		}
 
 		return (
-			<ReactTransitionGroup component="div" onClick={this.handleClick}>
-				{child}
-			</ReactTransitionGroup>
+			<div ref="dropzone" style={style}>
+				DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
+			</div>
 		)
-		// return (
-		// 	<div style={styles} ref="dropzone">
-		// 		{child}
-		// 	</div>
-		// )
 
 
 
