@@ -3,9 +3,12 @@ import React from 'react'
 const TRANSITION_DELAY = 2000
 
 export default class Dropzone extends React.Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.render = this.render.bind(this)
+		this.state = {
+			instantaneous: props.instantaneous
+		}
 	}
 	componentWillEnter(callback) {
 		this.refs.dropzone.style.height = '0px'
@@ -21,8 +24,13 @@ export default class Dropzone extends React.Component {
 		dropzone.style.height = '0px'
 		setTimeout(callback, TRANSITION_DELAY)
 	}
+	componentDidLeave() {
+		this.setState({
+			instantaneous: false
+		})
+	}
 	render() {
-		const { instantaneous } = this.props
+		const { instantaneous } = this.state
 
 		var style = {
 			background: 'green',

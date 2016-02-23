@@ -1,5 +1,4 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import ReactTransitionGroup from 'react-addons-transition-group'
@@ -18,46 +17,9 @@ const mapStateToProps = (state, ownProps) => {
 				b.id === id
 			)
 		),
-		// blocks: state.blocks,
 		dropzone: state.dropzone
 	}
 }
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-// 	return {
-// 		onClick: () => {
-// 			dispatch(addBlock(ownProps.slot.id, { name: 'test' }))
-// 		},
-// 		moveBlock: (fromIndex, toIndex) => {
-// 			dispatch(moveBlock(ownProps.slot.id, fromIndex, toIndex))
-// 		}
-// 	}
-// }
-
-// const mergeProps = (stateProps, dispatchProps, ownProps) => {
-//   let blah = Object.assign({}, ownProps, stateProps, dispatchProps, {
-// 	blocks: ownProps.slot.blocks.map(id => 
-// 		stateProps.blocks.find(b =>
-// 			b.id === id
-// 		)
-// 	)
-// 	// insertDropZone: (insertIndex, position) => {
-// 	// 	console.log('insertDropZone', this.state)
-
-
-
-// 	// 	var insertIndex = (position === 'ABOVE') ? insertIndex : insertIndex++
-
-// 	// 	if (insertIndex !== stateProps.dropzone.index) {
-// 	// 		dispatch(insertDropZone(ownProps.index, insertIndex))
-// 	// 	}
-// 	// }
-//   });
-
-//   console.log('blah', blah);
-//   return blah;
-// }
-
 
 
 @connect(mapStateToProps)
@@ -68,31 +30,18 @@ export default class Slot extends React.Component {
 		this.insertDropZone = this.insertDropZone.bind(this)
 	}
 
-	insertDropZone({ index: insertIndex, position, instantaneous = false } = {}) {
-		console.log('insertDropZone', insertIndex, position, instantaneous)
-
-		const { dispatch, index: slotIndex, dropzone } = this.props
-
-		insertIndex = (position === 'ABOVE') ? insertIndex : ++insertIndex
-
-		// console.log('insertIndex', insertIndex)
-		if (insertIndex !== dropzone.index) {
-			dispatch(Actions.insertDropZone(slotIndex, insertIndex, instantaneous))
+	insertDropZone({ blockId, instantaneous = false, positionAbove = true } = {}) {
+		// console.log('insertDropZone', blockId, instantaneous, positionAbove)
+		const { dispatch, index, dropzone } = this.props
+		if (blockId !== dropzone.blockId || positionAbove !== dropzone.positionAbove) {
+			dispatch(Actions.insertDropZone(index, blockId, instantaneous, positionAbove))
 		}
-
 	}
 
 	render() {
+		const { dispatch, slot, index, dropzone, blocks } = this.props
 
-		// console.table(this.props);
-		const { slot, index, dropzone, blocks, dispatch } = this.props
-
-		let hasDropZone = index === dropzone.slotIndex
-
-
-		console.log('dropzone', dropzone)
-	    // let boundActionCreators = bindActionCreators(Actions, dispatch)
-	    // console.log('boundActionCreators', boundActionCreators)
+		const slotHasDropzone = index === dropzone.slotIndex
 
 	    const style = {
 	    	background: 'gray'
@@ -100,10 +49,12 @@ export default class Slot extends React.Component {
 
 		let blockNodes = []
 		blocks.forEach((b, i) => {
-			if (hasDropZone && i === dropzone.index) {
-				blockNodes.push(<DropZone key={'dropzone' + i} instantaneous={dropzone.instantaneous} />)
+			blockNodes.push(<Block key={i} block={b} insertDropZone={this.insertDropZone} />)
+
+			if (slotHasDropzone && b.id === dropzone.blockId) {
+				const insertAt = dropzone.positionAbove ? i : i + 1
+				blockNodes.splice(insertAt, 0, (<DropZone key={'dropzone' + insertAt} instantaneous={dropzone.instantaneous} />))
 			}
-			blockNodes.push(<Block key={i} index={i} block={b} insertDropZone={this.insertDropZone} />)
 		})
 
 		return (

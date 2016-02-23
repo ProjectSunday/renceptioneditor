@@ -9,15 +9,13 @@ import './block.less'
 
 const blockSource = {
 	beginDrag(props) {
-
 		props.insertDropZone({
-			index: props.index, 
-			position: 'ABOVE',
-			instantaneous: true
+			blockId: props.block.id, 
+			instantaneous: true,
+			positionAbove: true
 		})
-
 		return {
-			index: props.index
+			id: props.block.id
 		}
 	}
 }
@@ -30,26 +28,14 @@ const blockTarget = {
 	    // Determine mouse position
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-
-	    const position = (hoverClientY < hoverMiddleY) ? 'ABOVE' : 'BELOW'
 	    props.insertDropZone({
-	    	index: props.index, 
-	    	position: position
+	    	blockId: props.block.id, 
+	    	instantaneous: false,
+	    	positionAbove: (hoverClientY < hoverMiddleY)
 	    })
-
 	}
 }
 
-// const mapDispatchToProps = (dispatch, ownProps) => {
-// 	return {
-// 		onDragStart: () => {
-// 			dispatch(dragBlock(ownProps.slotId, ownProps.block.id))
-// 		}
-// 	}
-// }
-
-
-// @connect(undefined, mapDispatchToProps)
 @DropTarget('BLOCK', blockTarget, (connect, monitor) => ({
 	connectDropTarget: connect.dropTarget(),
 	isOver: monitor.isOver()
@@ -60,23 +46,12 @@ const blockTarget = {
 }))
 export default class Block extends Component {
 	render() {
-		//console.groupCollapsed('block render')
-		//console.count()
-		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver, dispatch } = this.props;
+		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
-		// console.log('block render', this.props.dispatch)
+		let styles = { 
+			display: isDragging ? 'none' : 'block'
+		}
 
-
-		//hmn figure out how to add in moving pieces
-		let styles = { display: isDragging ? 'none' : 'block' }
-		//acity: isDragging ? 0.75 : 1 }
-
-		// if (isOver) {
-		// 	styles.background = '#eee'
-		// }
-		
-		// let blockInnards = <div className="innards" style={ { height: 50 } }>NNNNNNNNNNNNNNNNNNNNNNNN</div>
-		//console.groupEnd()
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
 				<span className="name">{block.name}{block.id}</span>
