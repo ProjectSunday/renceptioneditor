@@ -45,18 +45,23 @@ const blockTarget = {
   	isDragging: monitor.isDragging()
 }))
 export default class Block extends Component {
+	componentWillEnter(callback) {
+		console.log('block: componentWillEnter')
+		setTimeout(callback, 0)
+	}
 	render() {
 		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
-		let styles = { 
+		let styles = {
 			display: isDragging ? 'none' : 'block',
+			background: '#aaa',
+			height: '50px',
 			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
 		}
 
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
 				<span className="name">{block.name}{block.id}</span>
-				I am a block
 			</div>
 		))
 	}
