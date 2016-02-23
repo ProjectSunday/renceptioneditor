@@ -10,6 +10,11 @@ import './block.less'
 const blockSource = {
 	beginDrag(props) {
 
+		props.insertDropZone({
+			index: props.index, 
+			position: 'ABOVE',
+			instantaneous: true
+		})
 
 		return {
 			index: props.index
@@ -19,15 +24,18 @@ const blockSource = {
 
 const blockTarget = {
 	hover(props, monitor, component) {
-	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
 	    // Determine mouse position
-	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top;
+	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
 
-	    const position = (hoverClientY < hoverMiddleY) ? 'ABOVE' : 'BELOW';
-	    props.insertDropZone(props.index, position);
+	    const position = (hoverClientY < hoverMiddleY) ? 'ABOVE' : 'BELOW'
+	    props.insertDropZone({
+	    	index: props.index, 
+	    	position: position
+	    })
 
 	}
 }
@@ -54,9 +62,9 @@ export default class Block extends Component {
 	render() {
 		//console.groupCollapsed('block render')
 		//console.count()
-		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
+		const { index, block, blah, moveBlock, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver, dispatch } = this.props;
 	
-		// console.log('block render', this.props)
+		// console.log('block render', this.props.dispatch)
 
 
 		//hmn figure out how to add in moving pieces

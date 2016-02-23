@@ -41,12 +41,12 @@ const mapStateToProps = (state, ownProps) => {
 // 			b.id === id
 // 		)
 // 	)
-// 	// insertDropZone: (blockIndex, position) => {
+// 	// insertDropZone: (insertIndex, position) => {
 // 	// 	console.log('insertDropZone', this.state)
 
 
 
-// 	// 	var insertIndex = (position === 'ABOVE') ? blockIndex : blockIndex++
+// 	// 	var insertIndex = (position === 'ABOVE') ? insertIndex : insertIndex++
 
 // 	// 	if (insertIndex !== stateProps.dropzone.index) {
 // 	// 		dispatch(insertDropZone(ownProps.index, insertIndex))
@@ -68,16 +68,16 @@ export default class Slot extends React.Component {
 		this.insertDropZone = this.insertDropZone.bind(this)
 	}
 
-	insertDropZone(blockIndex, position) {
-		console.log('insertDropZone', blockIndex, position)
+	insertDropZone({ index: insertIndex, position, instantaneous = false } = {}) {
+		console.log('insertDropZone', insertIndex, position, instantaneous)
 
-		const { dispatch, index, dropzone } = this.props
+		const { dispatch, index: slotIndex, dropzone } = this.props
 
-		let insertIndex = (position === 'ABOVE') ? blockIndex : ++blockIndex
+		insertIndex = (position === 'ABOVE') ? insertIndex : ++insertIndex
 
-		console.log('insertIndex', insertIndex)
+		// console.log('insertIndex', insertIndex)
 		if (insertIndex !== dropzone.index) {
-			dispatch(Actions.insertDropZone(index, insertIndex))
+			dispatch(Actions.insertDropZone(slotIndex, insertIndex, instantaneous))
 		}
 
 	}
@@ -90,19 +90,24 @@ export default class Slot extends React.Component {
 		let hasDropZone = index === dropzone.slotIndex
 
 
+		console.log('dropzone', dropzone)
 	    // let boundActionCreators = bindActionCreators(Actions, dispatch)
 	    // console.log('boundActionCreators', boundActionCreators)
+
+	    const style = {
+	    	background: 'gray'
+	    }
 
 		let blockNodes = []
 		blocks.forEach((b, i) => {
 			if (hasDropZone && i === dropzone.index) {
-				blockNodes.push(<DropZone key={'dropzone' + i} />)
+				blockNodes.push(<DropZone key={'dropzone' + i} instantaneous={dropzone.instantaneous} />)
 			}
-			blockNodes.push(<Block key={i} index={i} block={b} insertDropZone={this.insertDropZone}/>)
+			blockNodes.push(<Block key={i} index={i} block={b} insertDropZone={this.insertDropZone} />)
 		})
 
 		return (
-			<div>
+			<div style={style}>
 			<button>Add Block</button>
 			<ReactTransitionGroup component="div">
 				{blockNodes}

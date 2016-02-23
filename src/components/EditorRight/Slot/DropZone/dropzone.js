@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TRANSITION_DELAY = 100
+const TRANSITION_DELAY = 2000
 
 export default class Dropzone extends React.Component {
 	constructor() {
@@ -12,20 +12,24 @@ export default class Dropzone extends React.Component {
 		setTimeout(callback, 0)
 	}
 	componentDidEnter() {
-		// console.log('componentDidEnter')
 		this.refs.dropzone.style.height =  '50px'
 	}
 	componentWillLeave(callback) {
-		// console.log('componentWillLeave')
-		this.refs.dropzone.style.height = '0px'
+		const dropzone = this.refs.dropzone
+
+		dropzone.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+		dropzone.style.height = '0px'
 		setTimeout(callback, TRANSITION_DELAY)
 	}
 	render() {
+		const { instantaneous } = this.props
+
 		var style = {
 			background: 'green',
-			transitionProperty: 'height',
-			transitionDuration: TRANSITION_DELAY / 1000 + 's'
+			opacity: 0,
+			transition: instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
 		}
+
 		return (
 			<div ref="dropzone" style={style}>
 				DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
