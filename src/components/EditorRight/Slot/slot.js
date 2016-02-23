@@ -44,7 +44,13 @@ export default class Slot extends React.Component {
 		const slotHasDropzone = index === dropzone.slotIndex
 
 	    const style = {
-	    	background: 'gray'
+	    	slot: {
+		    	background: 'gray',
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)'
+	    	},
+	    	transition: {
+	    		overflow: 'hidden'
+	    	}
 	    }
 
 		let blockNodes = []
@@ -53,14 +59,14 @@ export default class Slot extends React.Component {
 
 			if (slotHasDropzone && b.id === dropzone.blockId) {
 				const insertAt = dropzone.positionAbove ? i : i + 1
-				blockNodes.splice(insertAt, 0, (<DropZone key={'dropzone' + insertAt} instantaneous={dropzone.instantaneous} />))
+				blockNodes.splice(insertAt, 0, (<DropZone key={'dropzone' + insertAt} instantaneous={dropzone.instantaneous} dropzone={dropzone} />))
 			}
 		})
 
 		return (
-			<div style={style}>
+			<div style={style.slot}>
 			<button>Add Block</button>
-			<ReactTransitionGroup component="div">
+			<ReactTransitionGroup component="div" style={style.transition}>
 				{blockNodes}
 			</ReactTransitionGroup>
 			</div>

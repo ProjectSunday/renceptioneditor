@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TRANSITION_DELAY = 5000
+const TRANSITION_DELAY = 100
 
 export default class Dropzone extends React.Component {
 	constructor(props) {
@@ -21,11 +21,20 @@ export default class Dropzone extends React.Component {
 		// }
 	}
 	componentWillEnter(callback) {
+		const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		console.log('componentWillEnter', blockId, instantaneous, positionAbove )
+
+
 		this.refs.dropzone.style.height = '0px'
+		this.refs.dropzone.style.transition = this.props.instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
+
 		setTimeout(callback, 0)
 	}
 	componentDidEnter() {
-		console.log('componentDidEnter')
+		const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		console.log('componentDidEnter', blockId, instantaneous, positionAbove )
+		
+		// this.refs.dropzone.style.transition = `height ${TRANSITION_DELAY / 1000}s`
 		this.refs.dropzone.style.height =  '50px'
 	}
 	componentWillLeave(callback) {
@@ -37,20 +46,23 @@ export default class Dropzone extends React.Component {
 	}
 	componentDidLeave() {
 		// this.instantaneous = false
+
+		const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		console.log('componentDidLeave', blockId, instantaneous, positionAbove )
+		
 	}
 	componentDidMount() {
-		this.instantaneous = false
+		// this.instantaneous = false
 	}
 	render() {
 		// const { instantaneous } = this.state
 
-
-
+		const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		console.log('dropzone render()', blockId, instantaneous, positionAbove )
 
 		var style = {
 			background: 'green',
-			opacity: 0,
-			transition: this.instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
+			opacity: 0
 		}
 
 		return (

@@ -49,7 +49,8 @@ export default class Block extends Component {
 		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
 		let styles = { 
-			display: isDragging ? 'none' : 'block'
+			display: isDragging ? 'none' : 'block',
+			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
 		}
 
 		return connectDragSource(connectDropTarget(

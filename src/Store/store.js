@@ -5,7 +5,7 @@ let initialState = {
 	slots: [
 		{
 			id: 100,
-			blocks: [ 100, 101, 102 ]
+			blocks: [ 100, 101, 102, 103, 104, 105 ]
 		}
 	],
 	blocks: [
@@ -20,6 +20,18 @@ let initialState = {
 		{
 			id: 102,
 			name: 'textplusimage'
+		},
+		{
+			id: 103,
+			name: 'imageimageimageimage ============================='
+		},
+		{
+			id: 104,
+			name: 'texttexttexttext ================================='
+		},
+		{
+			id: 105,
+			name: 'textplusimagetextplusimagetextplusimagetextplusimage'
 		}
 	]
 }
