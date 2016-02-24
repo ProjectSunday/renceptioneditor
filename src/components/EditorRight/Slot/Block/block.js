@@ -7,19 +7,6 @@ import { dragBlock } from '../../../../Actions/actions'
 
 import './block.less'
 
-const blockSource = {
-	beginDrag(props) {
-		props.insertDropZone({
-			blockId: props.block.id, 
-			instantaneous: true,
-			positionAbove: true
-		})
-		return {
-			id: props.block.id
-		}
-	}
-}
-
 const blockTarget = {
 	hover(props, monitor, component) {
 	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
@@ -33,6 +20,19 @@ const blockTarget = {
 	    	instantaneous: false,
 	    	positionAbove: (hoverClientY < hoverMiddleY)
 	    })
+	}
+}
+
+const blockSource = {
+	beginDrag(props) {
+		props.insertDropZone({
+			blockId: props.block.id, 
+			instantaneous: true,
+			positionAbove: true
+		})
+		return {
+			id: props.block.id
+		}
 	}
 }
 

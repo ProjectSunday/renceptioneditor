@@ -3,20 +3,33 @@ import { DragSource, DropTarget } from 'react-dnd'
 
 const TRANSITION_DELAY = 100
 
-const dropTarget = {
+const dropzoneTarget = {
 	hover (props, monitor, component) {
 		// console.log('dropzone hover')
 	}
 }
 
-@DropTarget('BLOCK', dropTarget, (connect, monitor) => ({
+const dropzoneSource = {
+	beginDrag(props) {
+		return {
+			id: 'blah'
+		}
+	}
+}
+
+// @DragSource('BLOCK', dropzoneSource, (connect, monitor) => ({
+// 	connectDragSource: connect.dragSource(),
+//   	isDragging: monitor.isDragging()
+// }))
+@DropTarget('BLOCK', dropzoneTarget, (connect, monitor) => ({
 	connectDropTarget: connect.dropTarget(),
 	isOver: monitor.isOver()
 }))
-export default class Dropzone extends React.Component {
+class Dropzone extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.componentWillEnter = this.componentWillEnter.bind(this)
 
 		// if (props.instantaneous) {
 		// 	console.groupCollapsed('instantaneous!!!!!!!!!!!!!!')
@@ -62,12 +75,13 @@ export default class Dropzone extends React.Component {
 		
 	}
 	componentDidMount() {
+		console.log('yoooooooooooo')
 		// this.instantaneous = false
 	}
 	render() {
 		// const { instantaneous } = this.state
 
-		const { connectDropTarget } = this.props
+		const { connectDropTarget, connectDragSource } = this.props
 
 		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
 		// console.log('dropzone render()', blockId, instantaneous, positionAbove )
@@ -82,7 +96,16 @@ export default class Dropzone extends React.Component {
 				DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
 			</div>
 		)
+		// return (
+		// 	<div ref={d => this.dropzone = d} style={style}>
+		// 		DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
+		// 	</div>
+		// )
 	}
 
 }
+
+console.log('dropzone', Dropzone)
+
+export default Dropzone
 
