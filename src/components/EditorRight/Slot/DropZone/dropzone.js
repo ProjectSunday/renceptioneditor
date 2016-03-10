@@ -1,5 +1,7 @@
 import React from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
+import ReactTransitionGroup from 'react-addons-transition-group'
+
 
 const TRANSITION_DELAY = 100
 
@@ -17,6 +19,32 @@ const dropzoneSource = {
 	}
 }
 
+class InnerDropzone extends React.Component {
+	constructor(props) {
+		super(props)
+		this.render = this.render.bind(this)
+	}
+	componentWillEnter(callback) {
+		console.log('innerdropzone.componentWillEnter')
+		setTimeout(callback, 0)
+	}
+	componentDidEnter() {
+	}
+	componentWillLeave(callback) {
+		setTimeout(callback, 0)
+	}
+	componentDidLeave() {
+	}
+	componentDidMount() {
+	}
+	render() {
+		return (
+			<div>INNER DROPZONE INNER DROPZONE INNER DROPZONE INNER DROPZONE INNER DROPZONE </div>
+		)
+	}
+
+}
+
 // @DragSource('BLOCK', dropzoneSource, (connect, monitor) => ({
 // 	connectDragSource: connect.dragSource(),
 //   	isDragging: monitor.isDragging()
@@ -29,11 +57,6 @@ class Dropzone extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
-		this.componentWillEnter = this.componentWillEnter.bind(this)
-
-		// if (props.instantaneous) {
-		// 	console.groupCollapsed('instantaneous!!!!!!!!!!!!!!')
-		// 	console.log('instantaneous ', props.instantaneous)
 		// 	console.log('this ', this)
 		// 	console.groupEnd()
 		// }
@@ -43,6 +66,11 @@ class Dropzone extends React.Component {
 		// this.state = {
 		// 	instantaneous: props.instantaneous
 		// }
+
+		this.state = {
+			i: 0,
+			children: []
+		}
 	}
 	componentWillEnter(callback) {
 		const { blockId, instantaneous, positionAbove } = this.props.dropzone
@@ -75,7 +103,7 @@ class Dropzone extends React.Component {
 		
 	}
 	componentDidMount() {
-		console.log('yoooooooooooo')
+		// console.log('yoooooooooooo')
 		// this.instantaneous = false
 	}
 	render() {
@@ -91,9 +119,17 @@ class Dropzone extends React.Component {
 			// opacity: 0
 		}
 
+
+		this.state.children.push(<InnerDropzone key={'blah' + this.state.i} />);
+		this.state.i++;
+
+
 		return connectDropTarget(
 			<div ref={d => this.dropzone = d} style={style}>
-				DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
+				<ReactTransitionGroup component="div">
+					{this.state.children}
+				</ReactTransitionGroup>
+				<div>OOOOOOOOOOOOOOOOOOOOOOOOO</div>
 			</div>
 		)
 		// return (

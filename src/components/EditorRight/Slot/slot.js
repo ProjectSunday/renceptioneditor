@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ReactTransitionGroup from 'react-addons-transition-group'
+// import ReactTransitionGroup from 'react-addons-transition-group'
 
 import * as Actions from '../../../Actions/actions'
 
@@ -46,7 +46,8 @@ export default class Slot extends React.Component {
 	    const style = {
 	    	slot: {
 		    	background: 'gray',
-				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)'
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+	    		overflow: 'hidden'
 	    	},
 	    	transition: {
 	    		overflow: 'hidden'
@@ -66,9 +67,7 @@ export default class Slot extends React.Component {
 		return (
 			<div style={style.slot}>
 			<button>Add Block</button>
-			<ReactTransitionGroup component="div" style={style.transition}>
-				{blockNodes}
-			</ReactTransitionGroup>
+			{blockNodes}
 			</div>
 		)
 	}
