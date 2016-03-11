@@ -38,3 +38,22 @@ let initialState = {
 
 
 export default createStore(reducers, initialState)
+
+//just a visual example for me to look at, this is not used anywhere
+var sampleState = {
+
+	blocks: [],
+	
+	slots: [
+		{
+			id: 123,
+			blocks: [ 1, 2, 3 ]
+		}
+	],
+
+	dropzones: [
+		{ slotId: 123, index: 0 },
+		{ slotId: 123, index: 0 }
+	]
+
+}

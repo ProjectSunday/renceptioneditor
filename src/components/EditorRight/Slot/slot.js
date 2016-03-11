@@ -56,18 +56,19 @@ export default class Slot extends React.Component {
 
 		let blockNodes = []
 		blocks.forEach((b, i) => {
-			blockNodes.push(<Block key={i} block={b} insertDropZone={this.insertDropZone} />)
+			blockNodes.push(<Block key={i} block={b} />)
 
-			if (slotHasDropzone && b.id === dropzone.blockId) {
-				const insertAt = dropzone.positionAbove ? i : i + 1
-				blockNodes.splice(insertAt, 0, (<DropZone key={'dropzone' + insertAt} instantaneous={dropzone.instantaneous} dropzone={dropzone} />))
-			}
+			// if (slotHasDropzone && b.id === dropzone.blockId) {
+			// 	const insertAt = dropzone.positionAbove ? i : i + 1
+			// 	blockNodes.splice(insertAt, 0, (<DropZone key={'dropzone' + insertAt} instantaneous={dropzone.instantaneous} dropzone={dropzone} />))
+			// }
+			
 		})
 
 		return (
 			<div style={style.slot}>
-			<button>Add Block</button>
-			{blockNodes}
+				<button>Add Block</button>
+				{blockNodes}
 			</div>
 		)
 	}

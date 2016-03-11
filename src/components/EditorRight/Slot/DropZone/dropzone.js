@@ -2,8 +2,9 @@ import React from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import ReactTransitionGroup from 'react-addons-transition-group'
 
+import * as Actions from '../../../../Actions/actions'
 
-const TRANSITION_DELAY = 100
+const TRANSITION_DELAY = 500
 
 const dropzoneTarget = {
 	hover (props, monitor, component) {
@@ -19,36 +20,70 @@ const dropzoneSource = {
 	}
 }
 
-class InnerDropzone extends React.Component {
+class DropzoneTransition extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
 	}
 	componentWillEnter(callback) {
-		console.log('innerdropzone.componentWillEnter')
+		const { instantaneous, expanding } = this.props;
+		console.log('DropzoneTransition.componentWillEnter')
+
+		const d = this.refs.dropzone;
+
+		d.style.height = '0px'
+		// d.style.transition = instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
+		d.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+
 		setTimeout(callback, 0)
 	}
 	componentDidEnter() {
+		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		// console.log('componentDidEnter', blockId, instantaneous, positionAbove )
+		console.log('DropzoneTransition.componentDidEnter')
+		const d = this.refs.dropzone
+
+		// d.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+		d.style.height =  '50px'
 	}
 	componentWillLeave(callback) {
-		setTimeout(callback, 0)
+		console.log('DropzoneTransition.componentWillLeave');
+		const d = this.refs.dropzone
+
+		d.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+		d.style.height = '0px'
+
+		setTimeout(callback, TRANSITION_DELAY)
 	}
 	componentDidLeave() {
+
+
+		console.log('DropzoneTransition.componentDidLeave')
+
+		dispatch(Actions.dropzoneTransitionDone())
+
+
+
+
+		// this.instantaneous = false
+
+		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
+		// console.log('componentDidLeave', blockId, instantaneous, positionAbove )
+		
 	}
-	componentDidMount() {
+
+	componentWillUnmount() {
+		console.log('DropzoneTransition.componentWillUnmount')
 	}
+
 	render() {
 		return (
-			<div>INNER DROPZONE INNER DROPZONE INNER DROPZONE INNER DROPZONE INNER DROPZONE </div>
+			<div ref="dropzone">INNER DROPZONE INNER DROPZ</div>
 		)
 	}
 
 }
 
-// @DragSource('BLOCK', dropzoneSource, (connect, monitor) => ({
-// 	connectDragSource: connect.dragSource(),
-//   	isDragging: monitor.isDragging()
-// }))
 @DropTarget('BLOCK', dropzoneTarget, (connect, monitor) => ({
 	connectDropTarget: connect.dropTarget(),
 	isOver: monitor.isOver()
@@ -57,6 +92,7 @@ class Dropzone extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.componentDidMount = this.componentDidMount.bind(this)
 		// 	console.log('this ', this)
 		// 	console.groupEnd()
 		// }
@@ -72,39 +108,39 @@ class Dropzone extends React.Component {
 			children: []
 		}
 	}
-	componentWillEnter(callback) {
-		const { blockId, instantaneous, positionAbove } = this.props.dropzone
-		console.log('componentWillEnter', blockId, instantaneous, positionAbove )
+	// componentWillEnter(callback) {
+	// 	const { blockId, instantaneous, positionAbove } = this.props.dropzone
+	// 	console.log('componentWillEnter', blockId, instantaneous, positionAbove )
 
 
-		this.dropzone.style.height = '0px'
-		this.dropzone.style.transition = this.props.instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
+	// 	this.dropzone.style.height = '0px'
+	// 	this.dropzone.style.transition = this.props.instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
 
-		setTimeout(callback, 0)
-	}
-	componentDidEnter() {
-		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
-		// console.log('componentDidEnter', blockId, instantaneous, positionAbove )
+	// 	setTimeout(callback, 0)
+	// }
+	// componentDidEnter() {
+	// 	// const { blockId, instantaneous, positionAbove } = this.props.dropzone
+	// 	// console.log('componentDidEnter', blockId, instantaneous, positionAbove )
 		
-		// this.refs.dropzone.style.transition = `height ${TRANSITION_DELAY / 1000}s`
-		this.dropzone.style.height =  '50px'
-	}
-	componentWillLeave(callback) {
+	// 	// this.refs.dropzone.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+	// 	this.dropzone.style.height =  '50px'
+	// }
 
-		this.dropzone.style.transition = `height ${TRANSITION_DELAY / 1000}s`
-		this.dropzone.style.height = '0px'
-		setTimeout(callback, TRANSITION_DELAY)
-	}
-	componentDidLeave() {
-		// this.instantaneous = false
-
-		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
-		// console.log('componentDidLeave', blockId, instantaneous, positionAbove )
-		
-	}
 	componentDidMount() {
 		// console.log('yoooooooooooo')
 		// this.instantaneous = false
+
+		var blah = this.state.children;
+
+		blah.push(<DropzoneImpl key={'blah'} />);
+
+		this.setState({
+			children: blah
+		})
+	}
+
+	componentWillUnmount() {
+		console.log('Dropzone.componentWillUnmount')
 	}
 	render() {
 		// const { instantaneous } = this.state
@@ -114,34 +150,22 @@ class Dropzone extends React.Component {
 		// const { blockId, instantaneous, positionAbove } = this.props.dropzone
 		// console.log('dropzone render()', blockId, instantaneous, positionAbove )
 
-		var style = {
-			background: 'green'
-			// opacity: 0
-		}
-
-
-		this.state.children.push(<InnerDropzone key={'blah' + this.state.i} />);
-		this.state.i++;
+		// var style = {
+		// 	background: 'green'
+		// 	// opacity: 0
+		// }
 
 
 		return connectDropTarget(
-			<div ref={d => this.dropzone = d} style={style}>
+			<div>
 				<ReactTransitionGroup component="div">
 					{this.state.children}
 				</ReactTransitionGroup>
-				<div>OOOOOOOOOOOOOOOOOOOOOOOOO</div>
 			</div>
 		)
-		// return (
-		// 	<div ref={d => this.dropzone = d} style={style}>
-		// 		DROPZONEDROPZONEDROPZONEDROPZONEDROPZONPZONE
-		// 	</div>
-		// )
 	}
 
 }
-
-console.log('dropzone', Dropzone)
 
 export default Dropzone
 
