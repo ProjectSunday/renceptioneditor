@@ -1,4 +1,7 @@
 import update from 'react-addons-update'
+import Immutable from 'immutable'
+
+let DROPZONE_COUNT = 0
 
 const slots = (state = [], action) => {
 	switch (action.type) {
@@ -30,6 +33,19 @@ const slots = (state = [], action) => {
 				}
 			})
 			return foo
+		case 'INSERT_DROPZONE':
+			let slots = Immutable.List(state)
+			let slot = slots.find(s => s.id == action.slotId)
+
+			slot.content.splice(action.index, 0, { id: DROPZONE_COUNT++, type: 'dropzone' })
+
+			return slots.toJS()
+		case 'REMOVE_DROPZONE':
+			var deleteIndex = state.findIndex(d => { d.slotId == action.slotId } && d.index == action.index );
+
+			console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
+
+			return Immutable.fromJS(state).delete(deleteIndex);
 		default:
 			return state
 	}

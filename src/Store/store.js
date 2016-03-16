@@ -2,12 +2,7 @@ import { createStore } from 'redux'
 import reducers from './Reducers/reducers'
 
 let initialState = {
-	slots: [
-		{
-			id: 100,
-			blocks: [ 100, 101, 102, 103, 104, 105 ]
-		}
-	],
+	
 	blocks: [
 		{
 			id: 100,
@@ -33,7 +28,20 @@ let initialState = {
 			id: 105,
 			name: 'textplusimagetextplusimagetextplusimagetextplusimage'
 		}
+	],
+
+	slots: [
+		{
+			id: 1000,
+			content: [
+				{ type: 'block', id: 100 },
+				{ type: 'block', id: 101 },
+				{ type: 'block', id: 102 },
+				{ type: 'block', id: 103 }
+			]
+		}
 	]
+
 }
 
 
@@ -47,13 +55,13 @@ var sampleState = {
 	slots: [
 		{
 			id: 123,
-			blocks: [ 1, 2, 3 ]
+			content: [
+				{ id: 101, type: 'block'},
+				{ id: 101, type: 'block'},
+				{ id: 0, type: 'dropzone' },
+				{ id: 101, type: 'block'}
+			]
 		}
-	],
-
-	dropzones: [
-		{ slotId: 123, index: 0 },
-		{ slotId: 123, index: 0 }
 	]
 
 }

@@ -15,21 +15,22 @@ const blockTarget = {
 	    // Determine mouse position
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-	    props.insertDropZone({
-	    	blockId: props.block.id, 
-	    	instantaneous: false,
-	    	positionAbove: (hoverClientY < hoverMiddleY)
-	    })
+	    // props.insertDropZone({
+	    // 	blockId: props.block.id, 
+	    // 	instantaneous: false,
+	    // 	positionAbove: (hoverClientY < hoverMiddleY)
+
+	    let positionBelow = hoverClientY > hoverMiddleY
+
+		props.showDropZone(props.block.id, positionBelow, false)
+
 	}
 }
 
 const blockSource = {
 	beginDrag(props) {
-		props.insertDropZone({
-			blockId: props.block.id, 
-			instantaneous: true,
-			positionAbove: true
-		})
+		props.showDropZone(props.block.id, false, true)
+
 		return {
 			id: props.block.id
 		}
@@ -50,8 +51,10 @@ export default class Block extends Component {
 		setTimeout(callback, 0)
 	}
 	render() {
-		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
+		const { dispatch, block, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
+		// console.log('block render', block.id)
+
 		let styles = {
 			display: isDragging ? 'none' : 'block',
 			background: '#aaa',
