@@ -18,27 +18,22 @@ let initialState = {
 		},
 		{
 			id: 103,
-			name: 'imageimageimageimage ============================='
+			name: 'imageimage'
 		},
 		{
 			id: 104,
-			name: 'texttexttexttext ================================='
+			name: 'texttext'
 		},
 		{
 			id: 105,
-			name: 'textplusimagetextplusimagetextplusimagetextplusimage'
+			name: 'textplusimagetextplusimage'
 		}
 	],
 
 	slots: [
 		{
 			id: 1000,
-			content: [
-				{ type: 'block', id: 100 },
-				{ type: 'block', id: 101 },
-				{ type: 'block', id: 102 },
-				{ type: 'block', id: 103 }
-			]
+			blocks: [ 100, 101, 102, 103, 104, 105 ]
 		}
 	]
 
@@ -54,13 +49,8 @@ var sampleState = {
 	
 	slots: [
 		{
-			id: 123,
-			content: [
-				{ id: 101, type: 'block'},
-				{ id: 101, type: 'block'},
-				{ id: 0, type: 'dropzone' },
-				{ id: 101, type: 'block'}
-			]
+			id: 1000,
+			blocks: [ 100, 101, 102, 103, 104, 105 ]
 		}
 	]
 

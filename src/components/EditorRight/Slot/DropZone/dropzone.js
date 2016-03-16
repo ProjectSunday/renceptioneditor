@@ -13,9 +13,11 @@ class DropZoneTransition extends React.Component {
 	}
 	componentWillEnter(callback) {
 		// console.log('DropzoneTransition.componentWillEnter')
+		const { instantaneous } = this.props
+
 		const t = this.refs.transition;
 		t.style.height = '0px'
-		t.style.transition = `height ${TRANSITION_DELAY / 1000}s`
+		t.style.transition = instantaneous ? '' : `height ${TRANSITION_DELAY / 1000}s`
 
 		setTimeout(callback, 0)
 	}
@@ -27,6 +29,8 @@ class DropZoneTransition extends React.Component {
 	componentWillLeave(callback) {
 		// console.log('DropzoneTransition.componentWillLeave');
 		const t = this.refs.transition
+
+		t.style.transition = `height ${TRANSITION_DELAY / 1000}s`
 		t.style.height = '0px'
 
 		setTimeout(callback, TRANSITION_DELAY)
@@ -59,9 +63,9 @@ class DropZone extends React.Component {
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		console.log('DropZone.componentWillReceiveProps', nextProps.key, nextProps.visible)
+		// console.log('DropZone.componentWillReceiveProps', nextProps.key, nextProps.visible)
 		this.setState({
-			dropZoneTransitionNode: nextProps.visible ? (<DropZoneTransition />) : undefined
+			dropZoneTransitionNode: nextProps.visible ? (<DropZoneTransition instantaneous={nextProps.instantaneous} />) : undefined
 		})
 	}
 	render() {

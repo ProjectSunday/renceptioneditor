@@ -12,16 +12,11 @@ import DropZone from './DropZone/dropzone'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		content: ownProps.slot.content.map(c => {
-			if (c.type == 'block') {
-				return { type: 'block', ...state.blocks.find(b => b.id === c.id) }
-			} else {
-				return c
-			}
+		blocks: ownProps.slot.blocks.map(id => {
+			return state.blocks.find(b => b.id === id)
 		})
 	}
 }
-
 
 @connect(mapStateToProps)
 export default class Slot extends React.Component {
@@ -30,95 +25,55 @@ export default class Slot extends React.Component {
 		this.render = this.render.bind(this)
 		this.showDropZone = this.showDropZone.bind(this)
 
-
 		this.state = {
-			visibleDropZoneIndex: undefined
+			dropZone: {
+				index: undefined,
+				instantaneous: false
+			}
 		}
 
-		// //hmn
-		// this.sampleBlocks = [
-		// 	{ id: }
-		// ]
 	}
-
-	// insertDropZone({ blockId, instantaneous = false, positionAbove = true } = {}) {
-	// 	console.log('insertDropZone', blockId, instantaneous, positionAbove)
-	// 	const { dispatch, slot, content } = this.props
-
-
-	// 	//if index of block - 1 has dropzone, return
-
-	// 	var index = content.findIndex(c => c.id == blockId && c.type == 'block')
-
-	// 	if (content[index - 1] && content[index - 1].type == 'dropzone') { return }
-
-	// 	// dispatch(Actions.insertDropZone(slot.id, index))
-
-	// }
-
-	showDropZone(blockId, positionBelow) {
-		// const { dispatch, slot, content } = this.props
-
-
-
-
-		//if index of block - 1 has dropzone, return
-
-		// var index = content.findIndex(c => c.id == blockId && c.type == 'block')
-
-		// if (content[index - 1] && content[index - 1].type == 'dropzone') { return }
-
-		var index = this.props.content.findIndex(b => b.id == blockId)
+	showDropZone(blockId, positionBelow, instantaneous) {
+		let index = this.props.blocks.findIndex(b => b.id == blockId)
 
 		if (positionBelow) { index++ }
 
-		if (this.state.visibleDropZoneIndex != index) {
-			console.log('showdropzone', blockId, positionBelow)
-
+		if (this.state.dropZone.index != index) {
+			// console.log('showdropzone', blockId, positionBelow)
 			this.setState({
-				visibleDropZoneIndex: index
+				dropZone: {
+					index: index,
+					instantaneous: instantaneous
+				}
 			})
-
 		}
 				// dispatch(Actions.insertDropZone(slot.id, index))
-
-
-
 	}
-
-	// test() {
-	// 	this.setState({
-	// 		visibleDropZoneIndex: 0
-	// 	})
-	// }
-
 	render() {
 		var self = this;
-		const { dispatch, slot, content } = this.props
+		const { dispatch, slot, blocks } = this.props
+		const { dropZone } = this.state
 
-		var contentNodes = []
+		var children = []
 
-		content.forEach(function (c, i) {
-			contentNodes.push(<DropZone key={'d' + i} visible={self.state.visibleDropZoneIndex == i} />);
-			contentNodes.push(<Block key={i} block={c} showDropZone={self.showDropZone} />)
+		blocks.forEach(function (c, i) {
+			children.push(<DropZone key={'d' + i} visible={dropZone.index == i} instantaneous={dropZone.instantaneous} />);
+			children.push(<Block key={i} block={c} showDropZone={self.showDropZone} />)
 		})
 
+		children.push(<DropZone key='dropzone-last' visible={dropZone.index == blocks.length} instantaneous={dropZone.instantaneous} />);
+
 	    const style = {
-	    	slot: {
-		    	background: 'gray',
-				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
-	    		overflow: 'hidden'
-	    	},
-	    	transition: {
-	    		overflow: 'hidden'
-	    	}
+	    	background: 'gray',
+			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+    		overflow: 'hidden'
 	    }
 
 
 		return (
-			<div style={style.slot}>
-				<button onClick={self.test}>Add Block</button>
-				{contentNodes}
+			<div style={style}>
+				<button>Add Block</button>
+				{children}
 			</div>
 		)
 	}
