@@ -24,13 +24,26 @@ export default class Slot extends React.Component {
 		super()
 		this.render = this.render.bind(this)
 		this.showDropZone = this.showDropZone.bind(this)
+		this.onBeginDrag = this.onBeginDrag.bind(this)
 
 		this.state = {
 			dropZone: {
 				index: undefined,
 				instantaneous: false
-			}
+			},
+
+			tempBlocks: []
 		}
+
+	}
+	onBeginDrag(blockId) {
+		// console.log('onBeginDrag ', blockId)
+
+		// let newTempBlocks = this.state.tempBlocks.filter(t => t.id !== blockId)
+
+		// this.setState({
+		// 	tempBlocks: newTempBlocks
+		// });
 
 	}
 	showDropZone(blockId, positionBelow, instantaneous) {
@@ -49,19 +62,26 @@ export default class Slot extends React.Component {
 		}
 				// dispatch(Actions.insertDropZone(slot.id, index))
 	}
+	componentWillMount() {
+		this.setState({
+			tempBlocks: this.props.blocks
+		})
+	}
 	render() {
 		var self = this;
-		const { dispatch, slot, blocks } = this.props
-		const { dropZone } = this.state
+		const { dispatch, slot } = this.props
+		const { dropZone, tempBlocks } = this.state
+
+
 
 		var children = []
 
-		blocks.forEach(function (c, i) {
+		tempBlocks.forEach(function (c, i) {
 			children.push(<DropZone key={'d' + i} visible={dropZone.index == i} instantaneous={dropZone.instantaneous} />);
-			children.push(<Block key={i} block={c} showDropZone={self.showDropZone} />)
+			children.push(<Block key={i} block={c} showDropZone={self.showDropZone} onBeginDrag={self.onBeginDrag} />)
 		})
 
-		children.push(<DropZone key='dropzone-last' visible={dropZone.index == blocks.length} instantaneous={dropZone.instantaneous} />);
+		children.push(<DropZone key='dropzone-last' visible={dropZone.index == tempBlocks.length} instantaneous={dropZone.instantaneous} />);
 
 	    const style = {
 	    	background: 'gray',

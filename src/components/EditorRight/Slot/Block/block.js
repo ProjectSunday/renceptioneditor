@@ -29,11 +29,18 @@ const blockTarget = {
 
 const blockSource = {
 	beginDrag(props) {
-		props.showDropZone(props.block.id, false, true)
+		const { id } = props.block
+
+		props.onBeginDrag(id)
+		props.showDropZone(id, false, true)
 
 		return {
-			id: props.block.id
+			id: id
 		}
+	},
+	isDragging(props, monitor) {
+		// console.log('isDragging', props, monitor)
+		return props.block.id === monitor.getItem().id
 	}
 }
 
@@ -53,20 +60,28 @@ export default class Block extends Component {
 	render() {
 		const { dispatch, block, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
-		// console.log('block render', block.id)
-
-		let styles = {
-			display: isDragging ? 'none' : 'block',
+		let style = {
+			display: 'block',
 			background: '#aaa',
 			height: '50px',
-			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
+			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
 		}
 
-		return connectDragSource(connectDropTarget(
-			<div className="block" style={styles}>
-				<span className="name">{block.name}{block.id}</span>
-			</div>
-		))
+		var blockContent;
+
+		if (isDragging) {
+			blockContent = (
+				<div> im being dragged </div>
+			)
+		} else {
+			blockContent = (
+				<div className="block" style={style}>
+					<span className="name">{block.name}{block.id}</span>
+				</div>
+			)
+		}
+
+		return connectDragSource(connectDropTarget(blockContent))
 	}
 
 }
