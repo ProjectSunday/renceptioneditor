@@ -16,6 +16,7 @@
     "bootstrap": "^3.3.6",
     "history": "^1.17.0",
     "humps": "^0.6.0",
+    "immutable": "^3.7.6",
     "lodash": "^3.10.1",
     "lodash-deep": "1.6.0",
     "moment": "2.10.6",

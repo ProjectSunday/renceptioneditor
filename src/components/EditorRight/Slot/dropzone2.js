@@ -68,7 +68,7 @@ class DropZone extends React.Component {
 	}
 
 	shouldComponentUpdate() {
-		console.log('Block shouldComponeaadsdfdsfdfsdfasdsfntUpdate')
+		console.log('Block asdfsdfsfd')
 
 		// if (this.isTransitioning) {
 		// 	return false
