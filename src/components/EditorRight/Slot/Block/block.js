@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 // import { connect } from 'react-redux'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
@@ -6,6 +6,23 @@ import { DragSource, DropTarget } from 'react-dnd'
 import { dragBlock } from '../../../../Actions/actions'
 
 import './block.less'
+
+class Test extends React.Component {
+	constructor(props) {
+		super(props)
+		this.render = this.render.bind(this)
+
+	}
+	componentWillUnmount() {
+		console.log('Test componentWillUnmount')
+	}
+
+	render() {
+		return (
+			<div >I am Test {this.props.testFoo}</div>
+		)
+	}
+}
 
 const blockTarget = {
 	hover(props, monitor, component) {
@@ -52,11 +69,43 @@ const blockSource = {
 	connectDragSource: connect.dragSource(),
   	isDragging: monitor.isDragging()
 }))
-export default class Block extends Component {
-	componentWillEnter(callback) {
-		console.log('block: componentWillEnter')
-		setTimeout(callback, 0)
+class Block extends React.Component {
+	constructor(props) {
+		super(props)
+		this.render = this.render.bind(this)
+		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		this.componentDidMount = this.componentDidMount.bind(this)
+
+		this.isTransitioning = false;
+
+		this.state = {
+			blah: 'block'
+		}
 	}
+
+	shouldComponentUpdate() {
+		console.log('Block shouldComponentUpdate')
+
+		if (this.isTransitioning) {
+			return false
+		} else {
+			return true
+		}
+	}
+
+	componentDidMount() {
+		var self = this;
+		self.isTransitioning = true;
+
+		setTimeout(function () {
+			self.isTransitioning = false
+		}, 5000)
+	}
+
+	componentWillUnmount() {
+		console.log('Block componentWillUnmount')
+	}
+
 	render() {
 		const { dispatch, block, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 	
@@ -69,20 +118,28 @@ export default class Block extends Component {
 
 		var blockContent;
 
-		if (isDragging) {
-			blockContent = (
-				<div> im being dragged </div>
-			)
-		} else {
-			blockContent = (
-				<div className="block" style={style}>
-					<span className="name">{block.name}{block.id}</span>
-				</div>
-			)
-		}
+		// if (isDragging) {
+		// 	blockContent = (
+		// 		<div> im being dragged </div>
+		// 	)
+		// } else {
+		// 	blockContent = (
+		// 		<div className="block" style={style}>
+		// 			<span className="name">{block.name}{block.id}</span>
+		// 		</div>
+		// 	)
+		// }
 
-		return connectDragSource(connectDropTarget(blockContent))
+		var blockContent = (<div ref={d => this.d = d } ><Test testFoo={this.props.blockFoo} /></div>)
+
+		return connectDragSource(connectDropTarget(
+			<div>
+				I am block {this.props.blockFoo}
+			</div>
+		))
 	}
 
 }
+
+export default Block
 
