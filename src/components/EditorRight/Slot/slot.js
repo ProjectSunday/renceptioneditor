@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Immutable from 'immutable'
 
 // import ReactTransitionGroup from 'react-addons-transition-group'
 
@@ -23,7 +24,7 @@ export default class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
-		this.showDropZone = this.showDropZone.bind(this)
+		this.insertDropZone = this.insertDropZone.bind(this)
 		this.onBeginDrag = this.onBeginDrag.bind(this)
 
 
@@ -60,20 +61,35 @@ export default class Slot extends React.Component {
 		// });
 
 	}
-	showDropZone(blockId, positionBelow, instantaneous) {
-		let index = this.props.blocks.findIndex(b => b.id == blockId)
+	insertDropZone(blockId, positionBelow, instantaneous) {
 
-		if (positionBelow) { index++ }
 
-		if (this.state.dropZone.index != index) {
-			// console.log('showdropzone', blockId, positionBelow)
-			this.setState({
-				dropZone: {
-					index: index,
-					instantaneous: instantaneous
-				}
+		let children = Immutable.fromJS(this.state.children)
+
+		let index = children.findIndex(c => c.get('id') == blockId)
+
+		let childAbove = this.state.children[index - 1]
+
+		if (childAbove && childAbove.type == 'dropzone') {
+			if (childAbove.get('appearing')) {
+				return
+			} else {
+				childAbove.set('appearing', true)
+			}
+		} else {
+			children = children.insert(index, {
+				type: 'dropzone',
+				appearing: true
 			})
 		}
+
+
+
+		console.log('children', children.toJS())
+		this.setState({
+			children: children.toJS()
+		})
+
 				// dispatch(Actions.insertDropZone(slot.id, index))
 	}
 	componentWillMount() {
@@ -122,7 +138,7 @@ export default class Slot extends React.Component {
 			if (c.type && c.type == 'dropzone') {
 				childrenNodes.push(<DropZone key={'dz' + i} dropZone={c} />)
 			} else {
-				childrenNodes.push(<Block key={i} block={c} showDropZone={self.showDropZone} onBeginDrag={self.onBeginDrag} />)
+				childrenNodes.push(<Block key={i} block={c} insertDropZone={self.insertDropZone} onBeginDrag={self.onBeginDrag} />)
 			}
 		})
 
