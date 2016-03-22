@@ -8,7 +8,7 @@ import * as Actions from '../../../Actions/actions'
 // import './slot.less'
 
 import Block from './Block/block'
-import DropZone from './dropzone2'
+import DropZone from './dropzone3'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -20,8 +20,8 @@ const mapStateToProps = (state, ownProps) => {
 
 @connect(mapStateToProps)
 export default class Slot extends React.Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.render = this.render.bind(this)
 		this.showDropZone = this.showDropZone.bind(this)
 		this.onBeginDrag = this.onBeginDrag.bind(this)
@@ -33,7 +33,11 @@ export default class Slot extends React.Component {
 		this.removeDropzone = this.removeDropzone.bind(this)
 		this.dropZoneMounted = this.dropZoneMounted.bind(this)
 
+
 		this.state = {
+
+			children: props.blocks,
+
 			dropZone: {
 				index: undefined,
 				instantaneous: false
@@ -110,19 +114,17 @@ export default class Slot extends React.Component {
 	render() {
 		var self = this;
 		const { dispatch, slot } = this.props
-		const { dropZone, tempBlocks } = this.state
+		const { children } = this.state
 
-		// var children = []
+		let childrenNodes = []
 
-		// tempBlocks.forEach(function (c, i) {
-		// 	children.push(<DropZone key={'d' + i} visible={dropZone.index == i} instantaneous={dropZone.instantaneous} />);
-		// 	children.push(<Block key={i} block={c} showDropZone={self.showDropZone} onBeginDrag={self.onBeginDrag} blockFoo={self.state.slotFoo} />)
-		// })
-
-		// children.push(<DropZone key='dropzone-last' visible={dropZone.index == tempBlocks.length} instantaneous={dropZone.instantaneous} />);
-
-
-
+		children.forEach((c, i) => {
+			if (c.type && c.type == 'dropzone') {
+				childrenNodes.push(<DropZone key={'dz' + i} dropZone={c} />)
+			} else {
+				childrenNodes.push(<Block key={i} block={c} showDropZone={self.showDropZone} onBeginDrag={self.onBeginDrag} />)
+			}
+		})
 
 	    const style = {
 	    	background: 'blue',
@@ -130,14 +132,12 @@ export default class Slot extends React.Component {
     		overflow: 'hidden'
 	    }
 
-	    let dz = (<DropZone key="dz" expanding={this.state.test} />)
-
 		return (
 			<div style={style}>
 				<button onClick={self.addDropzone}>Add</button>
 				<button onClick={self.removeDropzone}>Remove</button>
 				<button onclick={self.test}>test</button>
-				{dz}
+				{childrenNodes}
 			</div>
 		)
 	}
