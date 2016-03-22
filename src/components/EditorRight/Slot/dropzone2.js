@@ -62,35 +62,63 @@ class DropZone extends React.Component {
 		console.log('props', props)
 		this.render = this.render.bind(this)
 		this.componentDidMount = this.componentDidMount.bind(this)
+		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		// this.state = {
 		// 	dropZoneTransitionNode: undefined
 		// }
 	}
 
-	shouldComponentUpdate() {
-		console.log('Block asdfsdfsfd')
+	shouldComponentUpdate(nextProps) {
+		console.log('Block shouldComponentUpdate', nextProps)
 
 		// if (this.isTransitioning) {
 		// 	return false
 		// } else {
 		// 	return true
 		// }
+		var self = this;
+
+		if (nextProps.expanding) {
+			self.dropTarget.style.height = '80px'
+		} else {
+			self.dropTarget.style.height = '0px'
+		}
+
+		return true
 	}
 
 	componentDidMount() {
 		console.log('droptarget2 componentDidMount')
-		if (this.props.expanding) {
-			this.dropTarget.style.transition = 'height 3s'
-			this.dropTarget.style.height = '80px'
-		}
+		var self = this
+		// if (this.props.expanding) {
+		// 	this.dropTarget.style.transition = 'height 3s'
+		// 	// this.dropTarget.style.height = '80px'
+		// }
+		// setTimeout(function () {
+		// 	self.dropTarget.style.height = '80px'
+		// })
+
+		let height = self.props.expanding ? '80px' : '0px'
+
+		console.log('height ', height)
+
+		setTimeout(function() {
+			self.dropTarget.style.height = height
+		}, 0)
+
+		// this.props.dropZoneMounted()
 	}
 
 	render() {
 		const { connectDropTarget } = this.props
 
 		const style = {
-			background: 'green'
+			height: '50px',
+			background: 'green',
+			transition: 'height 3s'
 		}
+
+		console.log('height set to 50')
 
 		return connectDropTarget(
 			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget</div>

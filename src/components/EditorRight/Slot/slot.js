@@ -26,10 +26,12 @@ export default class Slot extends React.Component {
 		this.showDropZone = this.showDropZone.bind(this)
 		this.onBeginDrag = this.onBeginDrag.bind(this)
 
-		this.test = this.test.bind(this)
 
+		this.test = this.test.bind(this)
+		this.test2 = this.test2.bind(this)
 		this.addDropzone = this.addDropzone.bind(this)
 		this.removeDropzone = this.removeDropzone.bind(this)
+		this.dropZoneMounted = this.dropZoneMounted.bind(this)
 
 		this.state = {
 			dropZone: {
@@ -38,9 +40,9 @@ export default class Slot extends React.Component {
 			},
 
 			tempBlocks: [],
-			slotFoo: 'yo',
+			slotFoo: 'yosdsdf',
 
-			test: []
+			test: false
 		}
 
 	}
@@ -77,21 +79,31 @@ export default class Slot extends React.Component {
 	}
 	test() {
 		this.setState({
-			slotFoo: 'after'
+			test: [<DropZone key="blah" expanding={true} />]
 		})
 	}
 
 	addDropzone() {
 		this.setState({
-			test: [<DropZone key="blah" expanding={true} />]
+			test: true
 		})
 	}
 
 	removeDropzone() {
 
 		this.setState({
-			test: []
+			test: false
 		})
+
+	}
+
+	dropZoneMounted() {
+		this.setState({
+			test: true
+		})
+	}
+
+	test2() {
 
 	}
 
@@ -109,17 +121,23 @@ export default class Slot extends React.Component {
 
 		// children.push(<DropZone key='dropzone-last' visible={dropZone.index == tempBlocks.length} instantaneous={dropZone.instantaneous} />);
 
+
+
+
 	    const style = {
 	    	background: 'blue',
 			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
     		overflow: 'hidden'
 	    }
 
+	    let dz = (<DropZone key="dz" expanding={this.state.test} />)
+
 		return (
 			<div style={style}>
 				<button onClick={self.addDropzone}>Add</button>
 				<button onClick={self.removeDropzone}>Remove</button>
-				{this.state.test}
+				<button onclick={self.test}>test</button>
+				{dz}
 			</div>
 		)
 	}
