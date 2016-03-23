@@ -30,28 +30,33 @@ export default class Slot extends React.Component {
 
 		this.test = this.test.bind(this)
 		this.test2 = this.test2.bind(this)
-		this.addDropzone = this.addDropzone.bind(this)
-		this.removeDropzone = this.removeDropzone.bind(this)
+		this.addClicked = this.addClicked.bind(this)
+		this.removeClicked = this.removeClicked.bind(this)
 		this.dropZoneMounted = this.dropZoneMounted.bind(this)
+		this.removeDropZone = this.removeDropZone.bind(this)
 
 
 		this.state = {
 
 			children: props.blocks,
 
-			dropZone: {
-				index: undefined,
-				instantaneous: false
-			},
+			// dropZone: {
+			// 	index: undefined,
+			// 	instantaneous: false
+			// },
 
 			tempBlocks: [],
 			slotFoo: 'yosdsdf',
 
-			test: false
+			test: false,
+
+			dropZones: []
+
 		}
 
 	}
 	onBeginDrag(blockId) {
+
 		// console.log('onBeginDrag ', blockId)
 
 		// let newTempBlocks = this.state.tempBlocks.filter(t => t.id !== blockId)
@@ -62,33 +67,25 @@ export default class Slot extends React.Component {
 
 	}
 	insertDropZone(blockId, positionBelow, instantaneous) {
+		// console.log('insertDropZone', blockId, positionBelow, instantaneous)
 
+		var existingDropZone = this.state.dropZones.find(d => d.blockId == blockId)
+		if (existingDropZone && existingDropZone.appearing) { return }
 
-		let children = Immutable.fromJS(this.state.children).toJS();
+		let dropZones = this.state.dropZones.map(d => Object.assign(d, { appearing: false}))
+		let index = dropZones.findIndex(d => d.blockId == blockId)
 
-		let index = children.findIndex(c => c.id == blockId)
-
-		let childAbove = children[index - 1]
-		console.log('childAbove', childAbove)
-
-		if (childAbove && childAbove.type == 'dropzone') {
-			if (childAbove.appearing) {
-				return
-			} else {
-				childAbove.appearing = true
-			}
+		if (index !== -1) {
+			dropZones[index].appearing = true
 		} else {
-			children.splice(index, 0, {
-				type: 'dropzone',
+			dropZones.push({
+				blockId: blockId,
 				appearing: true
 			})
 		}
 
-
-
-		// console.log('children', children.toJS())
 		this.setState({
-			children: children
+			dropZones: dropZones
 		})
 
 				// dispatch(Actions.insertDropZone(slot.id, index))
@@ -104,18 +101,26 @@ export default class Slot extends React.Component {
 		})
 	}
 
-	addDropzone() {
+	addClicked() {
 		this.setState({
-			test: true
+			dropZones: [{ blockId: 101, appearing: true }]
 		})
 	}
 
-	removeDropzone() {
+	removeClicked() {
 
 		this.setState({
-			test: false
+			dropZones: [{ blockId: 101, appearing: false }]
 		})
 
+	}
+
+	removeDropZone(dropZone) {
+		// let dropZones = Immutable.fromJS(this.state.dropZones).removeIn([ ''])
+
+		this.setState({
+			dropZones: this.state.dropZones.filter(d => d.blockId != dropZone.blockId)
+		})
 	}
 
 	dropZoneMounted() {
@@ -130,29 +135,37 @@ export default class Slot extends React.Component {
 
 	render() {
 		var self = this;
-		const { dispatch, slot } = this.props
-		const { children } = this.state
+		const { dispatch, slot, blocks } = this.props
+		const { children, dropZones } = this.state
 
 		let childrenNodes = []
 
-		children.forEach((c, i) => {
-			if (c.type && c.type == 'dropzone') {
-				childrenNodes.push(<DropZone key={'dz' + i} dropZone={c} />)
-			} else {
-				childrenNodes.push(<Block key={i} block={c} insertDropZone={self.insertDropZone} onBeginDrag={self.onBeginDrag} />)
+		blocks.forEach((b, i) => {
+			let dropZoneIndex = dropZones.findIndex(d => d.blockId == b.id)
+			if (dropZoneIndex !== -1) {
+				childrenNodes.push(<DropZone key={'dz' + i} dropZone={dropZones[dropZoneIndex]} removeDropZone={self.removeDropZone} />)
 			}
+			childrenNodes.push(<Block key={i} block={b} insertDropZone={self.insertDropZone} onBeginDrag={self.onBeginDrag} />)
 		})
 
+		// dropZones.forEach((d, i)=> {
+		// 	let associatedBlockIndex = blocks.findIndex(b => b.id === d.blockId)
+		// 	console.log('associatedBlockIndex', associatedBlockIndex)
+		// 	if (d.positionBelow) {
+		// 		associatedBlockIndex++
+		// 	}
+		// })
+
 	    const style = {
-	    	background: 'blue',
+	    	background: '#eee',
 			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
     		overflow: 'hidden'
 	    }
 
 		return (
 			<div style={style}>
-				<button onClick={self.addDropzone}>Add</button>
-				<button onClick={self.removeDropzone}>Remove</button>
+				<button onClick={self.addClicked}>Add</button>
+				<button onClick={self.removeClicked}>Remove</button>
 				<button onclick={self.test}>test</button>
 				{childrenNodes}
 			</div>
