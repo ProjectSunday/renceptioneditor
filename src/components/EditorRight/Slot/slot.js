@@ -64,20 +64,21 @@ export default class Slot extends React.Component {
 	insertDropZone(blockId, positionBelow, instantaneous) {
 
 
-		let children = Immutable.fromJS(this.state.children)
+		let children = Immutable.fromJS(this.state.children).toJS();
 
-		let index = children.findIndex(c => c.get('id') == blockId)
+		let index = children.findIndex(c => c.id == blockId)
 
-		let childAbove = this.state.children[index - 1]
+		let childAbove = children[index - 1]
+		console.log('childAbove', childAbove)
 
 		if (childAbove && childAbove.type == 'dropzone') {
-			if (childAbove.get('appearing')) {
+			if (childAbove.appearing) {
 				return
 			} else {
-				childAbove.set('appearing', true)
+				childAbove.appearing = true
 			}
 		} else {
-			children = children.insert(index, {
+			children.splice(index, 0, {
 				type: 'dropzone',
 				appearing: true
 			})
@@ -85,9 +86,9 @@ export default class Slot extends React.Component {
 
 
 
-		console.log('children', children.toJS())
+		// console.log('children', children.toJS())
 		this.setState({
-			children: children.toJS()
+			children: children
 		})
 
 				// dispatch(Actions.insertDropZone(slot.id, index))

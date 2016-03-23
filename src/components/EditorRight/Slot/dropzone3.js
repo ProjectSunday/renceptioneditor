@@ -24,11 +24,11 @@ class DropZone extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		console.log('Block shouldComponentUpdate', nextProps)
+		// console.log('Block shouldComponentUpdate', nextProps)
 
 		var self = this;
 
-		if (nextProps.expanding) {
+		if (nextProps.appearing) {
 			self.dropTarget.style.height = '80px'
 		} else {
 			self.dropTarget.style.height = '0px'
@@ -38,10 +38,10 @@ class DropZone extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('droptarget2 componentDidMount')
+		// console.log('droptarget2 componentDidMount')
 		var self = this
 
-		let height = self.props.expanding ? '80px' : '0px'
+		let height = self.props.appearing ? '80px' : '0px'
 
 		setTimeout(function() {
 			self.dropTarget.style.height = height
@@ -52,7 +52,7 @@ class DropZone extends React.Component {
 		const { connectDropTarget } = this.props
 
 		const style = {
-			height: '50px',
+			// height: '50px',
 			background: 'green',
 			transition: 'height 3s'
 		}

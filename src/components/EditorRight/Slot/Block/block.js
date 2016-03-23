@@ -15,11 +15,11 @@ const blockTarget = {
 	    // Determine mouse position
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-	    props.insertDropZone({
-	    	blockId: props.block.id, 
-	    	instantaneous: false,
-	    	positionAbove: (hoverClientY < hoverMiddleY)
-	    })
+	    // props.insertDropZone({
+	    // 	blockId: props.block.id, 
+	    // 	instantaneous: false,
+	    // 	positionAbove: (hoverClientY < hoverMiddleY)
+	    // })
 	}
 }
 
@@ -43,7 +43,7 @@ const isBlockDragging = (props, monitor) => {
 }))
 @DragSource('BLOCK', blockSource, (connect, monitor) => ({
 	connectDragSource: connect.dragSource(),
-  	isDragging: isBlockDragging()
+  	isDragging: monitor.isDragging()
 }))
 export default class Block extends Component {
 	componentWillEnter(callback) {
