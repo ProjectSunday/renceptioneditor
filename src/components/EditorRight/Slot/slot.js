@@ -27,9 +27,6 @@ export default class Slot extends React.Component {
 		this.insertDropZone = this.insertDropZone.bind(this)
 		this.onBeginDrag = this.onBeginDrag.bind(this)
 
-
-		this.test = this.test.bind(this)
-		this.test2 = this.test2.bind(this)
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 		this.dropZoneMounted = this.dropZoneMounted.bind(this)
@@ -37,30 +34,21 @@ export default class Slot extends React.Component {
 
 		this.visibleChildren = props.slot.blocks
 
+
+		let defaultDropZone = { visible: false }
+
 		this.state = {
+			children: props.blocks.map((b, i) => {
+				return Object.assign(b, { dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
+			}).
+			dropZones: Array.from({length: props.blocks.length + 1}, () => (defaultDropZone))
 
-			blocks: props.blocks,
-
-			// dropZone: {
-			// 	index: undefined,
-			// 	instantaneous: false
-			// },
-
-			tempBlocks: [],
-			slotFoo: 'yosdsdf',
-
-			test: false,
-
-			dropZones: []
-
+			// [ dz0,  b0 , dz1, b1 , dz2, b2, dz3 ]
 		}
 
 	}
 	onBeginDrag(blockId) {
 		/* when a block is dragged, it should disappear, a dropzone should take it's place  */
-
-
-
 
 		// console.log('onBeginDrag ', blockId)
 
@@ -71,14 +59,9 @@ export default class Slot extends React.Component {
 		// });
 
 
-
-
 		//find the block being drag
 
 		//set dragging true
-
-
-
 
 	}
 	insertDropZone(displayIndex, positionBelow, instantaneous) {
@@ -102,13 +85,6 @@ export default class Slot extends React.Component {
 				appearing: true
 			})
 		}
-
-
-
-
-
-
-
 
 
 		// let blocks = this.state.blocks.slice(0)

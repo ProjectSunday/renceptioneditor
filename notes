@@ -1,0 +1,9 @@
+
+
+[ dz1, dz1<-block1->dz2, dz2, dz2<-block2->dz3, dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>2, 2<block>3, 3<block>4 ]
+
+[ dz1, dz1<-block1->dz3, dz2, (dz2<-block2->dz3), dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>3, (block), 3<block>4 ]
+
+
+
+

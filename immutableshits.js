@@ -11,3 +11,7 @@ test.filter(function(el) {
 Array.prototype.clone = function() {
 	return this.slice(0);
 };
+
+
+Array.from({length: 5}, (v, k) => k);    
+// [0, 1, 2, 3, 4]
