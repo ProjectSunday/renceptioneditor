@@ -7,7 +7,7 @@ import { dragBlock } from '../../../../Actions/actions'
 
 import './block.less'
 
-const blockTarget = {
+const targetSpec = {
 	hover(props, monitor, component) {
 	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
@@ -22,29 +22,27 @@ const blockTarget = {
 	    // })
 	}
 }
+const targetCollect = (connect, monitor) => ({
+	connectDropTarget: connect.dropTarget(),
+	isOver: monitor.isOver()
+})
 
-const blockSource = {
+const sourceSpec = {
 	beginDrag(props) {
-		props.insertDropZone(props.block.id, true, true)
+		props.insertDropZone(props.index, true, true)
 
 		return {
 			id: props.block.id
 		}
 	}
 }
-
-const isBlockDragging = (props, monitor) => {
-	return props.block.id === monitor.getItem().id
-}
-
-@DropTarget('BLOCK', blockTarget, (connect, monitor) => ({
-	connectDropTarget: connect.dropTarget(),
-	isOver: monitor.isOver()
-}))
-@DragSource('BLOCK', blockSource, (connect, monitor) => ({
+const sourceCollect = (connect, monitor) => ({
 	connectDragSource: connect.dragSource(),
   	isDragging: monitor.isDragging()
-}))
+})
+
+@DropTarget('BLOCK', targetSpec, targetCollect)
+@DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
 	componentWillEnter(callback) {
 		console.log('block: componentWillEnter')

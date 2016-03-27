@@ -22,30 +22,45 @@ class DropZone extends React.Component {
 		this.render = this.render.bind(this)
 		this.componentDidMount = this.componentDidMount.bind(this)
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		this.displayed = props.appearing
 	}
 
 	shouldComponentUpdate(nextProps) {
 		var self = this
-		console.log('Block shouldComponentUpdate', nextProps.dropZone)
+		console.log('Block shouldComponentUpdate', self.props.index, !!self.props.appearing, !!nextProps.dropZone.appearing)
 
 		const { dropZone } = self.props
 
-		if (nextProps.dropZone.appearing === dropZone.appearing) { return false }
 
+		//if set to appear
+			// if displayed, return false
+			// else start appearing
 
+		//else
+		 	// if displayed, start disappearing
+		 	// else return false 
 
-
-		if (nextProps.dropZone.appearing) {
+		const startAppearing = () => {
 			self.dropTarget.style.height = '80px'
-			// console.log('clearing ', nextProps.dropZone)
+			self.displayed = true
 			clearTimeout(self.deathTimer)
+		}
 
-		} else {
+		const startDisappearing = () => {
 			self.dropTarget.style.height = '0px'
+			self.displayed = false
 			self.deathTimer = setTimeout(function () {
-				// console.log('removeDropZone', self.props.dropZone)
+				console.log('removeDropZone', self.props.dropZone)
 				self.props.removeDropZone(self.props.dropZone)
 			}, TRANSITION_DELAY)
+		}
+
+		if (nextProps.dropZone.appearing) {
+			if (self.displayed) { return false }
+			else { startAppearing() }
+		} else {
+			if (self.displayed) { startDisappearing() }
+			else { return false }
 		}
 
 		return false
@@ -64,7 +79,7 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		// console.log('dropzone.render ', this.props.dropZone)
+		console.log('dropzone.render ', this.props, this.state, this.props.dropZone)
 		const { connectDropTarget, dropZone } = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'
