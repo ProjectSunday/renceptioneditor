@@ -89,7 +89,7 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		// console.log('dropzone.render ', this.props, this.state, this.props.dropZone)
+		console.log('dropzone.render ', this.props)
 		const { connectDropTarget, index, instant, visible} = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'

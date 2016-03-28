@@ -41,7 +41,7 @@ export default class Slot extends React.Component {
 
 	}
 	onBeginDrag(blockIndex) {
-		console.log('onBeginDrag')
+		console.log('onBeginDrag', blockIndex)
 		
 		//relink blocks to new dropzones
 		let blocks = this.state.blocks.slice(0)
@@ -52,7 +52,7 @@ export default class Slot extends React.Component {
 		}
 
 
-		this.setDropZoneVisible(block.dropZoneBelowIndex, true)
+		this.setDropZoneVisible(block.dropZoneAboveIndex, true)
 
 		// this.nextDropZoneShouldBeInstant = true
 
@@ -69,17 +69,21 @@ export default class Slot extends React.Component {
 		// this.showDropZone(block.dropZoneAboveIndex, true)
 	}
 	showDropZone(dropZoneIndex) {
-		// console.log(this.state.dropZones)
+		console.log('showDropZone', dropZoneIndex)
 		if (this.state.dropZones[dropZoneIndex].visible) { return }
+		// console.log('showDropZone', dropZoneIndex)
 
 		this.setDropZoneVisible(dropZoneIndex, false)
 
 		this.setState({
 			dropZones: this.state.dropZones.slice(0)
 		})
+
 	}
 
 	setDropZoneVisible(dropZoneIndex, instant = false) {
+
+		console.log('setDropZoneVisible', dropZoneIndex)
 		this.state.dropZones.forEach(d => {
 			d.visible = d.instant = false
 		})
@@ -91,14 +95,8 @@ export default class Slot extends React.Component {
 
 	addClicked() {
 
-		let dropZones = this.state.dropZones.slice(0)
+		this.onBeginDrag(1)
 
-		dropZones[0].visible = true;
-		dropZones[1].visible = true;
-
-		this.setState({
-			dropZones: dropZones
-		})
 	}
 	removeClicked() {
 
