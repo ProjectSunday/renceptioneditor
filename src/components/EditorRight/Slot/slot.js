@@ -26,43 +26,60 @@ export default class Slot extends React.Component {
 		this.render = this.render.bind(this)
 		this.insertDropZone = this.insertDropZone.bind(this)
 		this.onBeginDrag = this.onBeginDrag.bind(this)
+		this.showDropZone = this.showDropZone.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 		this.dropZoneMounted = this.dropZoneMounted.bind(this)
 		this.removeDropZone = this.removeDropZone.bind(this)
 
-		this.visibleChildren = props.slot.blocks
+		// this.visibleChildren = props.slot.blocks
 
 
-		let defaultDropZone = { visible: false }
+		// let defaultDropZone = { visible: false, appearing: false }
 
 		this.state = {
-			children: props.blocks.map((b, i) => {
-				return Object.assign(b, { dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
-			}).
-			dropZones: Array.from({length: props.blocks.length + 1}, () => (defaultDropZone))
+			blocks: props.blocks.map((b, i) => {
+				return Object.assign(b, { index: i, dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
+			}),
+			dropZones: Array.from({length: props.blocks.length + 1}, (x, i) => ({ index: i, enable: true, visible: false, appearing: false }))
 
 			// [ dz0,  b0 , dz1, b1 , dz2, b2, dz3 ]
 		}
 
 	}
-	onBeginDrag(blockId) {
-		/* when a block is dragged, it should disappear, a dropzone should take it's place  */
+	onBeginDrag(blockIndex) {
+		console.log('onBeginDrag')
+		
+		//relink blocks to new dropzones
+		let blocks = this.state.blocks.slice(0)
+		var block = blocks[blockIndex]
 
-		// console.log('onBeginDrag ', blockId)
+		if (blockIndex > 0) {
+			blocks[blockIndex - 1].dropZoneBelowIndex = block.dropZoneBelowIndex
+		}
 
-		// let newTempBlocks = this.state.tempBlocks.filter(t => t.id !== blockId)
+		//disable dropzone
+		let dropZones = this.state.dropZones.slice(0)
+		dropZones[block.dropZoneAboveIndex].enable = false
+		
+		this.setState({
+			blocks: blocks,
+			dropZones: dropZones
+		})
+	}
+	showDropZone(dropZoneIndex) {
+		// console.log(this.state.dropZones)
+		if (this.state.dropZones[dropZoneIndex].visible) { return }
 
-		// this.setState({
-		// 	tempBlocks: newTempBlocks
-		// });
+		let dropZones = this.state.dropZones.slice(0)
+		dropZones.forEach(d => d.visible = false)
+		dropZones[dropZoneIndex].visible = true
 
-
-		//find the block being drag
-
-		//set dragging true
-
+		// console.log('after ', dropZones)
+		this.setState({
+			dropZones: dropZones
+		})
 	}
 	insertDropZone(displayIndex, positionBelow, instantaneous) {
 		// console.log('insertDropZone', blockId, positionBelow, instantaneous)
@@ -103,15 +120,15 @@ export default class Slot extends React.Component {
 			tempBlocks: [ this.props.blocks[0] ]
 		})
 	}
-	test() {
-		this.setState({
-			test: [<DropZone key="blah" expanding={true} />]
-		})
-	}
-
 	addClicked() {
+
+		let dropZones = this.state.dropZones.slice(0)
+
+		dropZones[0].visible = true;
+		dropZones[1].visible = true;
+
 		this.setState({
-			dropZones: [{ blockId: 101, appearing: true }]
+			dropZones: dropZones
 		})
 	}
 
@@ -129,6 +146,8 @@ export default class Slot extends React.Component {
 		this.setState({
 			dropZones: this.state.dropZones.filter(d => d.index != dropZone.index)
 		})
+
+
 	}
 
 	dropZoneMounted() {
@@ -144,30 +163,19 @@ export default class Slot extends React.Component {
 	render() {
 		var self = this;
 		const { dispatch, slot } = this.props
-		const { children, dropZones, blocks } = this.state
+		const { blocks, dropZones } = this.state
 
-		let childrenNodes = []
+		let children = []
 
-		let index = 0
 		blocks.forEach((b, i) => {
-
-			let dropZoneIndex = dropZones.findIndex(d => d.index == index)
-			if (dropZoneIndex !== -1 ) {
-				childrenNodes.push(<DropZone key={'dz' + i} index={index++} dropZone={dropZones[dropZoneIndex]} removeDropZone={self.removeDropZone} />)
-			}
-
-			// childrenNodes.push(<Block key={i} block={b} index={index++} insertDropZone={self.insertDropZone} onBeginDrag={self.onBeginDrag} />)
-			childrenNodes.push(<Block key={i} block={b} index={index++} onBeginDrag={self.onBeginDrag} />)
+			children.push(<DropZone key={'dz' + i} {...dropZones[i]} />)
+			children.push(<Block key={i} {...blocks[i]} onBeginDrag={self.onBeginDrag} showDropZone={self.showDropZone} />)
 		})
 
-		// dropZones.forEach((d, i)=> {
-		// 	let associatedBlockIndex = blocks.findIndex(b => b.id === d.blockId)
-		// 	console.log('associatedBlockIndex', associatedBlockIndex)
-		// 	if (d.positionBelow) {
-		// 		associatedBlockIndex++
-		// 	}
-		// })
+		//the very bottom dropzone
+		children.push(<DropZone key={'dz' + blocks.length} {...dropZones[blocks.length]} />)
 
+		// console.log('slot render', dropZones)
 	    const style = {
 	    	background: '#eee',
 			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
@@ -179,7 +187,7 @@ export default class Slot extends React.Component {
 				<button onClick={self.addClicked}>Add</button>
 				<button onClick={self.removeClicked}>Remove</button>
 				<button onclick={self.test}>test</button>
-				{childrenNodes}
+				{children}
 			</div>
 		)
 	}

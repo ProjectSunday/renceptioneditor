@@ -27,41 +27,45 @@ class DropZone extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		var self = this
-		console.log('Block shouldComponentUpdate', self.props.index, !!self.props.appearing, !!nextProps.dropZone.appearing)
+		// console.log('Block shouldComponentUpdate', nextProps)
 
-		const { dropZone } = self.props
+		// const { dropZone } = self.props
 
-
-		//if set to appear
-			// if displayed, return false
-			// else start appearing
-
-		//else
-		 	// if displayed, start disappearing
-		 	// else return false 
-
-		const startAppearing = () => {
+		if (nextProps.visible) {
 			self.dropTarget.style.height = '80px'
-			self.displayed = true
-			clearTimeout(self.deathTimer)
-		}
-
-		const startDisappearing = () => {
-			self.dropTarget.style.height = '0px'
-			self.displayed = false
-			self.deathTimer = setTimeout(function () {
-				console.log('removeDropZone', self.props.dropZone)
-				self.props.removeDropZone(self.props.dropZone)
-			}, TRANSITION_DELAY)
-		}
-
-		if (nextProps.dropZone.appearing) {
-			if (self.displayed) { return false }
-			else { startAppearing() }
 		} else {
-			if (self.displayed) { startDisappearing() }
-			else { return false }
+			self.dropTarget.style.height = '0px'
 		}
+		// //if set to appear
+		// 	// if displayed, return false
+		// 	// else start appearing
+
+		// //else
+		//  	// if displayed, start disappearing
+		//  	// else return false 
+
+		// const startAppearing = () => {
+		// 	self.dropTarget.style.height = '80px'
+		// 	self.displayed = true
+		// 	clearTimeout(self.deathTimer)
+		// }
+
+		// const startDisappearing = () => {
+		// 	self.dropTarget.style.height = '0px'
+		// 	self.displayed = false
+		// 	self.deathTimer = setTimeout(function () {
+		// 		console.log('removeDropZone', self.props.dropZone)
+		// 		self.props.removeDropZone(self.props.dropZone)
+		// 	}, TRANSITION_DELAY)
+		// }
+
+		// if (nextProps.dropZone.appearing) {
+		// 	if (self.displayed) { return false }
+		// 	else { startAppearing() }
+		// } else {
+		// 	if (self.displayed) { startDisappearing() }
+		// 	else { return false }
+		// }
 
 		return false
 	}
@@ -70,7 +74,7 @@ class DropZone extends React.Component {
 		var self = this
 		// console.log('droptarget2 componentDidMount')
 
-		let height = self.props.dropZone.appearing ? '80px' : '0px'
+		let height = self.props.appearing ? '80px' : '0px'
 
 		setTimeout(function() {
 			// self.dropTarget.style.transition = 'height 3s'
@@ -79,8 +83,8 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		console.log('dropzone.render ', this.props, this.state, this.props.dropZone)
-		const { connectDropTarget, dropZone } = this.props
+		// console.log('dropzone.render ', this.props, this.state, this.props.dropZone)
+		const { connectDropTarget, dropZone, enable, visible} = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'
 
@@ -90,8 +94,16 @@ class DropZone extends React.Component {
 			transition: `height ${TRANSITION_DELAY}ms`
 		}
 
-		if (dropZone.appearing) {
-			style.height = '0px'
+
+
+		if (visible) {
+			style.height = '30px'
+		} else {
+			style.height = '5px'
+		}
+
+		if (!enable) {
+			style.border = '3px solid red'
 		}
 
 

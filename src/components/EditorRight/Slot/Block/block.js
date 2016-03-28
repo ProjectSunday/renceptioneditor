@@ -15,11 +15,12 @@ const targetSpec = {
 	    // Determine mouse position
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-	    // props.insertDropZone({
-	    // 	blockId: props.block.id, 
-	    // 	instantaneous: false,
-	    // 	positionAbove: (hoverClientY < hoverMiddleY)
-	    // })
+	    if (hoverClientY < hoverMiddleY) {
+	    	props.showDropZone(props.dropZoneAboveIndex)
+	    } else {
+	    	props.showDropZone(props.dropZoneBelowIndex)
+	    }
+	    
 	}
 }
 const targetCollect = (connect, monitor) => ({
@@ -29,10 +30,10 @@ const targetCollect = (connect, monitor) => ({
 
 const sourceSpec = {
 	beginDrag(props) {
-		props.insertDropZone(props.index, true, true)
+		props.onBeginDrag(props.index)
 
 		return {
-			id: props.block.id
+			id: props.id
 		}
 	}
 }
@@ -49,8 +50,10 @@ export default class Block extends Component {
 		setTimeout(callback, 0)
 	}
 	render() {
+
 		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
-	
+		const { id, name } = this.props
+
 		let styles = {
 			display: isDragging ? 'none' : 'block',
 			background: '#aaa',
@@ -60,7 +63,7 @@ export default class Block extends Component {
 
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
-				<span className="name">{block.name}{block.id}</span>
+				<span className="name">{name}{id}</span>
 			</div>
 		))
 	}
