@@ -30,6 +30,7 @@ export default class Slot extends React.Component {
 
 		this.nextDropZoneShouldBeInstant = false;
 
+
 		this.state = {
 			blocks: props.blocks.map((b, i) => 
 				Object.assign(b, { index: i, dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
@@ -72,19 +73,26 @@ export default class Slot extends React.Component {
 	onEndDrag(blockIndex, dropZoneIndex) {
 		console.log('onEndDrag', blockIndex, dropZoneIndex)
 
-		let blocks = this.state.blocks.slice(0)
 
 
-		this.setDropZoneVisible(null)
 
-		blocks.splice(dropZoneIndex, 0, blocks.splice(blockIndex, 1)[0])
+		// let blocks = this.state.blocks.slice(0)
 
-		debugger;
 
-		this.setState({
-			blocks: blocks,
-			dropZones: this.state.dropZones.splice(0)
-		})
+		if (blockIndex != dropZoneIndex) {
+			this.props.dispatch(Actions.moveBlock(this.props.slot.id, blockIndex, dropZoneIndex))
+		}
+		
+		// this.setDropZoneVisible(null)
+
+		// blocks.splice(dropZoneIndex, 0, blocks.splice(blockIndex, 1)[0])
+
+		// debugger;
+
+		// this.setState({
+		// 	blocks: blocks,
+		// 	dropZones: this.state.dropZones.splice(0)
+		// })
 	}
 	showDropZone(dropZoneIndex) {
 		// console.log('showDropZone', dropZoneIndex)

@@ -17,6 +17,7 @@ export const dragBlock = (slotId, blockId) => {
 }
 
 export const moveBlock = (slotId, fromIndex, toIndex) => {
+	debugger;
 	return {
 		type: 'MOVE_BLOCK',
 		slotId,
