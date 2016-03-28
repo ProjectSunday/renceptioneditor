@@ -3,11 +3,18 @@ import { DropTarget } from 'react-dnd'
 
 import * as Actions from '../../../Actions/actions'
 
-const TRANSITION_DELAY = 3000
+const TRANSITION_DELAY = 100
 
 const dropZoneTarget = {
 	hover (props, monitor, component) {
 
+	},
+	drop(props, monitor, component) {
+		return {
+			index: props.index
+		}
+		// console.log('dropzone.drop', props, monitor, component)
+		// debugger;
 	}
 }
 const collect = (connect, monitor) => ({
@@ -41,6 +48,7 @@ class DropZone extends React.Component {
 			self.dropTarget.style.height = '50px'
 		} else {
 			self.dropTarget.style.height = '0px'
+			// self.dropTarget.style.height = '20px'
 		}
 		// //if set to appear
 		// 	// if displayed, return false
@@ -89,15 +97,17 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		console.log('dropzone.render ', this.props)
+		// console.log('dropzone.render ', this.props)
 		const { connectDropTarget, index, instant, visible} = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'
 
-		let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
+		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
-			background: randomColor,
+			// background: randomColor,
+			background: '#555',
 			height: '0px',
+			// height: '20px',
 			transition: `height ${TRANSITION_DELAY}ms`
 		}
 
@@ -115,7 +125,7 @@ class DropZone extends React.Component {
 		// }
 
 		return connectDropTarget(
-			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget index: {index}</div>
+			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget index: <span style={{ color: 'yellow', background: 'black' }}>{index}</span></div>
 		)
 	}
 }

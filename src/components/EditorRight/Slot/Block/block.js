@@ -35,6 +35,11 @@ const sourceSpec = {
 		return {
 			id: props.id
 		}
+	},
+	endDrag(props, monitor, component) {
+		let dropZone = monitor.getDropResult()
+
+		props.onEndDrag(props.index, dropZone.index)
 	}
 }
 const sourceCollect = (connect, monitor) => ({
@@ -45,25 +50,28 @@ const sourceCollect = (connect, monitor) => ({
 @DropTarget('BLOCK', targetSpec, targetCollect)
 @DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
-	componentWillEnter(callback) {
-		console.log('block: componentWillEnter')
-		setTimeout(callback, 0)
+	constructor(props) {
+		super(props)
+		this.render = this.render.bind(this)
 	}
 	render() {
 
-		const { dispatch, block, insertDropZone, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
+		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 		const { id, name } = this.props
 
 		let styles = {
 			display: isDragging ? 'none' : 'block',
+			// display: 'block',
 			background: '#aaa',
 			height: '50px',
 			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
 		}
 
+
+
 		return connectDragSource(connectDropTarget(
 			<div className="block" style={styles}>
-				<span className="name">{name}{id}</span>
+				<span className="name">{name}<span style={{ color: 'yellow', background: 'black' }}>{id}</span></span>
 			</div>
 		))
 	}
