@@ -20,7 +20,7 @@ const targetSpec = {
 	    } else {
 	    	props.showDropZone(props.dropZoneBelowIndex)
 	    }
-	    
+
 	}
 }
 const targetCollect = (connect, monitor) => ({
@@ -30,7 +30,7 @@ const targetCollect = (connect, monitor) => ({
 
 const sourceSpec = {
 	beginDrag(props) {
-		props.onBeginDrag(props.index)
+		props.onBeginDrag(props.index, true)
 
 		return {
 			id: props.id

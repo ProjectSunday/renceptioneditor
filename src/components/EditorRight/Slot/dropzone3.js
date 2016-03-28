@@ -31,8 +31,14 @@ class DropZone extends React.Component {
 
 		// const { dropZone } = self.props
 
+		if (nextProps.instant) {
+			self.dropTarget.style.transition = ''
+		} else {
+			self.dropTarget.style.transition = `height ${TRANSITION_DELAY}ms`
+		}
+
 		if (nextProps.visible) {
-			self.dropTarget.style.height = '80px'
+			self.dropTarget.style.height = '50px'
 		} else {
 			self.dropTarget.style.height = '0px'
 		}
@@ -71,44 +77,45 @@ class DropZone extends React.Component {
 	}
 
 	componentDidMount() {
-		var self = this
-		// console.log('droptarget2 componentDidMount')
+		// var self = this
+		// // console.log('droptarget2 componentDidMount')
 
-		let height = self.props.appearing ? '80px' : '0px'
+		// // let height = self.props.appearing ? '80px' : '0px'
 
-		setTimeout(function() {
-			// self.dropTarget.style.transition = 'height 3s'
-			self.dropTarget.style.height = height
-		}, 0 )
+		// setTimeout(function() {
+		// 	// self.dropTarget.style.transition = 'height 3s'
+		// 	self.dropTarget.style.height = height
+		// }, 0 )
 	}
 
 	render() {
 		// console.log('dropzone.render ', this.props, this.state, this.props.dropZone)
-		const { connectDropTarget, dropZone, enable, visible} = this.props
+		const { connectDropTarget, index, instant, visible} = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'
 
 		let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
 			background: randomColor,
+			height: '0px',
 			transition: `height ${TRANSITION_DELAY}ms`
 		}
 
+		// debugger;
+		// if (instant) {
+		// 	style.height = '80px'
+		// } else {
+		// 	style.height = '0px'
+		// }
 
-
-		if (visible) {
-			style.height = '30px'
-		} else {
-			style.height = '5px'
-		}
-
-		if (!enable) {
-			style.border = '3px solid red'
-		}
-
+		// if (visible) {
+		// 	style.height = '80px'
+		// } else {
+		// 	style.height = '0px'
+		// }
 
 		return connectDropTarget(
-			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget</div>
+			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget index: {index}</div>
 		)
 	}
 }

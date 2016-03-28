@@ -5,3 +5,4 @@
 [ dz1, dz1<-block1->dz3, dz2, (dz2<-block2->dz3), dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>3, (block), 3<block>4 ]
 
 
+//both dropzones are showing at the same time, I don't know why, console log out dropzones
