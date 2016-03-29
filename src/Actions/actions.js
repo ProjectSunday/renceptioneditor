@@ -16,12 +16,12 @@ export const dragBlock = (slotId, blockId) => {
 	}
 }
 
-export const moveBlock = (slotId, fromIndex, toIndex) => {
-	debugger;
+export const moveBlock = (fromSlotId, fromIndex, toSlotId, toIndex) => {
 	return {
 		type: 'MOVE_BLOCK',
-		slotId,
+		fromSlotId,
 		fromIndex,
+		toSlotId,
 		toIndex
 	}
 }

@@ -23,29 +23,40 @@ const slots = (state = [], action) => {
 			})
 			return blah
 		case 'MOVE_BLOCK':
-			let foo = state.map(slot => {
-				if (slot.id === action.slotId) {
-					let blocks = slot.blocks.slice();
-					blocks.splice(action.toIndex, 0, blocks.splice(action.fromIndex, 1)[0])
-					return { ...slot, blocks: blocks }
-				} else {
-					return slot
-				}
-			})
-			return foo
-		case 'INSERT_DROPZONE':
-			let slots = Immutable.List(state)
-			let slot = slots.find(s => s.id == action.slotId)
+			let state = state.slice(0)
+			let slot = state.find(s => s.id == action.toSlotId)
 
-			slot.content.splice(action.index, 0, { id: DROPZONE_COUNT++, type: 'dropzone' })
+			let blocks = slot.blocks
 
-			return slots.toJS()
-		case 'REMOVE_DROPZONE':
-			var deleteIndex = state.findIndex(d => { d.slotId == action.slotId } && d.index == action.index );
+			blocks.splice(action.toIndex, 0, blocks.splice(action.fromIndex, 1)[0])
 
-			console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
 
-			return Immutable.fromJS(state).delete(deleteIndex);
+			// let blocks = state.slice(0).blocks
+
+			// let blocks = s.blocks
+			// let foo = state.map(slot => {
+			// 	if (slot.id === action.slotId) {
+			// 		let blocks = slot.blocks.slice();
+			// 		blocks.splice(action.toIndex, 0, blocks.splice(action.fromIndex, 1)[0])
+			// 		return { ...slot, blocks: blocks }
+			// 	} else {
+			// 		return slot
+			// 	}
+			// })
+			return state
+		// case 'INSERT_DROPZONE':
+		// 	let slots = Immutable.List(state)
+		// 	let slot = slots.find(s => s.id == action.slotId)
+
+		// 	slot.content.splice(action.index, 0, { id: DROPZONE_COUNT++, type: 'dropzone' })
+
+		// 	return slots.toJS()
+		// case 'REMOVE_DROPZONE':
+		// 	var deleteIndex = state.findIndex(d => { d.slotId == action.slotId } && d.index == action.index );
+
+		// 	console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
+
+		// 	return Immutable.fromJS(state).delete(deleteIndex);
 		default:
 			return state
 	}

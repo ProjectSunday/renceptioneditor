@@ -8,6 +8,13 @@ import Block from './Block/block'
 import DropZone from './dropzone3'
 
 const mapStateToProps = (state, ownProps) => {
+	console.log('ownProps', ownProps)
+
+	var blah = ownProps.slot.blocks.map(id => {
+			return Object.assign(state.blocks.find(b => b.id === id), { drag: false })
+		})
+
+	console.log(blah)
 	return {
 		blocks: ownProps.slot.blocks.map(id => {
 			return Object.assign(state.blocks.find(b => b.id === id), { drag: false })
@@ -20,6 +27,8 @@ export default class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
+
 		this.onBeginDrag 		= this.onBeginDrag.bind(this)
 		this.onEndDrag			= this.onEndDrag.bind(this)
 		this.showDropZone 		= this.showDropZone.bind(this)
@@ -32,16 +41,23 @@ export default class Slot extends React.Component {
 
 
 		this.state = {
-			blocks: props.blocks.map((b, i) => 
-				Object.assign(b, { index: i, dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
-			),
-			dropZones: Array.from({length: props.blocks.length + 1}, (x, i) => 
-				({ index: i, visible: false, appearing: false, instant: false })
-			)
+			blocks: this.appendDropZoneData(props.blocks),
+			dropZones: this.generateDropZones(props.blocks)
 			// [ dz0,  b0 , dz1, b1 , dz2, b2, dz3 ]
 		}
 
 	}
+	appendDropZoneData(blocks) {
+		return blocks.map((b, i) => 
+			Object.assign(b, { index: i, dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
+		)
+	}
+	generateDropZones(blocks) {
+		return Array.from({length: blocks.length + 1}, (x, i) => 
+			({ index: i, visible: false, appearing: false, instant: false })
+		)
+	}
+
 	onBeginDrag(blockIndex) {
 		// console.log('onBeginDrag', blockIndex)
 		
@@ -79,8 +95,10 @@ export default class Slot extends React.Component {
 		// let blocks = this.state.blocks.slice(0)
 
 
-		if (blockIndex != dropZoneIndex) {
-			this.props.dispatch(Actions.moveBlock(this.props.slot.id, blockIndex, dropZoneIndex))
+		if (blockIndex != dropZoneIndex && this.state.blocks[blockIndex].dropZoneBelowIndex != dropZoneIndex) {
+			console.log('moving block ', blockIndex, dropZoneIndex)
+			let id = this.props.slot.id
+			this.props.dispatch(Actions.moveBlock(id, blockIndex, id, dropZoneIndex))
 		}
 		
 		// this.setDropZoneVisible(null)
@@ -134,8 +152,18 @@ export default class Slot extends React.Component {
 
 	}
 
+
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			blocks: this.appendDropZoneData(nextProps.blocks),
+			dropZones: this.generateDropZones(nextProps.blocks)
+		})
+	}
+
 	render() {
 		var self = this;
+		console.log('slot.render', this.props.blocks)
 		const { dispatch, slot } = this.props
 		const { blocks, dropZones } = this.state
 
