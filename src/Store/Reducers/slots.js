@@ -72,7 +72,7 @@ const slots = (state = [], action) => {
 			if (action.instant) {
 				slot.dropZones[action.index].instant = true
 			}
-			console.log('SHOW_DROPZONE', state)
+			// console.log('SHOW_DROPZONE', state)
 			return state
 		default:
 			return state

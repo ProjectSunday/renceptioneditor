@@ -7,7 +7,7 @@ const dropzones = (state = [], action) => {
 		case 'REMOVE_DROPZONE':
 			var deleteIndex = state.findIndex(d => { d.slotId == action.slotId } && d.index == action.index );
 
-			console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
+			// console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
 
 			return Immutable.fromJS(state).delete(deleteIndex);
 		default:

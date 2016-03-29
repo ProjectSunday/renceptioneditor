@@ -8,7 +8,9 @@ import Block from './Block/block'
 import DropZone from './dropzone3'
 
 const mapStateToProps = (state, ownProps) => {
-	return state.slots.find(s => s.id === ownProps.id)
+	return {
+		blocks: state.blocks.filter(b => ownProps.blocks.indexOf(b.id) != -1)
+	}
 }
 
 @connect(mapStateToProps)
@@ -148,20 +150,20 @@ export default class Slot extends React.Component {
 
 	render() {
 		var self = this;
-		console.log('slot.render', this.props)
+		// console.log('slot.render', this.props)
 		const { blocks, dropZones, id } = this.props
 		// const { blocks, dropZones } = this.state
 
 		let children = []
 
 		blocks.forEach((b, i) => {
-			children.push(<DropZone key={'dz' + i} id={dropZones[i]} index={i} slotId={id} />)
-			children.push(<Block key={i} id={b} index={i} slotId={id} dropZoneAboveIndex={i} dropZoneBelowIndex={i + 1} />)
+			children.push(<DropZone key={'dz' + i} {...dropZones[i]} index={i} slotId={id} />)
+			children.push(<Block key={i} {...b} index={i} slotId={id} dropZoneAboveIndex={i} dropZoneBelowIndex={i + 1} />)
 			// children.push(<Block key={i} id={b.id} slotId={slot.id} onBeginDrag={self.onBeginDrag} onEndDrag={self.onEndDrag} showDropZone={self.showDropZone} />)
 		})
 
 		//the very bottom dropzone
-		children.push(<DropZone key={'dz' + blocks.length} id={dropZones[blocks.length]} index={blocks.length} slotId={id} />)
+		children.push(<DropZone key={'dz' + blocks.length} {...dropZones[blocks.length]} index={blocks.length} slotId={id} />)
 
 	    const style = {
 	    	background: '#eee',

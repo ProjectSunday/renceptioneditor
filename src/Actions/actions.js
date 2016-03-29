@@ -48,11 +48,12 @@ export const removeAllDropZones = (slotId) => {
 		slotId
 	}
 }
-export const showDropZone = (slotId, index) => {
+export const showDropZone = (slotId, index, instant) => {
 	return {
 		type: 'SHOW_DROPZONE',
 		slotId,
-		index
+		index,
+		instant
 	}
 }
 

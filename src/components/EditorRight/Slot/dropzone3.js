@@ -9,9 +9,17 @@ const TRANSITION_DELAY = 100
 
 
 const mapStateToProps = (state, ownProps) => {
-	var blah = state.slots[ownProps.slotId].dropZones[ownProps.index]
-	console.log('dropzone mapStateToProps', blah )
-	return state.slots[ownProps.slotId].dropZones[ownProps.index]
+	// var blah = state.slots[ownProps.slotId].dropZones[ownProps.index]
+	// console.log('dropzone mapStateToProps', blah )
+
+	// var slotIndex = state.slots.findIndex(s => s.id === ownProps.slotId)
+
+	let dz = state.slots.find(s => s.id === ownProps.slotId).dropZones[ownProps.index]
+
+	return {
+		visible: dz.visible,
+		instant: dz.instant
+	}
 }
 // const mapDispatchToProps = (dispatch, ownProps) => {
 // 	return {
@@ -37,8 +45,8 @@ const collect = (connect, monitor) => ({
 	isOver: monitor.isOver()
 })
 
-@connect(mapStateToProps)
 // @DropTarget('BLOCK', dropZoneTarget, collect)
+@connect(mapStateToProps)
 class DropZone extends React.Component {
 	constructor(props) {
 		super(props)
@@ -47,16 +55,16 @@ class DropZone extends React.Component {
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		this.displayed = props.appearing
 
-		this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
+		// this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
 	}
 
-	componentWillReceiveProps(nextProps) {
-		console.log('componentWillReceiveProps', nextProps)
-	}
+	// componentWillReceiveProps(nextProps) {
+	// 	console.log('componentWillReceiveProps', nextProps)
+	// }
 
 	shouldComponentUpdate(nextProps) {
 		var self = this
-		console.log('dropzone shouldComponentUpdate', nextProps)
+		// console.log('dropzone shouldComponentUpdate', nextProps)
 
 		// const { dropZone } = self.props
 
@@ -119,7 +127,7 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		console.log('dropzone.render ', this.props)
+		// console.log('dropzone.render ', this.props)
 		const { connectDropTarget, index, instant, visible } = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'

@@ -25,7 +25,7 @@ class EditorRight extends React.Component {
 		return (
 			<div id="editorright" className="row">
 				{slots.map((s, i) => 
-					<Slot key={i} id={s.id} index={i} />
+					<Slot key={i} {...s} />
 				)}
 			</div>
 		)
