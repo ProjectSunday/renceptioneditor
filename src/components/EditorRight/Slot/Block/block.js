@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 
-import * as Actions from '../../../../Actions/actions'
+import * as Actions from '../../../../actions'
 
 import './block.less'
 

@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Immutable from 'immutable'
 
-import * as Actions from '../../../Actions/actions'
+import * as Actions from '../../../actions'
 
-import Block from './Block/block'
+import Block from './block/block'
 import DropZone from './dropzone3'
 
 const mapStateToProps = (state, ownProps) => {

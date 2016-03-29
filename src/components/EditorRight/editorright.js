@@ -1,11 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-// import { addBlock } from '../../Actions/actions'
-
 import './editorright.less'
 
-import Slot from './Slot/slot'
+import Slot from './slot/slot'
 
 
 const mapStateToProps = (state) => {

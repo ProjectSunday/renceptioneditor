@@ -2,7 +2,7 @@ import React from 'react'
 import { DropTarget } from 'react-dnd'
 import ReactTransitionGroup from 'react-addons-transition-group'
 
-import * as Actions from '../../../../Actions/actions'
+import * as Actions from '../../../../actions'
 
 const TRANSITION_DELAY = 200
 

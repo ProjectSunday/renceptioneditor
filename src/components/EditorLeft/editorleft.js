@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 
 import './editorleft.less'
 
-// import { addBlock } from '../../actions'
-
-import MasterBlock from './MasterBlock/masterblock'
+import MasterBlock from './masterblock/masterblock'
 
 let EditorLeft = ({ masterBlocks }) => {
 	return (

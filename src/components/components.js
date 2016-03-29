@@ -5,8 +5,8 @@ import { DragDropContext } from 'react-dnd';
 
 import './components.less'
 
-import EditorLeft from './EditorLeft/editorleft'
-import EditorRight from './EditorRight/editorright'
+import EditorLeft from './editorleft/editorleft'
+import EditorRight from './editorright/editorright'
 
 @DragDropContext(HTML5Backend)
 export default class Components extends Component {
