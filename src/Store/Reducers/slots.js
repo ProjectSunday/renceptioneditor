@@ -57,6 +57,21 @@ const slots = (state = [], action) => {
 		// 	console.log('REMOVE_DROPZONE deleteIndex ', deleteIndex);
 
 		// 	return Immutable.fromJS(state).delete(deleteIndex);
+
+		case 'REMOVE_ALL_DROPZONES':
+			var state = state.slice(0)
+			var slot = state.find(s => s.id == action.slotId)
+			slot.dropZones = []
+			return state
+		case 'SHOW_DROPZONE':
+			var state = state.slice(0)
+			var slot = state.find(s => s.id == action.slotId)
+			slot.dropZones.forEach(d => { d.visible = d.instant = false })
+			slot.dropZones[action.index].visible = true
+			if (action.instant) {
+				slot.dropZones[action.index].instant = true
+			}
+			return state
 		default:
 			return state
 	}

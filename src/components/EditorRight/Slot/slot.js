@@ -8,17 +8,11 @@ import Block from './Block/block'
 import DropZone from './dropzone3'
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('ownProps', ownProps)
-
-	var blah = ownProps.slot.blocks.map(id => {
-			return Object.assign(state.blocks.find(b => b.id === id), { drag: false })
-		})
-
-	console.log(blah)
 	return {
 		blocks: ownProps.slot.blocks.map(id => {
 			return Object.assign(state.blocks.find(b => b.id === id), { drag: false })
-		})
+		}),
+		dropZones: state.slots.find(s => s.id == ownProps.slot.id).dropZones.slice(0)
 	}
 }
 
@@ -98,7 +92,9 @@ export default class Slot extends React.Component {
 		if (blockIndex != dropZoneIndex && this.state.blocks[blockIndex].dropZoneBelowIndex != dropZoneIndex) {
 			console.log('moving block ', blockIndex, dropZoneIndex)
 			let id = this.props.slot.id
-			this.props.dispatch(Actions.moveBlock(id, blockIndex, id, dropZoneIndex))
+
+
+			// this.props.dispatch(Actions.moveBlock(id, blockIndex, id, dropZoneIndex))
 		}
 		
 		// this.setDropZoneVisible(null)
@@ -141,15 +137,9 @@ export default class Slot extends React.Component {
 
 	addClicked() {
 
-		this.onBeginDrag(1)
-
 	}
 	removeClicked() {
-
-		this.setState({
-			dropZones: [{ blockId: 101, appearing: false }]
-		})
-
+		this.props.dispatch(Actions.removeAllDropZones(this.props.slot.id))
 	}
 
 
@@ -163,15 +153,18 @@ export default class Slot extends React.Component {
 
 	render() {
 		var self = this;
-		console.log('slot.render', this.props.blocks)
+		// console.log('slot.render', this.state.dropZones)
 		const { dispatch, slot } = this.props
 		const { blocks, dropZones } = this.state
 
 		let children = []
 
 		blocks.forEach((b, i) => {
+
 			children.push(<DropZone key={'dz' + i} {...dropZones[i]} />)
-			children.push(<Block key={i} {...blocks[i]} onBeginDrag={self.onBeginDrag} onEndDrag={self.onEndDrag} showDropZone={self.showDropZone} />)
+			
+			children.push(<Block key={i} id={b.id} slotId={slot.id} />)
+			// children.push(<Block key={i} id={b.id} slotId={slot.id} onBeginDrag={self.onBeginDrag} onEndDrag={self.onEndDrag} showDropZone={self.showDropZone} />)
 		})
 
 		//the very bottom dropzone

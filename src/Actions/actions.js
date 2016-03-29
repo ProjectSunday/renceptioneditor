@@ -41,3 +41,22 @@ export const removeDropZone = (slotId, index) => {
 		index
 	}
 }
+
+export const removeAllDropZones = (slotId) => {
+	return {
+		type: 'REMOVE_ALL_DROPZONES',
+		slotId
+	}
+}
+export const showDropZone = (slotId, index) => {
+	return {
+		type: 'SHOW_DROPZONE',
+		slotId,
+		index
+	}
+}
+
+
+
+
+

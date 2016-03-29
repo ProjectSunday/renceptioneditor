@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 
-import { dragBlock } from '../../../../Actions/actions'
+import * as Actions from '../../../../Actions/actions'
 
 import './block.less'
+
+const mapStateToProps = (state, ownProps) => {
+	return state.blocks.find(b => b.id === ownProps.id)
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		showDropZone: (index) => { dispatch(Actions.showDropZone(ownProps.slotId, index) )}
+	}
+}
+
 
 const targetSpec = {
 	hover(props, monitor, component) {
@@ -30,7 +40,7 @@ const targetCollect = (connect, monitor) => ({
 
 const sourceSpec = {
 	beginDrag(props) {
-		props.onBeginDrag(props.index, true)
+		// props.onBeginDrag(props.index, true)
 
 		return {
 			id: props.id
@@ -47,6 +57,7 @@ const sourceCollect = (connect, monitor) => ({
   	isDragging: monitor.isDragging()
 })
 
+@connect(mapStateToProps, mapDispatchToProps)
 @DropTarget('BLOCK', targetSpec, targetCollect)
 @DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
@@ -55,7 +66,7 @@ export default class Block extends Component {
 		this.render = this.render.bind(this)
 	}
 	render() {
-
+		// console.log('block.render', this.props)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 		const { id, name } = this.props
 
