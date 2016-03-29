@@ -32,7 +32,7 @@ module.exports = {
 				include: src,
 		        query: {
         	  		plugins: [ 'transform-runtime', 'transform-decorators-legacy' ],
-          			presets: [ 'es2015', 'stage-0', 'react' ],
+          			presets: [ 'es2015', 'stage-0', 'react' ]
         		}
 			},
 			{ 
