@@ -1,14 +1,29 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { DropTarget } from 'react-dnd'
 
 import * as Actions from '../../../Actions/actions'
 
+
 const TRANSITION_DELAY = 100
 
-const dropZoneTarget = {
-	hover (props, monitor, component) {
 
-	},
+const mapStateToProps = (state, ownProps) => {
+	var blah = state.slots[ownProps.slotId].dropZones[ownProps.index]
+	console.log('dropzone mapStateToProps', blah )
+	return state.slots[ownProps.slotId].dropZones[ownProps.index]
+}
+// const mapDispatchToProps = (dispatch, ownProps) => {
+// 	return {
+// 		showDropZone: (index) => { dispatch(Actions.showDropZone(ownProps.slotId, index) )}
+// 	}
+
+
+
+const dropZoneTarget = {
+	// hover (props, monitor, component) {
+
+	// },
 	drop(props, monitor, component) {
 		return {
 			index: props.index
@@ -22,7 +37,8 @@ const collect = (connect, monitor) => ({
 	isOver: monitor.isOver()
 })
 
-@DropTarget('BLOCK', dropZoneTarget, collect)
+@connect(mapStateToProps)
+// @DropTarget('BLOCK', dropZoneTarget, collect)
 class DropZone extends React.Component {
 	constructor(props) {
 		super(props)
@@ -30,11 +46,17 @@ class DropZone extends React.Component {
 		this.componentDidMount = this.componentDidMount.bind(this)
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		this.displayed = props.appearing
+
+		this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log('componentWillReceiveProps', nextProps)
 	}
 
 	shouldComponentUpdate(nextProps) {
 		var self = this
-		// console.log('Block shouldComponentUpdate', nextProps)
+		console.log('dropzone shouldComponentUpdate', nextProps)
 
 		// const { dropZone } = self.props
 
@@ -97,8 +119,8 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		// console.log('dropzone.render ', this.props)
-		const { connectDropTarget, index, instant, visible} = this.props
+		console.log('dropzone.render ', this.props)
+		const { connectDropTarget, index, instant, visible } = this.props
 
 		// let height = dropZone.appearing ? '0px' : '80px'
 
@@ -124,7 +146,11 @@ class DropZone extends React.Component {
 		// 	style.height = '0px'
 		// }
 
-		return connectDropTarget(
+		// return connectDropTarget(
+		// 	<div ref={r => this.dropTarget = r} style={style}>ref.droptarget index: <span style={{ color: 'yellow', background: 'black' }}>{index}</span></div>
+		// )		
+
+		return (
 			<div ref={r => this.dropTarget = r} style={style}>ref.droptarget index: <span style={{ color: 'yellow', background: 'black' }}>{index}</span></div>
 		)
 	}

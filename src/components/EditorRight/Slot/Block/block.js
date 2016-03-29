@@ -49,7 +49,7 @@ const sourceSpec = {
 	endDrag(props, monitor, component) {
 		let dropZone = monitor.getDropResult()
 
-		props.onEndDrag(props.index, dropZone.index)
+		// props.onEndDrag(props.index, dropZone.index)
 	}
 }
 const sourceCollect = (connect, monitor) => ({

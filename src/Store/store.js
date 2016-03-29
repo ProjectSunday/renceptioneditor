@@ -40,7 +40,8 @@ let initialState = {
 				{ index: 2, visible: false, instant: false },
 				{ index: 3, visible: false, instant: false },
 				{ index: 4, visible: false, instant: false },
-				{ index: 5, visible: false, instant: false }
+				{ index: 5, visible: false, instant: false },
+				{ index: 6, visible: false, instant: false }
 			]
 		}
 	]
