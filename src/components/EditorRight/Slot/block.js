@@ -34,9 +34,9 @@ const targetSpec = {
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
 	    if (hoverClientY < hoverMiddleY) {
-	    	props.showDropZone(props.dropZoneAboveIndex)
+	    	// props.showDropZone(props.dropZoneAboveIndex)
 	    } else {
-	    	props.showDropZone(props.dropZoneBelowIndex)
+	    	// props.showDropZone(props.dropZoneBelowIndex)
 	    }
 	}
 }
@@ -50,7 +50,7 @@ const sourceSpec = {
 		// props.onBeginDrag(props.index, true)
 
 
-		props.dragBlock(props.index)
+		// props.dragBlock(props.index)
 
     	// props.showDropZone(props.dropZoneBelowIndex, true)
 
@@ -86,11 +86,28 @@ export default class Block extends Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		// this.componentDidMount = this.componentDidMount.bind(this)
+		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+	}
+	// componentDidMount() {
+	// 	console.log('componentDidMount', this.props.index)
+	// 	if (this.props.isDragging) {
+	// 		this.props.dragBlock(this.props.index)
+	// 	}
+	// }
+
+	shouldComponentUpdate(nextProps) {
+		console.log('shouldComponentUpdate', nextProps.index, this.props.isDragging)
+		return true
 	}
 	render() {
-		console.log('block.render', this.props)
+		console.log('block.render', this.props.index, this.props.isDragging)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
-		const { id, name } = this.props
+		const { id, name, beingDrag } = this.props
+
+		// if (isDragging) {
+		// 	this.props.dragBlock(this.props.index)
+		// }
 
 		let styles = {
 			display: isDragging ? 'none' : 'block',
@@ -99,7 +116,6 @@ export default class Block extends Component {
 			height: '50px',
 			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
 		}
-
 
 
 		return connectDragSource(connectDropTarget(

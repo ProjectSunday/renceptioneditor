@@ -155,8 +155,8 @@ export default class Slot extends React.Component {
 
 	render() {
 		var self = this;
-		console.log('slot.render', this.props)
-		const { blocks, dropZones, id } = this.props
+		// console.log('slot.render', this.props)
+		const { blocks, dropZones, id, blockBeingDrag } = this.props
 		// const { blocks, dropZones } = this.state
 
 		let children = []
@@ -174,7 +174,11 @@ export default class Slot extends React.Component {
 				indexBelow = i + 2
 			}
 
-			children.push(<Block key={i} id={b} index={i} slotId={id} dropZoneAboveIndex={indexAbove} dropZoneBelowIndex={indexBelow} />)
+			children.push(<Block key={i} id={b} index={i} slotId={id}
+				dropZoneAboveIndex={indexAbove}
+				dropZoneBelowIndex={indexBelow} 
+				beingDrag={b === blockBeingDrag}
+			/>)
 		})
 
 		//the very bottom dropzone

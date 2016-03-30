@@ -31,7 +31,7 @@ class DropZone extends React.Component {
 	}
 	shouldComponentUpdate(nextProps) {
 		if (!nextProps.enable) { return false }
-		console.log('dropzone shouldComponentUpdate', nextProps)
+		// console.log('dropzone shouldComponentUpdate', nextProps.index)
 
 		if (nextProps.instant) {
 			this.dropTarget.style.transition = ''

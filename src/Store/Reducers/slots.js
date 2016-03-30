@@ -17,6 +17,7 @@ const slots = (state = [], action) => {
 			slot.dropZones[action.index].enable = false
 			slot.dropZones[action.index + 1].instant = true
 			slot.dropZones[action.index + 1].visible = true
+			slot.blockBeingDrag = slot.blocks[action.index]
 			return state
 		case 'MOVE_BLOCK':
 			var state = state.slice(0)
