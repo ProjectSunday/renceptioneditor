@@ -1,4 +1,4 @@
-let nextBlockId = 2000
+	let nextBlockId = 2000
 
 export const addBlock = (slotId, block) => {
 	return {
@@ -8,11 +8,11 @@ export const addBlock = (slotId, block) => {
 	}
 }
 
-export const dragBlock = (slotId, blockId) => {
+export const dragBlock = (slotId, index) => {
 	return {
 		type: 'DRAG_BLOCK',
 		slotId,
-		blockId
+		index
 	}
 }
 
@@ -42,9 +42,9 @@ export const removeDropZone = (slotId, index) => {
 	}
 }
 
-export const removeAllDropZones = (slotId) => {
+export const resetDropZones = (slotId) => {
 	return {
-		type: 'REMOVE_ALL_DROPZONES',
+		type: 'RESET_DROPZONES',
 		slotId
 	}
 }

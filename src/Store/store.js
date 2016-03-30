@@ -35,13 +35,13 @@ let initialState = {
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
 			dropZones: [
-				{ visible: false, instant: false },
-				{ visible: false, instant: false },
-				{ visible: false, instant: false },
-				{ visible: false, instant: false },
-				{ visible: false, instant: false },
-				{ visible: false, instant: false },
-				{ visible: false, instant: false }
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false },
+				{ enable: true, visible: false, instant: false }
 			]
 		}
 	]

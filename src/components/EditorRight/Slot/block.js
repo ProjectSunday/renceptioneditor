@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 
-import * as Actions from '../../../../actions'
+import * as Actions from '../../../actions'
 
 import './block.less'
 
@@ -16,7 +16,11 @@ import './block.less'
 // }
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )}
+		showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )},
+		dragBlock: (index) => { dispatch(Actions.dragBlock(ownProps.slotId, index))},
+		dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
+		moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
+		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))}
 	}
 }
 
@@ -45,7 +49,10 @@ const sourceSpec = {
 	beginDrag(props, monitor, component) {
 		// props.onBeginDrag(props.index, true)
 
-    	props.showDropZone(props.dropZoneBelowIndex, true)
+
+		props.dragBlock(props.index)
+
+    	// props.showDropZone(props.dropZoneBelowIndex, true)
 
 		return {
 			id: props.id
@@ -53,6 +60,12 @@ const sourceSpec = {
 	},
 	endDrag(props, monitor, component) {
 		let dropZone = monitor.getDropResult()
+
+		if (dropZone && dropZone.slotId !== undefined && dropZone.index !== undefined) {
+			props.moveBlock(dropZone)
+		}
+			
+		props.resetDropZones()
 
 		// props.onEndDrag(props.index, dropZone.index)
 	}

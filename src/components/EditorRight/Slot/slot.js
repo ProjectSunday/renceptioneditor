@@ -4,12 +4,12 @@ import Immutable from 'immutable'
 
 import * as Actions from '../../../actions'
 
-import Block from './block/block'
-import DropZone from './dropzone3'
+import Block from './block'
+import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		blocks: state.blocks.filter(b => ownProps.blocks.indexOf(b.id) != -1)
+		blocks: ownProps.blocks.map(id => state.blocks.find(b => b.id === id))
 	}
 }
 
@@ -132,7 +132,7 @@ export default class Slot extends React.Component {
 
 	addClicked() {
 
-		this.props.dispatch(Actions.showDropZone(this.props.id, 3))
+		this.props.dispatch(Actions.dragBlock(this.props.id, 1))
 
 	}
 	removeClicked() {
@@ -158,8 +158,18 @@ export default class Slot extends React.Component {
 
 		blocks.forEach((b, i) => {
 			children.push(<DropZone key={'dz' + i} {...dropZones[i]} index={i} slotId={id} />)
-			children.push(<Block key={i} {...b} index={i} slotId={id} dropZoneAboveIndex={i} dropZoneBelowIndex={i + 1} />)
-			// children.push(<Block key={i} id={b.id} slotId={slot.id} onBeginDrag={self.onBeginDrag} onEndDrag={self.onEndDrag} showDropZone={self.showDropZone} />)
+
+			var indexAbove = i
+			if (!dropZones[indexAbove].enable) {
+				indexAbove = i - 1
+			}
+
+			var indexBelow = i + 1
+			if (!dropZones[indexBelow].enable) {
+				indexBelow = i + 2
+			}
+
+			children.push(<Block key={i} {...b} index={i} slotId={id} dropZoneAboveIndex={indexAbove} dropZoneBelowIndex={indexBelow} />)
 		})
 
 		//the very bottom dropzone
