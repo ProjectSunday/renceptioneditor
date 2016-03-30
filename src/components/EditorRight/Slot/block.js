@@ -20,7 +20,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		dragBlock: (index) => { dispatch(Actions.dragBlock(ownProps.slotId, index))},
 		dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
 		moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
-		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))}
+		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
+    	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) }
+
 	}
 }
 
@@ -30,14 +32,18 @@ const targetSpec = {
 	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
+	    // console.log('yoooo', props.nextDropZoneInstant)
 	    // Determine mouse position
 	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
 
 	    if (hoverClientY < hoverMiddleY) {
-	    	// props.showDropZone(props.dropZoneAboveIndex)
+	    	props.showDropZone(props.dropZoneAboveIndex, props.blah)
 	    } else {
-	    	// props.showDropZone(props.dropZoneBelowIndex)
+	    	props.showDropZone(props.dropZoneBelowIndex, props.blah)
 	    }
+
+	    props.blah = false
+	    // props.setNextDropZoneInstant(false)
 	}
 }
 const targetCollect = (connect, monitor) => ({
@@ -47,12 +53,16 @@ const targetCollect = (connect, monitor) => ({
 
 const sourceSpec = {
 	beginDrag(props, monitor, component) {
+		debugger;
 		// props.onBeginDrag(props.index, true)
 
-
+		// props.dispatch()
 		// props.dragBlock(props.index)
 
+		props.blah = true
     	// props.showDropZone(props.dropZoneBelowIndex, true)
+
+    	// props.setNextDropZoneInstant(true)
 
 		return {
 			id: props.id
@@ -87,7 +97,7 @@ export default class Block extends Component {
 		super(props)
 		this.render = this.render.bind(this)
 		// this.componentDidMount = this.componentDidMount.bind(this)
-		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 	}
 	// componentDidMount() {
 	// 	console.log('componentDidMount', this.props.index)
@@ -96,12 +106,12 @@ export default class Block extends Component {
 	// 	}
 	// }
 
-	shouldComponentUpdate(nextProps) {
-		console.log('shouldComponentUpdate', nextProps.index, this.props.isDragging)
-		return true
-	}
+	// shouldComponentUpdate(nextProps) {
+	// 	console.log('shouldComponentUpdate', nextProps.index, this.props.isDragging)
+	// 	return true
+	// }
 	render() {
-		console.log('block.render', this.props.index, this.props.isDragging)
+		console.log('block.render index:', this.props.index, 'isDragging:', this.props.isDragging)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 		const { id, name, beingDrag } = this.props
 

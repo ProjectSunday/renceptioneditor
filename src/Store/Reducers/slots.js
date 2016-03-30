@@ -46,6 +46,7 @@ const slots = (state = [], action) => {
 			})
 			return state
 		case 'SHOW_DROPZONE':
+			console.log('SHOW_DROPZONE index:', action.index)
 			var state = state.slice(0)
 			var slot = state.find(s => s.id == action.slotId)
 			slot.dropZones.forEach(d => { d.visible = d.instant = false })

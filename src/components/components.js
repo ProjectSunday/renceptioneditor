@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-// import { connect } from 'react-redux'
+import React from 'react'
+import { connect } from 'react-redux'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
@@ -8,8 +8,14 @@ import './components.less'
 import EditorLeft from './editorleft/editorleft'
 import EditorRight from './editorright/editorright'
 
+@connect()
 @DragDropContext(HTML5Backend)
-export default class Components extends Component {
+class Components extends React.Component {
+	constructor(props) {
+		super(props)
+		this.render = this.render.bind(this)
+		window.dispatch = props.dispatch     //for debugging
+	}
 	render() {
 		return (
 			<div>
@@ -23,3 +29,4 @@ export default class Components extends Component {
 		)
 	}
 }
+export default Components
