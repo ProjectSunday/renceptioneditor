@@ -7,17 +7,18 @@ import * as Actions from '../../../actions'
 import Block from './block'
 import DropZone from './dropzone'
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		blocks: ownProps.blocks.map(id => state.blocks.find(b => b.id === id))
-	}
-}
+// const mapStateToProps = (state, ownProps) => {
+// 	return {
+// 		blocks: ownProps.blocks.map(id => state.blocks.find(b => b.id === id))
+// 	}
+// }
 
-@connect(mapStateToProps)
+// @connect(mapStateToProps)
 export default class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		// this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
 
 		this.onBeginDrag 		= this.onBeginDrag.bind(this)
@@ -36,6 +37,10 @@ export default class Slot extends React.Component {
 		// }
 
 	}
+	// shouldComponentUpdate(nextProps) {
+	// 	console.log('shouldComponentUpdate', nextProps)
+	// 	return false
+	// }
 	appendDropZoneData(blocks) {
 		return blocks.map((b, i) => 
 			Object.assign(b, { index: i, dropZoneAboveIndex: i, dropZoneBelowIndex: i + 1 })
@@ -150,7 +155,7 @@ export default class Slot extends React.Component {
 
 	render() {
 		var self = this;
-		// console.log('slot.render', this.props)
+		console.log('slot.render', this.props)
 		const { blocks, dropZones, id } = this.props
 		// const { blocks, dropZones } = this.state
 
@@ -169,7 +174,7 @@ export default class Slot extends React.Component {
 				indexBelow = i + 2
 			}
 
-			children.push(<Block key={i} {...b} index={i} slotId={id} dropZoneAboveIndex={indexAbove} dropZoneBelowIndex={indexBelow} />)
+			children.push(<Block key={i} id={b} index={i} slotId={id} dropZoneAboveIndex={indexAbove} dropZoneBelowIndex={indexBelow} />)
 		})
 
 		//the very bottom dropzone

@@ -7,13 +7,13 @@ import * as Actions from '../../../actions'
 
 import './block.less'
 
-// const mapStateToProps = (state, ownProps) => {
-// 	let index = 
-// 	return {
+const mapStateToProps = (state, ownProps) => {
 
-// 	}
-// 	// return state.blocks.find(b => b.id === ownProps.id)
-// }
+	var block = state.blocks.find(b => b.id === ownProps.id)
+
+	return Object.assign({}, block)
+
+}
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )},
@@ -79,7 +79,7 @@ const sourceCollect = (connect, monitor) => ({
   	isDragging: monitor.isDragging()
 })
 
-@connect(null, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 @DropTarget('BLOCK', targetSpec, targetCollect)
 @DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
@@ -88,7 +88,7 @@ export default class Block extends Component {
 		this.render = this.render.bind(this)
 	}
 	render() {
-		// console.log('block.render', this.props)
+		console.log('block.render', this.props)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 		const { id, name } = this.props
 
