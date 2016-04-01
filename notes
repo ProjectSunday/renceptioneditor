@@ -8,4 +8,5 @@ datatransfer has to be set
 and absolutely no moving the block around
 
 
-dragstart, draghover done.  need to work on dragend
+added testing, work on split dropzones to it's own thing
+
