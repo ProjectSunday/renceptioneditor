@@ -11,9 +11,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		buttonOneClicked: () => {
+		buttonOneClicked () {
 			console.log('buttonOneClicked')
-			dispatch({ type: 'TESTING_SET_VALUE', id: 1, value: 'changed' })
+			dispatch({ type: 'TESTVALUES_SET_VALUE', id: 1, value: 'changed' })
+		},
+		buttonTwoClicked () {
+			dispatch({ type: 'TESTING_SET', values: [ 1, 0, 2, 3 ] })
 		}
 	}
 }

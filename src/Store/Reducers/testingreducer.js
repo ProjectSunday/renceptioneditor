@@ -3,6 +3,8 @@
 
 const testing = (state = [], action) => {
 	switch (action.type) {
+		case 'TESTING_SET':
+			return action.values
 		default:
 			return state
 	}

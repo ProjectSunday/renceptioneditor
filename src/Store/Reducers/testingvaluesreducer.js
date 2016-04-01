@@ -3,7 +3,7 @@
 
 const testValues = (state = [], action) => {
 	switch (action.type) {
-		case 'TESTING_SET_VALUE':
+		case 'TESTVALUES_SET_VALUE':
 			var testValues = state.slice(0)
 
 			var testValue = testValues.find(v => v.id == action.id)
