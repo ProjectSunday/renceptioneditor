@@ -55,6 +55,12 @@ const slots = (state = [], action) => {
 				slot.dropZones[action.index].instant = true
 			}
 			return state
+		case 'SLOT_SET_DROPZONES':
+			console.log('SLOT_SET_DROPZONES', action)
+			var state = state.slice(0)
+			var slot = state.find(s => s.id == action.id)
+			slot.dropZones = action.dropZones
+			return state
 		default:
 			return state
 	}

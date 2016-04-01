@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import blocks 		from './blocks'
+import blocks 		from './blocksreducer'
 import globals		from './globals'
 import masterBlocks from './masterBlocks'
-import slots 		from './slots'
+import slots 		from './slotsreducer'
 
 export default combineReducers({
 	blocks,

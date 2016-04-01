@@ -3,4 +3,6 @@
 [ dz1, dz1<-block1->dz3, dz2, (dz2<-block2->dz3), dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>3, (block), 3<block>4 ]
 
 
-don't remmember where i was at
+settimeout in shouldcomponentupdate works
+datatransfer has to be set
+and absolutely no moving the block around

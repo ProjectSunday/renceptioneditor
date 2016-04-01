@@ -1,5 +1,5 @@
 import { createStore } from 'redux'
-import reducers from './Reducers/reducers'
+import reducers from './reducers'
 
 let initialState = {
 	
@@ -35,17 +35,16 @@ let initialState = {
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
 			dropZones: [
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false },
-				{ enable: true, visible: false, instant: false }
+				{ blockAbove: undefined, blockBelow: 100, instant: false, visible: false },
+				{ blockAbove: 100, blockBelow: 101, instant: false, visible: false },
+				{ blockAbove: 101, blockBelow: 102, instant: false, visible: false },
+				{ blockAbove: 102, blockBelow: 103, instant: false, visible: false },
+				{ blockAbove: 103, blockBelow: 104, instant: false, visible: false },
+				{ blockAbove: 104, blockBelow: 105, instant: false, visible: false },
+				{ blockAbove: 105, blockBelow: undefined, instant: false, visible: false },
 			]
 		}
 	]
-
 }
 
 
@@ -61,6 +60,8 @@ var sampleState = {
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ]
 		}
-	]
+	],
+
+	nextDropZoneAppearsInstantly: false
 
 }

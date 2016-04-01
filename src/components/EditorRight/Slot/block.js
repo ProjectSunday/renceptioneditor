@@ -21,8 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
 		moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
 		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
-    	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) }
-
+    	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) },
+    	dragStart: () => { dispatch({ type: 'BLOCK_DRAG_START' })}
 	}
 }
 
@@ -90,12 +90,15 @@ const sourceCollect = (connect, monitor) => ({
 })
 
 @connect(mapStateToProps, mapDispatchToProps)
-@DropTarget('BLOCK', targetSpec, targetCollect)
-@DragSource('BLOCK', sourceSpec, sourceCollect)
+// @DropTarget('BLOCK', targetSpec, targetCollect)
+// @DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.onDragStart = this.onDragStart.bind(this)
+
+
 		// this.componentDidMount = this.componentDidMount.bind(this)
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 	}
@@ -106,10 +109,29 @@ export default class Block extends Component {
 	// 	}
 	// }
 
-	// shouldComponentUpdate(nextProps) {
-	// 	console.log('shouldComponentUpdate', nextProps.index, this.props.isDragging)
-	// 	return true
-	// }
+	onDragStart(e) {
+		console.log('onDragStart', e)
+
+		e.dataTransfer.setData('text', '');
+
+		this.props.dragStart()
+
+	}
+
+	shouldComponentUpdate(nextProps) {
+		var self = this
+		console.log('block.shouldComponentUpdate', nextProps.index)
+
+		if (nextProps.hide) {
+			setTimeout(function () {
+				self.refs.block.style.display = 'none'
+			}, 0)
+		}
+
+		return false
+	}
+
+
 	render() {
 		console.log('block.render index:', this.props.index, 'isDragging:', this.props.isDragging)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
@@ -120,19 +142,28 @@ export default class Block extends Component {
 		// }
 
 		let styles = {
-			display: isDragging ? 'none' : 'block',
-			// display: 'block',
+			// display: isDragging ? 'none' : 'block',
+			display: 'block',
 			background: '#aaa',
 			height: '50px',
 			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
 		}
 
+		const idStyles = {
+			background: 'black',
+			color: 'yellow'
+		}
 
-		return connectDragSource(connectDropTarget(
-			<div className="block" style={styles}>
-				<span className="name">{name}<span style={{ color: 'yellow', background: 'black' }}>{id}</span></span>
+		return (
+			<div ref="block" className="block" style={styles} draggable="true" onDragStart={this.onDragStart}>
+				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
-		))
+		)
+		// return connectDragSource(connectDropTarget(
+		// 	<div className="block" style={styles}>
+		// 		<span className="name">{name}<span style={{ color: 'yellow', background: 'black' }}>{id}</span></span>
+		// 	</div>
+		// ))
 	}
 
 }
