@@ -44,6 +44,15 @@ let initialState = {
 				{ blockAbove: 105, blockBelow: undefined, instant: false, visible: false },
 			]
 		}
+	],
+
+	testing: [ 0, 1, 2, 3 ],
+
+	testValues: [
+		{ id: 0, value: 'zero' },
+		{ id: 1, value: 'one' },
+		{ id: 2, value: 'two' },
+		{ id: 3, value: 'three' }
 	]
 }
 
