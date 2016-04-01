@@ -1,5 +1,5 @@
 import React from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import * as Actions from '../../../actions'
 
@@ -7,9 +7,7 @@ import Block from './block'
 import DropZone from './dropzone2'
 
 // const mapStateToProps = (state, ownProps) => {
-// 	return {
-// 		yos: state.blocks
-// 	}
+// 	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
 // }
 
 // @connect(mapStateToProps)
@@ -24,21 +22,26 @@ export default class Slot extends React.Component {
 	}
 
 	addClicked() {
-		this.props.dispatch(Actions.dragBlock(this.props.id, 1))
+		this.props.dispatch({
+	    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
+	    		slotId: 1000, 
+	    		blockId: 103, 
+	    		below: true
+		})
 	}
 	removeClicked() {
 		this.props.dispatch(Actions.removeAllDropZones(this.props.id))
 	}
 
 	render() {
-		console.log('slot.render', this.props)
-		const { id, blocks, dropZones } = this.props
+		// console.log('slot.render', this.props.dragBlock)
+		const { id, blocks, dropZones, dragBlock } = this.props
 
 		let children = []
 
 		blocks.forEach((b, i) => {
-			children.push(<DropZone key={'dz' + i} {...dropZones[i]} slotId={id} />)
-			children.push(<Block key={i} id={b} slotId={id} />)
+			children.push(<DropZone key={'dz' + i} {...dropZones[i]} slotId={id} index={i} />)
+			children.push(<Block key={i} id={b} slotId={id} visible={b != dragBlock} />)
 		})
 
 		//the very bottom dropzone

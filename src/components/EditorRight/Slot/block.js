@@ -22,82 +22,80 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
 		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
     	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) },
-    	dragStart: () => { dispatch({ type: 'BLOCK_DRAG_START' })}
+    	dragStart: () => { 
+    		dispatch({ 
+    			type: 'SLOT_DRAG_START', 
+    			slotId: ownProps.slotId, 
+    			blockId: ownProps.id 
+    		})
+    	},
+    	setDropZoneVisible: (below) => {
+    		dispatch({
+	    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
+	    		slotId: ownProps.slotId, 
+	    		blockId: ownProps.id, 
+	    		below: below
+	    	})
+    	}
 	}
 }
 
 
-const targetSpec = {
-	hover(props, monitor, component) {
-	    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
-	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+// const targetSpec = {
+// 	hover(props, monitor, component) {
 
-	    // console.log('yoooo', props.nextDropZoneInstant)
-	    // Determine mouse position
-	    const hoverClientY = monitor.getClientOffset().y - hoverBoundingRect.top
+// 	}
+// }
+// const targetCollect = (connect, monitor) => ({
+// 	connectDropTarget: connect.dropTarget(),
+// 	isOver: monitor.isOver()
+// })
 
-	    if (hoverClientY < hoverMiddleY) {
-	    	props.showDropZone(props.dropZoneAboveIndex, props.blah)
-	    } else {
-	    	props.showDropZone(props.dropZoneBelowIndex, props.blah)
-	    }
+// const sourceSpec = {
+// 	beginDrag(props, monitor, component) {
+// 		debugger;
+// 		// props.onBeginDrag(props.index, true)
 
-	    props.blah = false
-	    // props.setNextDropZoneInstant(false)
-	}
-}
-const targetCollect = (connect, monitor) => ({
-	connectDropTarget: connect.dropTarget(),
-	isOver: monitor.isOver()
-})
+// 		// props.dispatch()
+// 		// props.dragBlock(props.index)
 
-const sourceSpec = {
-	beginDrag(props, monitor, component) {
-		debugger;
-		// props.onBeginDrag(props.index, true)
+// 		props.blah = true
+//     	// props.showDropZone(props.dropZoneBelowIndex, true)
 
-		// props.dispatch()
-		// props.dragBlock(props.index)
+//     	// props.setNextDropZoneInstant(true)
 
-		props.blah = true
-    	// props.showDropZone(props.dropZoneBelowIndex, true)
+// 		return {
+// 			id: props.id
+// 		}
+// 	},
+// 	endDrag(props, monitor, component) {
+// 		let dropZone = monitor.getDropResult()
 
-    	// props.setNextDropZoneInstant(true)
-
-		return {
-			id: props.id
-		}
-	},
-	endDrag(props, monitor, component) {
-		let dropZone = monitor.getDropResult()
-
-		if (dropZone && dropZone.slotId !== undefined && dropZone.index !== undefined) {
-			props.moveBlock(dropZone)
-		}
+// 		if (dropZone && dropZone.slotId !== undefined && dropZone.index !== undefined) {
+// 			props.moveBlock(dropZone)
+// 		}
 			
-		props.resetDropZones()
+// 		props.resetDropZones()
 
-		// props.onEndDrag(props.index, dropZone.index)
-	}
-}
+// 		// props.onEndDrag(props.index, dropZone.index)
+// 	}
+// }
 
 // const isBlockDragging = (props, monitor) => {
 // 	return props.id === monitor.getItem().id
 // }
-const sourceCollect = (connect, monitor) => ({
-	connectDragSource: connect.dragSource(),
-  	isDragging: monitor.isDragging()
-})
+// const sourceCollect = (connect, monitor) => ({
+// 	connectDragSource: connect.dragSource(),
+//   	isDragging: monitor.isDragging()
+// })
 
 @connect(mapStateToProps, mapDispatchToProps)
-// @DropTarget('BLOCK', targetSpec, targetCollect)
-// @DragSource('BLOCK', sourceSpec, sourceCollect)
 export default class Block extends Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
 		this.onDragStart = this.onDragStart.bind(this)
-
+		this.onDragOver = this.onDragOver.bind(this)
 
 		// this.componentDidMount = this.componentDidMount.bind(this)
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
@@ -109,20 +107,36 @@ export default class Block extends Component {
 	// 	}
 	// }
 
+	onDragOver(e) {
+		console.log('onDragOver')
+
+	    const hoverBoundingRect = e.target.getBoundingClientRect()
+	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+	    // Determine mouse position
+	    const hoverClientY = e.clientY - hoverBoundingRect.top
+
+	    this.props.setDropZoneVisible(hoverMiddleY < hoverClientY)
+	}
 	onDragStart(e) {
-		console.log('onDragStart', e)
+		// console.log('onDragStart', e)
 
 		e.dataTransfer.setData('text', '');
 
-		this.props.dragStart()
+	    // this.props.setDropZoneVisible(false, true)
+
+	    this.props.dragStart()
+
+
+		// this.props.dragStart()
 
 	}
 
 	shouldComponentUpdate(nextProps) {
 		var self = this
-		console.log('block.shouldComponentUpdate', nextProps.index)
+		// console.log('block.shouldComponentUpdate', nextProps.index)
 
-		if (nextProps.hide) {
+		if (nextProps.visible === false) {
 			setTimeout(function () {
 				self.refs.block.style.display = 'none'
 			}, 0)
@@ -133,7 +147,7 @@ export default class Block extends Component {
 
 
 	render() {
-		console.log('block.render index:', this.props.index, 'isDragging:', this.props.isDragging)
+		// console.log('block.render index:', this.props.index, 'isDragging:', this.props.isDragging)
 		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
 		const { id, name, beingDrag } = this.props
 
@@ -155,7 +169,7 @@ export default class Block extends Component {
 		}
 
 		return (
-			<div ref="block" className="block" style={styles} draggable="true" onDragStart={this.onDragStart}>
+			<div ref="block" className="block" style={styles} draggable="true" onDragStart={this.onDragStart} onDragOver={this.onDragOver}>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)

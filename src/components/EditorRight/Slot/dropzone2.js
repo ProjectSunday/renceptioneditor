@@ -1,5 +1,5 @@
 import React from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 // import { DropTarget } from 'react-dnd'
 
 import * as Actions from '../../../actions'
@@ -22,7 +22,12 @@ const TRANSITION_DELAY = 100
 // 	isOver: monitor.isOver()
 // })
 
-// @DropTarget('BLOCK', dropZoneTarget, collect)
+// const mapStateToProps = (state, ownProps) => {
+// 	return Object.assign({}, state.slots.find(s => s.id == ownProps.slotId).dropZones)
+// }
+
+
+// @connect(mapStateToProps)
 class DropZone extends React.Component {
 	constructor(props) {
 		super(props)
@@ -30,32 +35,18 @@ class DropZone extends React.Component {
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 	}
 	shouldComponentUpdate(nextProps) {
-		// if (!nextProps.enable) { return false }
-		console.log('dropzone.shouldComponentUpdate', nextProps.index)
-
 		var self = this
+		// if (!nextProps.enable) { return false }
+		console.log('dropzone.shouldComponentUpdate visible:', nextProps.visible, 'instant:', nextProps.instant)
 
-		if (nextProps.appear) {
-			var height = '50px'
-		} else {
-			var height = '0px'
-		}
 
+		self.refs.dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
+
+		var height = nextProps.visible ? '50px' : '0px'
 		setTimeout(function () {
 			self.refs.dropZone.style.height = height
 		}, 0)
-		// if (nextProps.instant) {
-		// 	this.dropTarget.style.transition = ''
-		// } else {
-		// 	this.dropTarget.style.transition = `height ${TRANSITION_DELAY}ms`
-		// }
 
-		// if (nextProps.visible) {
-		// 	this.dropTarget.style.height = '50px'
-		// } else {
-		// 	this.dropTarget.style.height = '0px'
-		// 	// this.dropTarget.style.height = '20px'
-		// }
 		return false
 	}
 
@@ -69,7 +60,7 @@ class DropZone extends React.Component {
 			background: '#555',
 			height: '0px',
 			// height: '20px',
-			// transition: `height ${TRANSITION_DELAY}ms`
+			transition: `height ${TRANSITION_DELAY}ms`
 		}
 
 		const indexStyle = {

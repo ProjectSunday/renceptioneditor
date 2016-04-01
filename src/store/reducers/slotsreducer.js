@@ -11,13 +11,22 @@ const slots = (state = [], action) => {
 					update(slot, { blocks: { $push: [ action.block.id ] } }) :
 					slot
 			)
-		case 'DRAG_BLOCK':
+		case 'SLOT_DRAG_START':
+			// console.log('SLOT_DRAG_START')
 			var state = state.slice(0)
 			var slot = state.find(s => s.id === action.slotId)
-			slot.dropZones[action.index].enable = false
-			slot.dropZones[action.index + 1].instant = true
-			slot.dropZones[action.index + 1].visible = true
-			slot.blockBeingDrag = slot.blocks[action.index]
+			slot.dragBlock = action.blockId
+
+			var index = slot.dropZones.findIndex(d => d.blockBelow == action.blockId)
+
+			slot.dropZones[index + 1].blockAbove = slot.dropZones[index].blockAbove
+
+			slot.dropZones[index].blockAbove = undefined
+			slot.dropZones[index].blockBelow = undefined
+
+			slot.dropZones[index + 1].instant = true
+			slot.dropZones[index + 1].visible = true
+
 			return state
 		case 'MOVE_BLOCK':
 			var state = state.slice(0)
@@ -60,6 +69,23 @@ const slots = (state = [], action) => {
 			var state = state.slice(0)
 			var slot = state.find(s => s.id == action.id)
 			slot.dropZones = action.dropZones
+			return state
+		case 'SLOT_SET_DROPZONE_VISIBLE':
+			// console.log('SLOT_SET_DROPZONE_VISIBLE', action.blockId)
+
+			var state = state.slice(0)
+			var slot = state.find(s => s.id == action.slotId)
+
+			slot.dropZones.forEach(d => {
+				d.instant = false
+				if (action.below && d.blockAbove == action.blockId) {
+					d.visible = true
+				} else if (!action.below && d.blockBelow == action.blockId) {
+					d.visible = true
+				} else {
+					d.visible = false
+				}
+			})
 			return state
 		default:
 			return state

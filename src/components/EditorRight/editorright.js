@@ -5,7 +5,6 @@ import './editorright.less'
 
 import Slot from './slot/slot'
 
-
 const mapStateToProps = (state) => {
 	return {
 		slots: state.slots

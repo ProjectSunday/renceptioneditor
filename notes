@@ -6,3 +6,6 @@
 settimeout in shouldcomponentupdate works
 datatransfer has to be set
 and absolutely no moving the block around
+
+
+dragstart, draghover done.  need to work on dragend
