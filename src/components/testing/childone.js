@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 
 const mapStateToProps = (state, ownProps) => {
-	return Object.assign({}, state.testValues.find(s => s.id == ownProps.id))
+	return Object.assign({}, state.aaatestValues.find(s => s.id == ownProps.id))
 }
 
 @connect(mapStateToProps)

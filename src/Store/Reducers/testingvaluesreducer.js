@@ -10,6 +10,12 @@ const testValues = (state = [], action) => {
 			testValue.value = action.value
 
 			return testValues
+		case 'TESTING_MOVE_AND_SET':
+			console.log('testValues TESTING_MOVE_AND_SET')
+			var testValues = state.slice(0)
+			var testValue = testValues.find(t => t.id == action.id)
+			testValue += 'moved'
+			return testValues
 		default:
 			return state
 	}

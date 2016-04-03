@@ -13,7 +13,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		buttonOneClicked () {
 			console.log('buttonOneClicked')
-			dispatch({ type: 'TESTVALUES_SET_VALUE', id: 1, value: 'changed' })
+			// dispatch({ type: 'TESTVALUES_SET_VALUE', id: 1, value: 'changed' })
+
+			dispatch({ type: 'TESTING_MOVE_AND_SET', id: 0, fromIndex: 0, toIndex: 1})
 		},
 		buttonTwoClicked () {
 			dispatch({ type: 'TESTING_SET', values: [ 1, 0, 2, 3 ] })

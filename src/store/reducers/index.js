@@ -5,13 +5,13 @@ import blocks 		from './blocksreducer'
 import masterBlocks from './masterBlocks'
 import slots 		from './slotsreducer'
 import testing 		from './testingreducer'
-import testValues	from './testingvaluesreducer'
+import aaatestValues	from './testingvaluesreducer'
 
 export default combineReducers({
 	blocks,
 	masterBlocks,
 	slots,
 	testing,
-	testValues
+	aaatestValues
 })
 

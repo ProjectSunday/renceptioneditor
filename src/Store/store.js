@@ -34,26 +34,21 @@ let initialState = {
 		{
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
-			dropZones: [
-				{ blockAbove: undefined, blockBelow: 100, instant: false, visible: false },
-				{ blockAbove: 100, blockBelow: 101, instant: false, visible: false },
-				{ blockAbove: 101, blockBelow: 102, instant: false, visible: false },
-				{ blockAbove: 102, blockBelow: 103, instant: false, visible: false },
-				{ blockAbove: 103, blockBelow: 104, instant: false, visible: false },
-				{ blockAbove: 104, blockBelow: 105, instant: false, visible: false },
-				{ blockAbove: 105, blockBelow: undefined, instant: false, visible: false },
-			]
+			dropZones: []
 		}
 	],
 
-	testing: [ 0, 1, 2, 3 ],
+	// dropZones: [],
 
-	testValues: [
+
+	aaatestValues: [
 		{ id: 0, value: 'zero' },
 		{ id: 1, value: 'one' },
 		{ id: 2, value: 'two' },
 		{ id: 3, value: 'three' }
-	]
+	],
+
+	testing: [ 0, 1, 2, 3 ]
 }
 
 
