@@ -9,9 +9,9 @@ const blocks = (state = [], action) => {
 				...state,
 				action.block
 			]
-		case 'SLOT_DRAG_START':
+		case 'BLOCK_DRAG_START':
 			var blocks = state.slice(0)
-			var block = blocks.find(b => b.id == action.blockId)
+			var block = blocks.find(b => b.id == action.id)
 			block.visible = false
 			return blocks
 		default:

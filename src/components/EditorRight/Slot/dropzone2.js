@@ -22,12 +22,12 @@ const TRANSITION_DELAY = 100
 // 	isOver: monitor.isOver()
 // })
 
-// const mapStateToProps = (state, ownProps) => {
-// 	return Object.assign({}, state.slots.find(s => s.id == ownProps.slotId).dropZones)
-// }
+const mapStateToProps = (state, ownProps) => {
+	return Object.assign({}, state.dropZones.find(d => d.slotId == ownProps.slotId && d.id == ownProps.id))
+}
 
 
-// @connect(mapStateToProps)
+@connect(mapStateToProps)
 class DropZone extends React.Component {
 	constructor(props) {
 		super(props)
@@ -52,14 +52,14 @@ class DropZone extends React.Component {
 
 	render() {
 		// console.log('dropzone.render ', this.props)
-		const { connectDropTarget, index, instant, visible } = this.props
+		const { connectDropTarget, id, instant, visible } = this.props
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
 			// background: randomColor,
 			background: '#555',
-			height: '0px',
-			// height: '20px',
+			// height: '0px',
+			height: '20px',
 			transition: `height ${TRANSITION_DELAY}ms`
 		}
 
@@ -70,7 +70,7 @@ class DropZone extends React.Component {
 
 		return (
 			<div ref="dropZone" style={style}>
-				dropzone index: <span style={indexStyle}>{index}</span>
+				dropzone index: <span style={indexStyle}>{id}</span>
 			</div>
 		)
 	}

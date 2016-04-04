@@ -7,25 +7,11 @@ import Block from './block'
 import DropZone from './dropzone2'
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('slot.mapStateToProps')
 	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		initializeDropZones: (dropZones) => {
-			dispatch({
-				type: 'SLOT_SET_DROPZONES',
-				id: ownProps.id,
-				dropZones: dropZones.map(d => d.id)
-			})
-
-			// dispatch({
-			// 	type: 'ADD_DROPZONES',
-			// 	dropZones: dropZones
-			// })
-		}
-	}
+	return { dispatch: dispatch }
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -33,6 +19,8 @@ export default class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+
 		this.initializeDropZones = this.initializeDropZones.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
@@ -41,39 +29,28 @@ export default class Slot extends React.Component {
 		this.initializeDropZones()
 	}
 
+	// shouldComponentUpdate(nextProps) {
+	// 	if (this.props.dropZones.length !== nextProps.dropZones.length) { return false }
+	// }
+
+
 	initializeDropZones() {
-		const { blocks } = this.props
+		const { dispatch, id, blocks } = this.props
+		const dropZoneIds = this.props.dropZones
 
-		var id = 0
-
-		var defaultDropZone = {
-			slotId: this.props.id,
+		var dropZones = dropZoneIds.map(dzi => ({
+			id: dzi,
+			slotId: id,
+			blockAbove: blocks[dzi - 1],
+			blockBelow: blocks[dzi],
 			instant: false,
 			visible: false
-		}
+		}))
 
-		var dropZones = []
-
-		// var dropZones = [Object.assign({}, defaultDropZone, {
-		// 	id: id++,
-		// 	blockAbove: undefined,
-		// 	blockBelow: blocks[0],
-		// })]
-
-		for (var i = -1; i < blocks.length; i++) {
-			dropZones.push(Object.assign({}, defaultDropZone, {
-				id: id++,
-				blockAbove: blocks[i],
-				blockBelow: blocks[i + 1],
-			}))
-		}
-
-		this.props.initializeDropZones(dropZones)
-
-		// var dropZoneIds = dropZones.map(d => d.id)
-
-		// console.log('dropZones', dropZoneIds)
-
+		dispatch({
+			type: 'DROPZONE_ADD_ALL',
+			dropZones: dropZones
+		})
 	}
 
 	addClicked() {
@@ -95,12 +72,12 @@ export default class Slot extends React.Component {
 		let children = []
 
 		blocks.forEach((b, i) => {
-			children.push(<DropZone key={'dz' + i} {...dropZones[i]} slotId={id} index={i} />)
-			children.push(<Block key={i} id={b} slotId={id} visible={b != dragBlock} />)
+			children.push(<DropZone key={'dz' + i} id={dropZones[i]} slotId={id} />)
+			children.push(<Block key={i} id={b} slotId={id} />)
 		})
 
 		//the very bottom dropzone
-		children.push(<DropZone key={'dz' + blocks.length} {...dropZones[blocks.length]} slotId={id} />)
+		children.push(<DropZone key={'dz' + blocks.length} id={dropZones[blocks.length]} slotId={id} />)
 
 	    const style = {
 	    	background: '#eee',

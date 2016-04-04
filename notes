@@ -15,7 +15,7 @@ data initialization cn be done in constructor
 
 on drag start >
 	drag block hidden, no block or slot re-render
-	remove dropzone, adjust dropzone link
+	remove dropzone, adjust dropzone link, deactivate dropzone
 	instanstly show bottom dropzone
 
 on drag hover > 
@@ -28,3 +28,18 @@ on drop >
 
 
 working on initializing dropzone, slot.rendering is happening twice again
+
+
+
+on drag start >
+	drag block hidden
+	in dropzones, remove block and dropzone
+	instanstly show bottom dropzone
+
+on drag over >
+	all instants false
+	show dropzone
+
+on drop > 
+	move block
+	render everything

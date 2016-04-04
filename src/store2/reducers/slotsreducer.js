@@ -28,6 +28,16 @@ const slots = (state = [], action) => {
 		// 	slot.dropZones[index + 1].visible = true
 
 		// 	return state
+
+		case 'SLOT_INITIALIZE_DROPZONES':
+			var slots = state.slice(0)
+			var slot = slots.find(s => s.id == action.id)
+			var dropZones = []
+			for (var i = 0; i < slot.blocks.length + 1; i++) {
+				dropZones.push(i)
+			}
+			slot.dropZones = dropZones
+			return slots
 		case 'MOVE_BLOCK':
 			var state = state.slice(0)
 

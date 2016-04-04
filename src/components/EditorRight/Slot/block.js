@@ -8,37 +8,27 @@ import * as Actions from '../../../actions'
 import './block.less'
 
 const mapStateToProps = (state, ownProps) => {
-
-	var block = state.blocks.find(b => b.id === ownProps.id)
-
-	return Object.assign({}, block)
-
+	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )},
-		dragBlock: (index) => { dispatch(Actions.dragBlock(ownProps.slotId, index))},
-		dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
-		moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
-		resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
-    	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) },
-    	dragStart: () => { 
-    		dispatch({ 
-    			type: 'SLOT_DRAG_START', 
-    			slotId: ownProps.slotId,
-    			blockId: ownProps.id 
-    		})
-    	},
-    	setDropZoneVisible: (below) => {
-    		dispatch({
-	    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
-	    		slotId: ownProps.slotId, 
-	    		blockId: ownProps.id, 
-	    		below: below
-	    	})
-    	}
-	}
+	return { dispatch: dispatch }
 }
+
+
+		// showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )},
+		// dragBlock: (index) => { dispatch(Actions.dragBlock(ownProps.slotId, index))},
+		// dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
+		// moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
+		// resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
+  //   	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) },
+  //   	setDropZoneVisible: (below) => {
+  //   		dispatch({
+	 //    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
+	 //    		slotId: ownProps.slotId, 
+	 //    		blockId: ownProps.id, 
+	 //    		below: below
+	 //    	})
+  //   	}
 
 
 // const targetSpec = {
@@ -81,14 +71,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 // 	}
 // }
 
-// const isBlockDragging = (props, monitor) => {
-// 	return props.id === monitor.getItem().id
-// }
-// const sourceCollect = (connect, monitor) => ({
-// 	connectDragSource: connect.dragSource(),
-//   	isDragging: monitor.isDragging()
-// })
-
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Block extends Component {
 	constructor(props) {
@@ -121,11 +103,16 @@ export default class Block extends Component {
 	onDragStart(e) {
 		// console.log('onDragStart', e)
 
+		const { dispatch, id, slotId } = this.props
+
 		e.dataTransfer.setData('text', '');
 
 	    // this.props.setDropZoneVisible(false, true)
 
-		this.props.dragStart()
+	    dispatch({
+	    	type: 'BLOCK_DRAG_START',
+	    	id: id
+	    })
 
 	}
 
