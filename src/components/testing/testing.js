@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import ChildOne from './childone'
+import ChildTwo from './childtwo'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -29,17 +30,26 @@ class Testing extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.test = this.test.bind(this)
+		this.state = {
+			test: ''
+		}
 	}
 	shouldComponentUpdate(nextProps) {
 		console.log('Testing.shouldComponentUpdate', nextProps)
 		return true
+	}
+	test() {
+		this.setState({
+			test: 'blah'
+		})
 	}
 	render() {
 		console.log('Testing.render ', this.props)
 		const { testing, buttonOneClicked, buttonTwoClicked } = this.props
 		var children = []
 
-		testing.forEach((t, i) => {
+		testing.childOne.forEach((t, i) => {
 			children.push(<ChildOne key={i} id={t} />)
 		})
 
@@ -49,12 +59,16 @@ class Testing extends React.Component {
 				paddingTop: '20px'
 			}
 		}
+
 		return (
 			<div style={style.testing}>
 				<span>Testing</span>
 				<button onClick={buttonOneClicked}>ButtonOne</button>
 				<button onClick={buttonTwoClicked}>ButtonTwo</button>
+				<button onClick={this.test}>test</button>
 				{children}
+				<div>--------------------</div>
+				<ChildTwo id={1} />
 			</div>
 		)
 	}

@@ -1,6 +1,3 @@
-[ dz1, dz1<-block1->dz2, dz2, dz2<-block2->dz3, dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>2, 2<block>3, 3<block>4 ]
-
-[ dz1, dz1<-block1->dz3, dz2, (dz2<-block2->dz3), dz3, dz3<-block3->dz4 ]     [ dz1, dz2, dz3 ]   [ 1<block>3, (block), 3<block>4 ]
 
 
 settimeout in shouldcomponentupdate works
@@ -8,5 +5,26 @@ datatransfer has to be set
 and absolutely no moving the block around
 
 
+working on initalization of slot data
+
+testing on initialization in constructor
+
+data initialization cn be done in constructor
 
 
+
+on drag start >
+	drag block hidden, no block or slot re-render
+	remove dropzone, adjust dropzone link
+	instanstly show bottom dropzone
+
+on drag hover > 
+	all instants false
+	show dropzone
+
+on drop >
+	move block
+	re-render slot and reset all dropzones, 
+
+
+working on initializing dropzone, slot.rendering is happening twice again

@@ -2,18 +2,26 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 
-// import TestTwo from './testtwo'
-
-
 const mapStateToProps = (state, ownProps) => {
-	return Object.assign({}, state.testValues.find(s => s.id == ownProps.id).value)
+	return {
+		childOne: state.testValues.find(c => c.id == ownProps.id)
+	}
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		initializeDropZone: () => {
+			console.log('dispatch INITIALIZE_DROPZONE')
+			dispatch({ type: 'INITIALIZE_DROPZONE' })
+		}
+	}
 }
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 class ChildTwo extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.props.initializeDropZone()
 	}
 	shouldComponentUpdate(nextProps) {
 		console.log('ChildTwo.shouldComponentUpdate', nextProps)
@@ -23,7 +31,7 @@ class ChildTwo extends React.Component {
 		console.log('ChildTwo.render ', this.props)
 		return (
 			<div>
-				I am asdfsdf {this.props.value}
+				I am ChildTwo props: {JSON.stringify(this.props)}
 			</div>
 		)
 	}

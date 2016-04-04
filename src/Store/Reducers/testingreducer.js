@@ -8,11 +8,19 @@ const testing = (state = [], action) => {
 		case 'TESTING_MOVE_AND_SET':
 			console.log('testing TESTING_MOVE_AND_SET')
 		
-			var testing = state.slice(0)
+			var testing = state.childOne.slice(0)
 
 			testing.splice(action.toIndex, 0, testing.splice(action.fromIndex, 1)[0])
 
 			return testing
+		// case 'INITIALIZE_DROPZONE':
+		// 	console.log('testing INITIALIZE_DROPZONE')
+
+		// 	var testing = state.childOne.slice(0)
+
+		// 	testing[1].value = 'changed'
+
+		// 	return testing
 		default:
 			return state
 	}

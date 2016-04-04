@@ -16,6 +16,15 @@ const testValues = (state = [], action) => {
 			var testValue = testValues.find(t => t.id == action.id)
 			testValue += 'moved'
 			return testValues
+
+		case 'TEST_INITIALIZE_DROPZONE':
+			console.log('testing INITIALIZE_DROPZONE')
+
+			var testValues = state.slice(0)
+			testValues[1].value = 'changed'
+
+
+			return testValues
 		default:
 			return state
 	}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 
 const mapStateToProps = (state, ownProps) => {
-	return Object.assign({}, state.aaatestValues.find(s => s.id == ownProps.id))
+	return Object.assign({}, state.testValues.find(s => s.id == ownProps.id))
 }
 
 @connect(mapStateToProps)
@@ -13,11 +13,11 @@ class ChildOne extends React.Component {
 		this.render = this.render.bind(this)
 	}
 	shouldComponentUpdate(nextProps) {
-		console.log('ChildOne.shouldComponentUpdate', nextProps)
+		// console.log('ChildOne.shouldComponentUpdate', nextProps)
 		return true
 	}
 	render() {
-		console.log('ChildOne.render ', this.props)
+		// console.log('ChildOne.render ', this.props)
 		const { id, value } = this.props
 		return (
 			<div>

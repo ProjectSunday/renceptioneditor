@@ -30,6 +30,10 @@ let initialState = {
 		}
 	],
 
+	editorRight: {
+		slots: [ 1000 ]
+	},
+
 	slots: [
 		{
 			id: 1000,
@@ -38,17 +42,20 @@ let initialState = {
 		}
 	],
 
-	// dropZones: [],
+	dropZones: [],
 
 
-	aaatestValues: [
+	testValues: [
 		{ id: 0, value: 'zero' },
 		{ id: 1, value: 'one' },
 		{ id: 2, value: 'two' },
 		{ id: 3, value: 'three' }
 	],
 
-	testing: [ 0, 1, 2, 3 ]
+	testing: {
+		childOne: [ 0, 1, 2, 3 ],
+		childTwo: 'blah'
+	}
 }
 
 

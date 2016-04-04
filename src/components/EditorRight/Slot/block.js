@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     	dragStart: () => { 
     		dispatch({ 
     			type: 'SLOT_DRAG_START', 
-    			slotId: ownProps.slotId, 
+    			slotId: ownProps.slotId,
     			blockId: ownProps.id 
     		})
     	},
@@ -108,15 +108,15 @@ export default class Block extends Component {
 	// }
 
 	onDragOver(e) {
-		console.log('onDragOver')
+		// console.log('onDragOver')
 
-	    const hoverBoundingRect = e.target.getBoundingClientRect()
-	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+	 //    const hoverBoundingRect = e.target.getBoundingClientRect()
+	 //    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
-	    // Determine mouse position
-	    const hoverClientY = e.clientY - hoverBoundingRect.top
+	 //    // Determine mouse position
+	 //    const hoverClientY = e.clientY - hoverBoundingRect.top
 
-	    this.props.setDropZoneVisible(hoverMiddleY < hoverClientY)
+	 //    this.props.setDropZoneVisible(hoverMiddleY < hoverClientY)
 	}
 	onDragStart(e) {
 		// console.log('onDragStart', e)
@@ -125,10 +125,7 @@ export default class Block extends Component {
 
 	    // this.props.setDropZoneVisible(false, true)
 
-	    this.props.dragStart()
-
-
-		// this.props.dragStart()
+		this.props.dragStart()
 
 	}
 
@@ -147,9 +144,9 @@ export default class Block extends Component {
 
 
 	render() {
-		// console.log('block.render index:', this.props.index, 'isDragging:', this.props.isDragging)
-		const { dispatch, connectDragSource, connectDropTarget, isDragging, isOver } = this.props;
-		const { id, name, beingDrag } = this.props
+		// console.log('block.render', this.props)
+		// const { dispatch } = this.props;
+		const { id, name } = this.props
 
 		// if (isDragging) {
 		// 	this.props.dragBlock(this.props.index)

@@ -7,7 +7,7 @@ import Slot from './slot/slot'
 
 const mapStateToProps = (state) => {
 	return {
-		slots: state.slots
+		editorRight: state.editorRight
 	}
 }
 
@@ -18,11 +18,11 @@ class EditorRight extends React.Component {
 		this.render = this.render.bind(this)
 	}
 	render() {
-		const { slots } = this.props
+		const { editorRight } = this.props
 		return (
 			<div id="editorright" className="row">
-				{slots.map((s, i) => 
-					<Slot key={i} {...s} />
+				{editorRight.slots.map((s, i) =>
+					<Slot key={i} id={s} />
 				)}
 			</div>
 		)

@@ -9,16 +9,11 @@ const blocks = (state = [], action) => {
 				...state,
 				action.block
 			]
-		case 'BLOCK_DRAG_START':
-			var state = state.slice(0)
-			state[2].hide = true
-
-
-			// slot.dropZones[action.index].enable = false
-			// slot.dropZones[action.index + 1].instant = true
-			// slot.dropZones[action.index + 1].visible = true
-			// slot.blockBeingDrag = slot.blocks[action.index]
-			return state
+		case 'SLOT_DRAG_START':
+			var blocks = state.slice(0)
+			var block = blocks.find(b => b.id == action.blockId)
+			block.visible = false
+			return blocks
 		default:
 			return state
 	}

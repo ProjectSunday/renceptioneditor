@@ -28,7 +28,6 @@ class Components extends React.Component {
 					<EditorRight />
 				</div>
 
-				<Testing />
 			</div>
 		)
 	}

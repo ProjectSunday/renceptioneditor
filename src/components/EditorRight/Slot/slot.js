@@ -6,18 +6,73 @@ import * as Actions from '../../../actions'
 import Block from './block'
 import DropZone from './dropzone2'
 
-// const mapStateToProps = (state, ownProps) => {
-// 	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
-// }
+const mapStateToProps = (state, ownProps) => {
+	console.log('slot.mapStateToProps')
+	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
+}
 
-// @connect(mapStateToProps)
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return {
+		initializeDropZones: (dropZones) => {
+			dispatch({
+				type: 'SLOT_SET_DROPZONES',
+				id: ownProps.id,
+				dropZones: dropZones.map(d => d.id)
+			})
+
+			// dispatch({
+			// 	type: 'ADD_DROPZONES',
+			// 	dropZones: dropZones
+			// })
+		}
+	}
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
+		this.initializeDropZones = this.initializeDropZones.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
+
+		this.initializeDropZones()
+	}
+
+	initializeDropZones() {
+		const { blocks } = this.props
+
+		var id = 0
+
+		var defaultDropZone = {
+			slotId: this.props.id,
+			instant: false,
+			visible: false
+		}
+
+		var dropZones = []
+
+		// var dropZones = [Object.assign({}, defaultDropZone, {
+		// 	id: id++,
+		// 	blockAbove: undefined,
+		// 	blockBelow: blocks[0],
+		// })]
+
+		for (var i = -1; i < blocks.length; i++) {
+			dropZones.push(Object.assign({}, defaultDropZone, {
+				id: id++,
+				blockAbove: blocks[i],
+				blockBelow: blocks[i + 1],
+			}))
+		}
+
+		this.props.initializeDropZones(dropZones)
+
+		// var dropZoneIds = dropZones.map(d => d.id)
+
+		// console.log('dropZones', dropZoneIds)
 
 	}
 
@@ -34,7 +89,7 @@ export default class Slot extends React.Component {
 	}
 
 	render() {
-		// console.log('slot.render', this.props.dragBlock)
+		console.log('slot.render', this.props)
 		const { id, blocks, dropZones, dragBlock } = this.props
 
 		let children = []

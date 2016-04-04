@@ -11,23 +11,23 @@ const slots = (state = [], action) => {
 					update(slot, { blocks: { $push: [ action.block.id ] } }) :
 					slot
 			)
-		case 'SLOT_DRAG_START':
-			// console.log('SLOT_DRAG_START')
-			var state = state.slice(0)
-			var slot = state.find(s => s.id === action.slotId)
-			slot.dragBlock = action.blockId
+		// case 'SLOT_DRAG_START':
+		// 	// console.log('SLOT_DRAG_START')
+		// 	var state = state.slice(0)
+		// 	var slot = state.find(s => s.id === action.slotId)
+		// 	slot.dragBlock = action.blockId
 
-			var index = slot.dropZones.findIndex(d => d.blockBelow == action.blockId)
+		// 	var index = slot.dropZones.findIndex(d => d.blockBelow == action.blockId)
 
-			slot.dropZones[index + 1].blockAbove = slot.dropZones[index].blockAbove
+		// 	slot.dropZones[index + 1].blockAbove = slot.dropZones[index].blockAbove
 
-			slot.dropZones[index].blockAbove = undefined
-			slot.dropZones[index].blockBelow = undefined
+		// 	slot.dropZones[index].blockAbove = undefined
+		// 	slot.dropZones[index].blockBelow = undefined
 
-			slot.dropZones[index + 1].instant = true
-			slot.dropZones[index + 1].visible = true
+		// 	slot.dropZones[index + 1].instant = true
+		// 	slot.dropZones[index + 1].visible = true
 
-			return state
+		// 	return state
 		case 'MOVE_BLOCK':
 			var state = state.slice(0)
 
@@ -66,10 +66,10 @@ const slots = (state = [], action) => {
 			return state
 		case 'SLOT_SET_DROPZONES':
 			console.log('SLOT_SET_DROPZONES', action)
-			var state = state.slice(0)
+			var slots = state.slice(0)
 			var slot = state.find(s => s.id == action.id)
 			slot.dropZones = action.dropZones
-			return state
+			return slots
 		case 'SLOT_SET_DROPZONE_VISIBLE':
 			// console.log('SLOT_SET_DROPZONE_VISIBLE', action.blockId)
 
