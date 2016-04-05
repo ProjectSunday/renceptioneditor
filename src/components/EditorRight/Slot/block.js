@@ -91,30 +91,23 @@ export default class Block extends Component {
 
 	onDragOver(e) {
 		// console.log('onDragOver')
+		const { id, onDragOver } = this.props
 
-	 //    const hoverBoundingRect = e.target.getBoundingClientRect()
-	 //    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
-	 //    // Determine mouse position
-	 //    const hoverClientY = e.clientY - hoverBoundingRect.top
+	    const hoverBoundingRect = e.target.getBoundingClientRect()
+	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
-	 //    this.props.setDropZoneVisible(hoverMiddleY < hoverClientY)
+	    const hoverClientY = e.clientY - hoverBoundingRect.top
+
+	    onDragOver(id, hoverMiddleY < hoverClientY)
+
+
 	}
 	onDragStart(e) {
-		console.log('block.onDragStart')
-
-		const { dispatch, slotId, id } = this.props
-
+		// console.log('block.onDragStart')
+		const { id, onDragStart } = this.props
 		e.dataTransfer.setData('text', '');
-
-	    // this.props.setDropZoneVisible(false, true)
-
-	    dispatch({
-	    	type: 'DRAG_START',
-	    	slotId: slotId,
-	    	blockId: id
-	    })
-
+	   	onDragStart(id)
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -132,7 +125,7 @@ export default class Block extends Component {
 
 
 	render() {
-		console.log('block.render', this.props)
+		// console.log('block.render', this.props)
 		// const { dispatch } = this.props;
 		const { id, name } = this.props
 

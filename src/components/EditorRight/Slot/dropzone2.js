@@ -33,11 +33,13 @@ class DropZone extends React.Component {
 		super(props)
 		this.render = this.render.bind(this)
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		// this.componentDidUpdate = this.componentDidUpdate.bind(this)
+		// this.componentDidMount = this.componentDidMount.bind(this)
 	}
 	shouldComponentUpdate(nextProps) {
 		var self = this
 		// if (!nextProps.enable) { return false }
-		console.log('dropzone.shouldComponentUpdate visible:', nextProps.visible, 'instant:', nextProps.instant)
+		// console.log('dropzone.shouldComponentUpdate visible:', nextProps.visible, 'instant:', nextProps.instant)
 
 
 		self.refs.dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
@@ -49,6 +51,14 @@ class DropZone extends React.Component {
 
 		return false
 	}
+	// componentDidUpdate(prevProps) {
+	// 	console.log('dropzone2.componentDidUpdate')
+	// }
+
+	// componentDidMount() {
+	// 	console.log('dropzone2.componentDidMount')
+	// 	// this.refs.dropZone.style.transition = this.props.instant ? '' : `height ${TRANSITION_DELAY}ms`
+	// }
 
 	render() {
 		// console.log('dropzone.render ', this.props)
@@ -56,11 +66,13 @@ class DropZone extends React.Component {
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
+			height: visible ? '50px' : '0px',
+ 			// transition: instant ? '' : `height ${TRANSITION_DELAY}ms`,
 			// background: randomColor,
 			background: '#555',
 			// height: '0px',
-			height: '20px',
-			transition: `height ${TRANSITION_DELAY}ms`
+			// height: visible ? '50px' : '0px'
+			// height: '20px',
 		}
 
 		const indexStyle = {

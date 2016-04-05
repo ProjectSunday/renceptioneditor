@@ -7,26 +7,7 @@ import Block from './block'
 import DropZone from './dropzone2'
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('slot.mapStateToProps')
-	var slot = state.slots.find(s => s.id == ownProps.id)
-
-	// const { blocks, dropZones } = slot
-
-	// var i = 0, visibleChildren = [];
-
-	// for (i; i < blocks.length; i++) {
-	// 	visibleChildren.push(dropZones[i])
-	// 	visibleChildren.push(blocks[i])
-	// }
-
-	// visibleChildren.push(dropZones[i])
-
 	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
-	// return {
-	// 	blocks: slot.blocks,
-	// 	dropZones: slot.dropZones,
-	// 	visibleChildren: slot.visibleChildren
-	// }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -41,6 +22,8 @@ class Slot extends React.Component {
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		// this.componentDidUpdate = this.componentDidUpdate.bind(this)
 
+		this.onDragStart = this.onDragStart.bind(this)
+		this.onDragOver = this.onDragOver.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
@@ -56,13 +39,40 @@ class Slot extends React.Component {
 	// 	console.log('slot.componentDidUpdate')
 	// }
 
+	onDragStart(blockId) {
+		const { id, visibleChildren } = this.props
+
+		var blockIndex = visibleChildren.findIndex(v => v == blockId)
+		var dropZoneId = visibleChildren[blockIndex + 1]
+
+	    dispatch({
+	    	type: 'DRAG_START',
+	    	slotId: id,
+	    	blockId: blockId,
+	    	dropZoneId: dropZoneId
+	    })
+	}
+	onDragOver(blockId, below) {
+		const { id, visibleChildren } = this.props
+
+		var blockIndex = visibleChildren.findIndex(v => v == blockId)
+
+		var dropZoneId = visibleChildren[below ? blockIndex + 1 : blockIndex - 1 ]
+
+		dispatch({
+			type: 'DROPZONE_SHOW',
+			dropZoneId: dropZoneId
+		})
+
+	}
+
 	addClicked() {
 	}
 	removeClicked() {
 	}
 
 	render() {
-		console.log('slot.render', this.props)
+		// console.log('slot.render', this.props)
 		const { id, blocks, dropZones, visibleChildren } = this.props
 
 		let children = []
@@ -71,7 +81,7 @@ class Slot extends React.Component {
 			if (i % 2 == 0) {
 				children.push(<DropZone key={i} id={vid} />)
 			} else {
-				children.push(<Block key={i} id={vid} slotId={id} />)
+				children.push(<Block key={i} id={vid} slotId={id} onDragStart={this.onDragStart} onDragOver={this.onDragOver} />)
 			}
 		})
 
