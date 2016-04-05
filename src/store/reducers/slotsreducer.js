@@ -12,13 +12,12 @@ const slots = (state = [], action) => {
 					slot
 			)
 		case 'DRAG_START':
-			// console.log('SLOT_DRAG_START')
+			console.log('DRAG_START', action)
 			var slots = state.slice(0)
 			var slot = slots.find(s => s.id === action.slotId)
 			var childIndex = slot.visibleChildren.findIndex(v => v == action.blockId)
 			slot.visibleChildren.splice(childIndex - 1, 2)
 			return slots
-
 		case 'SLOT_INITIALIZE_DROPZONES':
 			var slots = state.slice(0)
 			var slot = slots.find(s => s.id == action.id)

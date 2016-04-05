@@ -21,11 +21,12 @@ const mapStateToProps = (state, ownProps) => {
 
 	// visibleChildren.push(dropZones[i])
 
-	return {
-		blocks: slot.blocks,
-		dropZones: slot.dropZones,
-		visibleChildren: slot.visibleChildren
-	}
+	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
+	// return {
+	// 	blocks: slot.blocks,
+	// 	dropZones: slot.dropZones,
+	// 	visibleChildren: slot.visibleChildren
+	// }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

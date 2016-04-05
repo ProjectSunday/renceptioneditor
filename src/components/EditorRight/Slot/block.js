@@ -101,7 +101,7 @@ export default class Block extends Component {
 	 //    this.props.setDropZoneVisible(hoverMiddleY < hoverClientY)
 	}
 	onDragStart(e) {
-		// console.log('onDragStart', e)
+		console.log('block.onDragStart')
 
 		const { dispatch, slotId, id } = this.props
 
@@ -132,7 +132,7 @@ export default class Block extends Component {
 
 
 	render() {
-		// console.log('block.render', this.props)
+		console.log('block.render', this.props)
 		// const { dispatch } = this.props;
 		const { id, name } = this.props
 
