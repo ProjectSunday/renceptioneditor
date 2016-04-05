@@ -7,7 +7,25 @@ import Block from './block'
 import DropZone from './dropzone2'
 
 const mapStateToProps = (state, ownProps) => {
-	return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
+	console.log('slot.mapStateToProps')
+	var slot = state.slots.find(s => s.id == ownProps.id)
+
+	// const { blocks, dropZones } = slot
+
+	// var i = 0, visibleChildren = [];
+
+	// for (i; i < blocks.length; i++) {
+	// 	visibleChildren.push(dropZones[i])
+	// 	visibleChildren.push(blocks[i])
+	// }
+
+	// visibleChildren.push(dropZones[i])
+
+	return {
+		blocks: slot.blocks,
+		dropZones: slot.dropZones,
+		visibleChildren: slot.visibleChildren
+	}
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -15,69 +33,46 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Slot extends React.Component {
+class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		// this.componentDidUpdate = this.componentDidUpdate.bind(this)
 
-		this.initializeDropZones = this.initializeDropZones.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 
-		this.initializeDropZones()
 	}
 
 	// shouldComponentUpdate(nextProps) {
-	// 	if (this.props.dropZones.length !== nextProps.dropZones.length) { return false }
+	// 	console.log('slot.shouldComponentUpdate', !!nextProps.update)
+	// 	return true
+	// 	// return !!nextProps.update
+	// }
+	// componentDidUpdate(prevProps) {
+	// 	console.log('slot.componentDidUpdate')
 	// }
 
-
-	initializeDropZones() {
-		const { dispatch, id, blocks } = this.props
-		const dropZoneIds = this.props.dropZones
-
-		var dropZones = dropZoneIds.map(dzi => ({
-			id: dzi,
-			slotId: id,
-			blockAbove: blocks[dzi - 1],
-			blockBelow: blocks[dzi],
-			instant: false,
-			visible: false
-		}))
-
-		dispatch({
-			type: 'DROPZONE_ADD_ALL',
-			dropZones: dropZones
-		})
-	}
-
 	addClicked() {
-		this.props.dispatch({
-	    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
-	    		slotId: 1000, 
-	    		blockId: 103, 
-	    		below: true
-		})
 	}
 	removeClicked() {
-		this.props.dispatch(Actions.removeAllDropZones(this.props.id))
 	}
 
 	render() {
 		console.log('slot.render', this.props)
-		const { id, blocks, dropZones, dragBlock } = this.props
+		const { id, blocks, dropZones, visibleChildren } = this.props
 
 		let children = []
 
-		blocks.forEach((b, i) => {
-			children.push(<DropZone key={'dz' + i} id={dropZones[i]} slotId={id} />)
-			children.push(<Block key={i} id={b} slotId={id} />)
+		visibleChildren.forEach((vid, i) => {
+			if (i % 2 == 0) {
+				children.push(<DropZone key={i} id={vid} />)
+			} else {
+				children.push(<Block key={i} id={vid} slotId={id} />)
+			}
 		})
-
-		//the very bottom dropzone
-		children.push(<DropZone key={'dz' + blocks.length} id={dropZones[blocks.length]} slotId={id} />)
 
 	    const style = {
 	    	background: '#eee',
@@ -95,3 +90,5 @@ export default class Slot extends React.Component {
 		)
 	}
 }
+
+export default Slot

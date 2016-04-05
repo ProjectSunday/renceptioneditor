@@ -103,15 +103,16 @@ export default class Block extends Component {
 	onDragStart(e) {
 		// console.log('onDragStart', e)
 
-		const { dispatch, id, slotId } = this.props
+		const { dispatch, slotId, id } = this.props
 
 		e.dataTransfer.setData('text', '');
 
 	    // this.props.setDropZoneVisible(false, true)
 
 	    dispatch({
-	    	type: 'BLOCK_DRAG_START',
-	    	id: id
+	    	type: 'DRAG_START',
+	    	slotId: slotId,
+	    	blockId: id
 	    })
 
 	}

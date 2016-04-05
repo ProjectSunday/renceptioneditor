@@ -11,23 +11,13 @@ const slots = (state = [], action) => {
 					update(slot, { blocks: { $push: [ action.block.id ] } }) :
 					slot
 			)
-		// case 'SLOT_DRAG_START':
-		// 	// console.log('SLOT_DRAG_START')
-		// 	var state = state.slice(0)
-		// 	var slot = state.find(s => s.id === action.slotId)
-		// 	slot.dragBlock = action.blockId
-
-		// 	var index = slot.dropZones.findIndex(d => d.blockBelow == action.blockId)
-
-		// 	slot.dropZones[index + 1].blockAbove = slot.dropZones[index].blockAbove
-
-		// 	slot.dropZones[index].blockAbove = undefined
-		// 	slot.dropZones[index].blockBelow = undefined
-
-		// 	slot.dropZones[index + 1].instant = true
-		// 	slot.dropZones[index + 1].visible = true
-
-		// 	return state
+		case 'DRAG_START':
+			// console.log('SLOT_DRAG_START')
+			var slots = state.slice(0)
+			var slot = slots.find(s => s.id === action.slotId)
+			var childIndex = slot.visibleChildren.findIndex(v => v == action.blockId)
+			slot.visibleChildren.splice(childIndex - 1, 2)
+			return slots
 
 		case 'SLOT_INITIALIZE_DROPZONES':
 			var slots = state.slice(0)

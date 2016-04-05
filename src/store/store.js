@@ -30,6 +30,39 @@ let initialState = {
 		}
 	],
 
+	dropZones: [
+		{
+			id: 200,
+			visible: false,
+			instant: false
+		},{
+			id: 201,
+			visible: false,
+			instant: false
+		},{
+			id: 202,
+			visible: false,
+			instant: false
+		},{
+			id: 203,
+			visible: false,
+			instant: false
+		},{
+			id: 204,
+			visible: false,
+			instant: false
+		},{
+			id: 205,
+			visible: false,
+			instant: false
+		},{
+			id: 299,
+			visible: false,
+			instant: false
+		}
+	],
+
+
 	editorRight: {
 		slots: [ 1000 ]
 	},
@@ -38,11 +71,11 @@ let initialState = {
 		{
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
-			dropZones: []
+			dropZones: [200, 201, 202, 203, 204, 205, 299],
+			update: false,
+			visibleChildren: [ 200, 100, 201, 101, 202, 102, 203, 103, 204, 104, 205, 105, 299 ]
 		}
 	],
-
-	dropZones: [],
 
 
 	testValues: [
