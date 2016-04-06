@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+// import Q from 'q'
 
 const TRANSITION_DELAY = 100
 
 const mapStateToProps = (state, ownProps) => {
-
-	return state.ui.slots.find(s => s.id == ownProps.slotId).dropZones.find(d => d.id == ownProps.id)
-
-	// return Object.assign({}, state.dropZones.find(d => d.slotId == ownProps.slotId && d.id == ownProps.id))
+	return Object.assign({}, 
+		state.ui.slots.find(s => s.id == ownProps.slotId)
+		.dropZones.find(d => d.id == ownProps.id)
+	)
 }
 
 @connect(mapStateToProps)
@@ -52,42 +53,38 @@ class DropZone extends React.Component {
 
 	onDrop() {
 
-		var { slotId: toSlotId, id: dropZoneId } = this.props
+		var { slotId: toSlotId, id: toIndex } = this.props
 
 		STORE.dispatch(function (dispatch, getState) {
 			var state = getState()
 			var { blockId, slotId: fromSlotId } = state.ui.dragBlock
 
-			dispatch(
-				moveBlock(fromSlotId, blockId)
-			).then(() => {
-				var promises = [ dispatch(initializeSlotChildren(fromSlotId)) ]
-				if (toSlotId != fromSlotId) {
-					promises.push( dispatch(initializeSlotChildren(toSlotId)) )
+			dispatch(moveBlock(fromSlotId, blockId))
+
+			dispatch(initializeSlotChildren(fromSlotId))
+
+			if (toSlotId != fromSlotId) {
+				dispatch(initializeSlotChildren(toSlotId))
+			}
+
+			function moveBlock(fromSlotId, blockId) {
+				return {
+					type: 'SLOT_MOVE_BLOCK', 
+					fromSlotId, 
+					blockId, 
+					toSlotId, 
+					toIndex
 				}
-				return Promise.all(promises)
-			})
+			}
+
+			function initializeSlotChildren(slotId) {
+				return {
+					type: 'UI_INITILIZE_SLOT_CHILDREN',
+					slotId,
+					blocks: state.slots.fbi(slotId).blocks
+				}
+			}
 		})
-
-		function moveBlock(fromSlotId, blockId) {
-			return {
-				type: 'SLOT_MOVE_BLOCK', 
-				fromSlotId, 
-				blockId, 
-				toSlotId, 
-				dropZoneId
-			}
-		}
-
-		function initializeSlotChildren(slotId) {
-			var { blocks } = state.slots.find(s => s.id == slotId)
-			return {
-				type: 'UI_INITILIZE_SLOT_CHILDREN',
-				slotId,
-				blocks
-			}
-		}
-
 	}
 
 	render() {
@@ -96,7 +93,7 @@ class DropZone extends React.Component {
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
-			height: visible ? '50px' : '20px',
+			height: visible ? '50px' : '0px',
  			// transition: instant ? '' : `height ${TRANSITION_DELAY}ms`,
 			// background: randomColor,
 			background: '#555',

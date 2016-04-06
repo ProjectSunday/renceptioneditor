@@ -21,16 +21,48 @@ const ui = (state = {}, action) => {
 
 			// ui[0].test.splice(0, 0, action.value)
 			return ui
+		case 'DRAG_START':
+			var ui = Object.assign({}, state)
 
+			var { blockId, slotId } = action
+
+			var slot = ui.slots.find(s => s.id == slotId)
+
+			//remove ui.children
+			var removeIndex = slot.children.findIndex((c, i) => c == blockId && i % 2 != 0)
+			var removed = slot.children.splice(removeIndex - 1, 2)
+
+			//instanst show dropzone below
+			var dropZone = slot.dropZones.find(d => d.id == slot.children[removeIndex - 1])
+			dropZone.visible = dropZone.instant = true
+
+			//set dragblock
+			ui.dragBlock = { blockId, slotId }
+
+			return ui
+		case 'UI_DROPZONE_SHOW':
+			var { dropZoneId, slotId } = action
+			var ui = Object.assign({}, state)
+
+			var slot = ui.slots.find(s => s.id == slotId)
+
+			slot.dropZones.forEach(d => {
+				d.instant = false
+				if (d.id == dropZoneId) {
+					d.visible = true
+				} else {
+					d.visible = false
+				}
+			})
+			return ui
 		case 'UI_INITILIZE_SLOT_CHILDREN':
-
-				// type: 'UI_INITILIZE_SLOT_CHILDREN',
-				// slotId,
-				// blocks
+			// type: 'UI_INITILIZE_SLOT_CHILDREN',
+			// slotId,
+			// blocks
 			// console.log('UI_INITILIZE_SLOT_CHILDREN')
 			var ui = Object.assign({}, state)
 
-			const { blocks, slotId } = action
+			var { blocks, slotId } = action
 			
 
 			var slot = ui.slots.find(s => s.id == slotId)

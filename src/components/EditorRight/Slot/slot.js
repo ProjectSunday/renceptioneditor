@@ -15,7 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 		})
 		ui = state.ui.slots.find(s => s.id == ownProps.id)
 	}
-	return Object.assign(ui, slot)
+	return Object.assign({}, ui, slot)
 }
 
 @connect(mapStateToProps)

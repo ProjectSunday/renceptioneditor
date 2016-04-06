@@ -60,17 +60,14 @@ const slots = (state = [], action) => {
 			slot.dropZones = dropZones
 			return slots
 		case 'SLOT_MOVE_BLOCK':
-			// type: 'SLOT_MOVE_BLOCK', 
-			// fromSlotId, 
-			// blockId, 
-			// toSlotId, 
-			// dropZoneId
+			var { fromSlotId, blockId, toSlotId, toIndex } = action
 			var slots = state.slice(0)
 
-			var blocks = slots.find(s => s.id == action.fromSlotId).blocks
-			var dragBlock = blocks.splice(blocks.findIndex(b => b.id == action.blockId), 1)[0]
+			var fromSlot = slots.fbi(fromSlotId)
+			var toSlot = slots.fbi(toSlotId)
 
-			slots.find(s => s.id == action.toSlotId).blocks.splice(dropZoneId, 0, dragBlock)
+			var dragBlock = fromSlot.blocks.splice(fromSlot.blocks.fibi(blockId), 1)[0]
+			toSlot.blocks.splice(toIndex, 0, dragBlock)
 
 			console.log('SLOT_MOVE_BLOCK', slots)
 			return slots

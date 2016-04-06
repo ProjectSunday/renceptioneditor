@@ -6,7 +6,7 @@ import * as Actions from '../../../actions'
 import './block.less'
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('block.mapStateToProps', ownProps)
+	// console.log('block.mapStateToProps', ownProps)
 	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
 }
 
@@ -30,12 +30,11 @@ export default class Block extends Component {
 	// }
 
 	onDragStart(e) {
-		console.log('block.onDragStart')
+		// console.log('block.onDragStart')
 
 		const { id: blockId, slotId } = this.props
 
 		e.dataTransfer.setData('text', '');
-
 
 	    STORE.dispatch({
 	    	type: 'DRAG_START',
@@ -43,20 +42,33 @@ export default class Block extends Component {
 	    	blockId
 	    })
 
-
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
-		const { id, onDragOver } = this.props
-
+		var { id, slotId } = this.props
 
 	    const hoverBoundingRect = e.target.getBoundingClientRect()
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
 	    const hoverClientY = e.clientY - hoverBoundingRect.top
 
-	    onDragOver(id, hoverMiddleY < hoverClientY)
+		STORE.dispatch(function (dispatch, getState) {
+			var ui = getState().ui
 
+			var slot = ui.slots.fbi(slotId)
+
+			var blockIndex = slot.children.findIndex((c, i) => c == id && i % 2 != 0)
+
+			var dropZoneIndex = hoverMiddleY < hoverClientY ? blockIndex + 1 : blockIndex - 1
+
+			var dropZoneId = slot.children[dropZoneIndex]
+
+			dispatch({
+				type: 'UI_DROPZONE_SHOW',
+				slotId,
+				dropZoneId
+			})
+		})
 
 	}
 	onDragEnd(e) {
@@ -85,7 +97,7 @@ export default class Block extends Component {
 
 
 	render() {
-		console.log('block.render', this.props)
+		// console.log('block.render', this.props)
 		const { id, name } = this.props
 
 		let styles = {
@@ -101,11 +113,11 @@ export default class Block extends Component {
 		}
 				// onDragEnd={this.onDragEnd}>
 
-				// onDragOver={this.onDragOver}
 		return (
 			<div ref="block" className="block" style={styles} draggable="true"
 				onDragStart={this.onDragStart}
-				>
+				onDragOver={this.onDragOver}
+			>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)

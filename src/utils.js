@@ -4,3 +4,10 @@ Array.prototype.upsig = function(predicate, values) {
 	Object.assign(this[index], values)
 	return this
 }
+
+Array.prototype.fbi = function (id) {
+	return this.find(x => x.id === id)
+}
+Array.prototype.fibi = function (id) {
+	return this.findIndex(x => x.id === id)
+}
