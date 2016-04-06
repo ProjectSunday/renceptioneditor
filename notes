@@ -15,3 +15,8 @@ data initialization cn be done in constructor
 it's a memory comparison!!!!
 
 done with UI_INITILIZE_SLOT_CHILDREN, work on intergrating that into slots constructor
+
+thank god for redux
+
+damn object.assign in blocks
+

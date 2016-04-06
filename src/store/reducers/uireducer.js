@@ -27,7 +27,7 @@ const ui = (state = {}, action) => {
 				// type: 'UI_INITILIZE_SLOT_CHILDREN',
 				// slotId,
 				// blocks
-			console.log('UI_INITILIZE_SLOT_CHILDREN')
+			// console.log('UI_INITILIZE_SLOT_CHILDREN')
 			var ui = Object.assign({}, state)
 
 			const { blocks, slotId } = action

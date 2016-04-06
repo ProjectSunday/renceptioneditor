@@ -6,6 +6,7 @@ import * as Actions from '../../../actions'
 import './block.less'
 
 const mapStateToProps = (state, ownProps) => {
+	console.log('block.mapStateToProps', ownProps)
 	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
 }
 
@@ -19,7 +20,7 @@ export default class Block extends Component {
 		this.onDragEnd = this.onDragEnd.bind(this)
 
 		// this.componentDidMount = this.componentDidMount.bind(this)
-		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 	}
 	// componentDidMount() {
 	// 	console.log('componentDidMount', this.props.index)
@@ -29,10 +30,20 @@ export default class Block extends Component {
 	// }
 
 	onDragStart(e) {
-		// console.log('block.onDragStart')
-		const { id, onDragStart } = this.props
+		console.log('block.onDragStart')
+
+		const { id: blockId, slotId } = this.props
+
 		e.dataTransfer.setData('text', '');
-	   	onDragStart(id)
+
+
+	    STORE.dispatch({
+	    	type: 'DRAG_START',
+	    	slotId,
+	    	blockId
+	    })
+
+
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
@@ -56,9 +67,11 @@ export default class Block extends Component {
 
 		onDragEnd(id)
 
+
+
 	}
 	shouldComponentUpdate(nextProps) {
-		// console.log('block.shouldComponentUpdate', nextProps.index)
+		console.log('block.shouldComponentUpdate', nextProps.index)
 		var self = this
 
 		if (nextProps.visible === false) {
@@ -72,7 +85,7 @@ export default class Block extends Component {
 
 
 	render() {
-		// console.log('block.render', this.props)
+		console.log('block.render', this.props)
 		const { id, name } = this.props
 
 		let styles = {
@@ -86,12 +99,13 @@ export default class Block extends Component {
 			background: 'black',
 			color: 'yellow'
 		}
+				// onDragEnd={this.onDragEnd}>
 
+				// onDragOver={this.onDragOver}
 		return (
 			<div ref="block" className="block" style={styles} draggable="true"
 				onDragStart={this.onDragStart}
-				onDragOver={this.onDragOver}
-				onDragEnd={this.onDragEnd}>
+				>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)

@@ -11,13 +11,13 @@ const slots = (state = [], action) => {
 					update(slot, { blocks: { $push: [ action.block.id ] } }) :
 					slot
 			)
-		case 'DRAG_START':
-			var slots = state.slice(0)
-			var slot = slots.find(s => s.id === action.slotId)
-			var childIndex = slot.visibleChildren.findIndex(v => v == action.blockId)
-			slot.visibleChildren.splice(childIndex - 1, 2)
-			console.log('DRAG_START', slots)
-			return slots
+		// case 'DRAG_START':
+		// 	var slots = state.slice(0)
+		// 	var slot = slots.find(s => s.id === action.slotId)
+		// 	var childIndex = slot.visibleChildren.findIndex(v => v == action.blockId)
+		// 	slot.visibleChildren.splice(childIndex - 1, 2)
+		// 	console.log('DRAG_START', slots)
+		// 	return slots
 		case 'DRAG_END':
 			var slots = state.slice(0)
 

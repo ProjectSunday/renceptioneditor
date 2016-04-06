@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 const TRANSITION_DELAY = 100
 
 const mapStateToProps = (state, ownProps) => {
-	return Object.assign({}, state.dropZones.find(d => d.slotId == ownProps.slotId && d.id == ownProps.id))
+
+	return state.ui.slots.find(s => s.id == ownProps.slotId).dropZones.find(d => d.id == ownProps.id)
+
+	// return Object.assign({}, state.dropZones.find(d => d.slotId == ownProps.slotId && d.id == ownProps.id))
 }
 
 @connect(mapStateToProps)
@@ -93,7 +96,7 @@ class DropZone extends React.Component {
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
-			height: visible ? '50px' : '0px',
+			height: visible ? '50px' : '20px',
  			// transition: instant ? '' : `height ${TRANSITION_DELAY}ms`,
 			// background: randomColor,
 			background: '#555',

@@ -10,6 +10,7 @@ const blocks = (state = [], action) => {
 				action.block
 			]
 		case 'DRAG_START':
+			console.log('DRAG_START')
 			var blocks = state.slice(0)
 			var block = blocks.find(b => b.id == action.blockId)
 			block.visible = false
