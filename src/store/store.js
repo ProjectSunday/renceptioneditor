@@ -72,11 +72,7 @@ let initialState = {
 		{
 			id: 1000,
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
-			dropZones: [200, 201, 202, 203, 204, 205, 299],
-			update: false,
 			lastUpdated: undefined,
-			visibleChildren: [ 200, 100, 201, 101, 202, 102, 203, 103, 204, 104, 205, 105, 299 ]
-
 		}
 	],
 

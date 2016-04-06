@@ -5,13 +5,12 @@ import Block from './block'
 import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
-	var blah = state.slots.find(s => s.id == ownProps.id)
-	console.log('slot.mapStateToProps', blah)
+	console.log('slot.mapStateToProps')
 
-	return state.slots[0]
+	var slot = state.slots.find(s => s.id == ownProps.id)
+	var ui = state.ui.slots.find(s => s.id == ownProps.id) || {}
 
-	// return Object.assign({}, blah)
-	// return Object.assign({}, state.slots.find(s => s.id == ownProps.id))
+	return Object.assign({}, ui, slot)
 }
 
 @connect(mapStateToProps)
@@ -22,16 +21,20 @@ class Slot extends React.Component {
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		// this.componentDidUpdate = this.componentDidUpdate.bind(this)
 
-		this.onDragStart = this.onDragStart.bind(this)
-		this.onDragOver = this.onDragOver.bind(this)
-		this.onDragEnd = this.onDragEnd.bind(this)
+		// this.onDragStart = this.onDragStart.bind(this)
+		// this.onDragOver = this.onDragOver.bind(this)
+		// this.onDragEnd = this.onDragEnd.bind(this)
 
-		this.onDrop = this.onDrop.bind(this)
+		// this.onDrop = this.onDrop.bind(this)
 
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 
-		this.dragBlockId = null
+		STORE.dispatch({
+			type: 'UI_INITILIZE_SLOT_CHILDREN',
+			slotId: props.id,
+			blocks: props.blocks
+		})
 
 	}
 
@@ -44,60 +47,60 @@ class Slot extends React.Component {
 	// 	console.log('slot.componentDidUpdate')
 	// }
 
-	onDragStart(blockId) {
-		const { id, visibleChildren } = this.props
-		this.dragBlockId = blockId
+	// onDragStart(blockId) {
+	// 	const { id, children } = this.props
+	// 	this.dragBlockId = blockId
 
-		var blockIndex = visibleChildren.findIndex(v => v == blockId)
-		var dropZoneId = visibleChildren[blockIndex + 1]
+	// 	var blockIndex = children.findIndex(v => v == blockId)
+	// 	var dropZoneId = children[blockIndex + 1]
 
-	    STORE.dispatch({
-	    	type: 'DRAG_START',
-	    	slotId: id,
-	    	blockId: blockId,
-	    	dropZoneId: dropZoneId
-	    })
-	}
-	onDragOver(blockId, below) {
-		const { id, visibleChildren } = this.props
+	//     STORE.dispatch({
+	//     	type: 'DRAG_START',
+	//     	slotId: id,
+	//     	blockId: blockId,
+	//     	dropZoneId: dropZoneId
+	//     })
+	// }
+	// onDragOver(blockId, below) {
+	// 	const { id, children } = this.props
 
-		var blockIndex = visibleChildren.findIndex(v => v == blockId)
+	// 	var blockIndex = children.findIndex(v => v == blockId)
 
-		var dropZoneId = visibleChildren[below ? blockIndex + 1 : blockIndex - 1 ]
+	// 	var dropZoneId = children[below ? blockIndex + 1 : blockIndex - 1 ]
 
-		STORE.dispatch({
-			type: 'DROPZONE_SHOW',
-			dropZoneId: dropZoneId
-		})
+	// 	STORE.dispatch({
+	// 		type: 'DROPZONE_SHOW',
+	// 		dropZoneId: dropZoneId
+	// 	})
 
-	}
-	onDragEnd(blockId) {
-		console.log('slot.ondragend')
-		const { id } = this.props
-
-
-			//toSlotId, fromSlotId, blockId, dropZoneId
+	// }
+	// onDragEnd(blockId) {
+	// 	console.log('slot.ondragend')
+	// 	const { id } = this.props
 
 
-		// STORE.dispatch({
-		// 	type: 'DRAG_END',
-		// 	fromSlotId: id,
-		// 	blockId: blockId,
-		// 	toSlotId: id,
-	 //    	dropZoneId: dropZoneId
+	// 		//toSlotId, fromSlotId, blockId, dropZoneId
 
-		// })
-	}
 
-	onDrop(dropZoneId) {
-		const { id } = this.props
+	// 	// STORE.dispatch({
+	// 	// 	type: 'DRAG_END',
+	// 	// 	fromSlotId: id,
+	// 	// 	blockId: blockId,
+	// 	// 	toSlotId: id,
+	//  //    	dropZoneId: dropZoneId
 
-		STORE.dispatch({
-			type: 'BLOCK_DROP',
-			slotId: id,
-			dropZoneId: dropZoneId
-		})
-	}
+	// 	// })
+	// }
+
+	// onDrop(dropZoneId) {
+	// 	const { id } = this.props
+
+	// 	STORE.dispatch({
+	// 		type: 'BLOCK_DROP',
+	// 		slotId: id,
+	// 		dropZoneId: dropZoneId
+	// 	})
+	// }
 
 	addClicked() {
 	}
@@ -106,15 +109,17 @@ class Slot extends React.Component {
 
 	render() {
 		console.log('slot.render', this.props)
-		const { id, blocks, dropZones, visibleChildren } = this.props
+		const { id, blocks, dropZones, children } = this.props
 
-		let children = []
+		let nodes = []
 
-		visibleChildren.forEach((vid, i) => {
+		return (<div>blah</div>)
+
+		children.forEach((c, i) => {
 			if (i % 2 == 0) {
-				children.push(<DropZone key={i} id={vid} onDrop={this.onDrop} />)
+				nodes.push(<DropZone key={i} id={c} slotId={id} />)
 			} else {
-				children.push(<Block key={i} id={visibleChildren[i]} slotId={id} onDragStart={this.onDragStart} onDragOver={this.onDragOver} onDragEnd={this.onDragEnd} />)
+				nodes.push(<Block key={i} id={c} slotId={id} />)
 			}
 		})
 
@@ -129,7 +134,7 @@ class Slot extends React.Component {
 				<button onClick={this.addClicked}>Add</button>
 				<button onClick={this.removeClicked}>Remove</button>
 				<button onclick={this.test}>test</button>
-				{children}
+				{nodes}
 			</div>
 		)
 	}

@@ -23,12 +23,22 @@ const ui = (state = {}, action) => {
 			return ui
 
 		case 'UI_INITILIZE_SLOT_CHILDREN':
+
 				// type: 'UI_INITILIZE_SLOT_CHILDREN',
 				// slotId,
 				// blocks
+			console.log('UI_INITILIZE_SLOT_CHILDREN')
 			var ui = Object.assign({}, state)
 
-			var slot = ui.slots.find(s => s.id == action.slotId)
+			const { blocks, slotId } = action
+			
+
+			var slot = ui.slots.find(s => s.id == slotId)
+
+			if (!slot) {
+				slot = { id: slotId }
+				ui.slots.push(slot)
+			}
 
 			var children = []
 			var dropZones = []
@@ -51,7 +61,7 @@ const ui = (state = {}, action) => {
 
 			slot.children = children
 			slot.dropZones = dropZones
-			
+
 			return ui
 		default:
 			return state
