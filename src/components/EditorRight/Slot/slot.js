@@ -5,12 +5,17 @@ import Block from './block'
 import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
-	console.log('slot.mapStateToProps')
-
 	var slot = state.slots.find(s => s.id == ownProps.id)
-	var ui = state.ui.slots.find(s => s.id == ownProps.id) || {}
-
-	return Object.assign({}, ui, slot)
+	var ui = state.ui.slots.find(s => s.id == ownProps.id)
+	if (!ui) {
+		STORE.dispatch({
+			type: 'UI_INITILIZE_SLOT_CHILDREN',
+			slotId: slot.id,
+			blocks: slot.blocks
+		})
+		ui = state.ui.slots.find(s => s.id == ownProps.id)
+	}
+	return Object.assign(ui, slot)
 }
 
 @connect(mapStateToProps)
@@ -20,6 +25,7 @@ class Slot extends React.Component {
 		this.render = this.render.bind(this)
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		// this.componentDidUpdate = this.componentDidUpdate.bind(this)
+		// this.componentWillMount = this.componentWillMount.bind(this)
 
 		// this.onDragStart = this.onDragStart.bind(this)
 		// this.onDragOver = this.onDragOver.bind(this)
@@ -30,13 +36,26 @@ class Slot extends React.Component {
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 
-		STORE.dispatch({
-			type: 'UI_INITILIZE_SLOT_CHILDREN',
-			slotId: props.id,
-			blocks: props.blocks
-		})
+		// STORE.dispatch({
+		// 	type: 'UI_INITILIZE_SLOT_CHILDREN',
+		// 	slotId: props.id,
+		// 	blocks: props.blocks
+		// })
 
 	}
+
+	// componentWillMount() {
+	// 	STORE.dispatch({
+	// 		type: 'UI_INITILIZE_SLOT_CHILDREN',
+	// 		slotId: this.props.id,
+	// 		blocks: this.props.blocks
+	// 	})
+
+	// 	console.log('yoooooooooooooooo')
+
+	// 	this.forceUpdate()
+
+	// }
 
 	// shouldComponentUpdate(nextProps) {
 	// 	console.log('slot.shouldComponentUpdate', !!nextProps.update)
@@ -108,12 +127,10 @@ class Slot extends React.Component {
 	}
 
 	render() {
-		console.log('slot.render', this.props)
-		const { id, blocks, dropZones, children } = this.props
+		// console.log('slot.render', this.props)
+		const { id, blocks, children, dropZones } = this.props
 
 		let nodes = []
-
-		return (<div>blah</div>)
 
 		children.forEach((c, i) => {
 			if (i % 2 == 0) {
