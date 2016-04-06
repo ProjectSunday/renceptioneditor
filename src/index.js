@@ -15,13 +15,16 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import Components from './Components/components'
+import Components from './components/components'
 
-import store from './Store/store'
-window.store = store;
+import Store from './store/store'
+import * as Actions from './actions'
+
+window.STORE = Store
+window.ACTIONS = Actions
 
 render(
-	<Provider store={store}>
+	<Provider store={Store}>
 		<Components />
 	</Provider>,
 	document.getElementById('main')

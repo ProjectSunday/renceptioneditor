@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { findDOMNode } from 'react-dom'
-import { DragSource, DropTarget } from 'react-dnd'
 
 import * as Actions from '../../../actions'
 
@@ -10,74 +8,15 @@ import './block.less'
 const mapStateToProps = (state, ownProps) => {
 	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
-	return { dispatch: dispatch }
-}
 
-
-		// showDropZone: (index, instant) => { dispatch(Actions.showDropZone(ownProps.slotId, index, instant) )},
-		// dragBlock: (index) => { dispatch(Actions.dragBlock(ownProps.slotId, index))},
-		// dropBlock: (index) => { dispatch(Actions.dropBlock(ownProps.slotId, index))},
-		// moveBlock: (dropZone) => { dispatch(Actions.moveBlock(ownProps.slotId, ownProps.index, dropZone.slotId, dropZone.index))},
-		// resetDropZones: () => { dispatch(Actions.resetDropZones(ownProps.slotId))},
-  //   	setNextDropZoneInstant: (v) => { dispatch({ type: 'SET_NEXT_DROPZONE_INSTANT', value: v }) },
-  //   	setDropZoneVisible: (below) => {
-  //   		dispatch({
-	 //    		type: 'SLOT_SET_DROPZONE_VISIBLE', 
-	 //    		slotId: ownProps.slotId, 
-	 //    		blockId: ownProps.id, 
-	 //    		below: below
-	 //    	})
-  //   	}
-
-
-// const targetSpec = {
-// 	hover(props, monitor, component) {
-
-// 	}
-// }
-// const targetCollect = (connect, monitor) => ({
-// 	connectDropTarget: connect.dropTarget(),
-// 	isOver: monitor.isOver()
-// })
-
-// const sourceSpec = {
-// 	beginDrag(props, monitor, component) {
-// 		debugger;
-// 		// props.onBeginDrag(props.index, true)
-
-// 		// props.dispatch()
-// 		// props.dragBlock(props.index)
-
-// 		props.blah = true
-//     	// props.showDropZone(props.dropZoneBelowIndex, true)
-
-//     	// props.setNextDropZoneInstant(true)
-
-// 		return {
-// 			id: props.id
-// 		}
-// 	},
-// 	endDrag(props, monitor, component) {
-// 		let dropZone = monitor.getDropResult()
-
-// 		if (dropZone && dropZone.slotId !== undefined && dropZone.index !== undefined) {
-// 			props.moveBlock(dropZone)
-// 		}
-			
-// 		props.resetDropZones()
-
-// 		// props.onEndDrag(props.index, dropZone.index)
-// 	}
-// }
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps)
 export default class Block extends Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
 		this.onDragStart = this.onDragStart.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
+		this.onDragEnd = this.onDragEnd.bind(this)
 
 		// this.componentDidMount = this.componentDidMount.bind(this)
 		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
@@ -89,6 +28,12 @@ export default class Block extends Component {
 	// 	}
 	// }
 
+	onDragStart(e) {
+		// console.log('block.onDragStart')
+		const { id, onDragStart } = this.props
+		e.dataTransfer.setData('text', '');
+	   	onDragStart(id)
+	}
 	onDragOver(e) {
 		// console.log('onDragOver')
 		const { id, onDragOver } = this.props
@@ -103,16 +48,18 @@ export default class Block extends Component {
 
 
 	}
-	onDragStart(e) {
-		// console.log('block.onDragStart')
-		const { id, onDragStart } = this.props
-		e.dataTransfer.setData('text', '');
-	   	onDragStart(id)
-	}
+	onDragEnd(e) {
+		// console.log('block.onDragEnd')
+		// console.log(e)
 
+		const { id, onDragEnd } = this.props
+
+		onDragEnd(id)
+
+	}
 	shouldComponentUpdate(nextProps) {
-		var self = this
 		// console.log('block.shouldComponentUpdate', nextProps.index)
+		var self = this
 
 		if (nextProps.visible === false) {
 			setTimeout(function () {
@@ -126,15 +73,9 @@ export default class Block extends Component {
 
 	render() {
 		// console.log('block.render', this.props)
-		// const { dispatch } = this.props;
 		const { id, name } = this.props
 
-		// if (isDragging) {
-		// 	this.props.dragBlock(this.props.index)
-		// }
-
 		let styles = {
-			// display: isDragging ? 'none' : 'block',
 			display: 'block',
 			background: '#aaa',
 			height: '50px',
@@ -147,15 +88,13 @@ export default class Block extends Component {
 		}
 
 		return (
-			<div ref="block" className="block" style={styles} draggable="true" onDragStart={this.onDragStart} onDragOver={this.onDragOver}>
+			<div ref="block" className="block" style={styles} draggable="true"
+				onDragStart={this.onDragStart}
+				onDragOver={this.onDragOver}
+				onDragEnd={this.onDragEnd}>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)
-		// return connectDragSource(connectDropTarget(
-		// 	<div className="block" style={styles}>
-		// 		<span className="name">{name}<span style={{ color: 'yellow', background: 'black' }}>{id}</span></span>
-		// 	</div>
-		// ))
 	}
 
 }

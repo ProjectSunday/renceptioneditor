@@ -1,7 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import HTML5Backend from 'react-dnd-html5-backend';
-// import { DragDropContext } from 'react-dnd';
 
 import './components.less'
 
@@ -10,13 +8,11 @@ import EditorRight from './editorright/editorright'
 
 import Testing from './testing/testing'
 
-// @DragDropContext(HTML5Backend)
 @connect()
 class Components extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
-		window.dispatch = props.dispatch     //for debugging
 	}
 	render() {
 		return (
@@ -28,6 +24,7 @@ class Components extends React.Component {
 					<EditorRight />
 				</div>
 
+				
 			</div>
 		)
 	}

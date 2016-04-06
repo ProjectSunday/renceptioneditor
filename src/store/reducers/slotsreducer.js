@@ -16,6 +16,39 @@ const slots = (state = [], action) => {
 			var slot = slots.find(s => s.id === action.slotId)
 			var childIndex = slot.visibleChildren.findIndex(v => v == action.blockId)
 			slot.visibleChildren.splice(childIndex - 1, 2)
+			console.log('DRAG_START', slots)
+			return slots
+		case 'DRAG_END':
+			var slots = state.slice(0)
+
+			//toSlotId, fromSlotId, blockId, dropZoneId
+
+			//need blockId, slotId, dropZoneId, dropZoneSlotId
+
+			if (action.fromSlotId === action.toSlotId) {
+				var slot = state.find(s => s.id === action.fromSlotId)
+				var blocks = slot.blocks
+				var fromIndex = blocks.find(b => b.id == action.blockId)
+				var toIndex = slot.dropZones.find(d => d.id == action.dropZoneId)
+				blocks.splice(toIndex, 0, blocks.splice(fromIndex, 1)[0])
+				debugger;
+
+			} else {
+				// var fromSlot = state.find(s => s.id === action.fromSlotId)
+				// var block = fromSlot.blocks.splice(action.fromIndex, 1)
+
+				// var toSlot = state.find(s => s.id === action.toSlotId)
+				// toSlot.blocks.splice(action.toIndex, 0, block[0])
+			}
+
+			// var fromSlot = slots.find(s => s.id == action.fromSlotId)
+
+			// var fromBlockId = fromSlot.blocks.splice(fromBloc)
+
+			// var toSlot = slots.find(s => s.id == action.toSlotId)
+			// toSlot.blocks.splice(toBlockIndex, 0, fromBlockId)
+
+			console.log('dragendslot', slots)
 			return slots
 		case 'SLOT_INITIALIZE_DROPZONES':
 			var slots = state.slice(0)
@@ -26,24 +59,21 @@ const slots = (state = [], action) => {
 			}
 			slot.dropZones = dropZones
 			return slots
-		case 'MOVE_BLOCK':
-			var state = state.slice(0)
+		case 'SLOT_MOVE_BLOCK':
+			// type: 'SLOT_MOVE_BLOCK', 
+			// fromSlotId, 
+			// blockId, 
+			// toSlotId, 
+			// dropZoneId
+			var slots = state.slice(0)
 
-			if (action.fromSlotId === action.toSlotId) {
-				if (action.fromIndex < action.toIndex) {
-					action.toIndex--
-				}
-				var slot = state.find(s => s.id === action.fromSlotId)
-				var blocks = slot.blocks
-				blocks.splice(action.toIndex, 0, blocks.splice(action.fromIndex, 1)[0])
-			} else {
-				var fromSlot = state.find(s => s.id === action.fromSlotId)
-				var block = fromSlot.blocks.splice(action.fromIndex, 1)
+			var blocks = slots.find(s => s.id == action.fromSlotId).blocks
+			var dragBlock = blocks.splice(blocks.findIndex(b => b.id == action.blockId), 1)[0]
 
-				var toSlot = state.find(s => s.id === action.toSlotId)
-				toSlot.blocks.splice(action.toIndex, 0, block[0])
-			}
-			return state
+			slots.find(s => s.id == action.toSlotId).blocks.splice(dropZoneId, 0, dragBlock)
+
+			console.log('SLOT_MOVE_BLOCK', slots)
+			return slots
 		case 'RESET_DROPZONES':
 			var state = state.slice(0)
 			var slot = state.find(s => s.id == action.slotId)

@@ -1,4 +1,5 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import reducers from './reducers'
 
 let initialState = {
@@ -73,7 +74,9 @@ let initialState = {
 			blocks: [ 100, 101, 102, 103, 104, 105 ],
 			dropZones: [200, 201, 202, 203, 204, 205, 299],
 			update: false,
+			lastUpdated: undefined,
 			visibleChildren: [ 200, 100, 201, 101, 202, 102, 203, 103, 204, 104, 205, 105, 299 ]
+
 		}
 	],
 
@@ -88,11 +91,26 @@ let initialState = {
 	testing: {
 		childOne: [ 0, 1, 2, 3 ],
 		childTwo: 'blah'
+	},
+
+	ui: {
+		dragBlock: {},
+		slots: []
 	}
+
 }
 
+			// ui: {
+			// 	dragBlock: {},
+			// 	slots: [{
+			// 		id: 1000,
+			// 		children: [],
+			// 		dropzones: [],
+			// 	}]
+			// }
 
-export default createStore(reducers, initialState)
+
+export default createStore(reducers, initialState, applyMiddleware(thunk))
 
 //just a visual example for me to look at, this is not used anywhere
 var sampleState = {

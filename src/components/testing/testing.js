@@ -16,7 +16,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			console.log('buttonOneClicked')
 			// dispatch({ type: 'TESTVALUES_SET_VALUE', id: 1, value: 'changed' })
 
-			dispatch({ type: 'TESTING_MOVE_AND_SET', id: 0, fromIndex: 0, toIndex: 1})
+			// dispatch({ type: 'TESTING_MOVE_AND_SET', id: 0, fromIndex: 0, toIndex: 1})
+
+			STORE.dispatch({ type: 'UI_SET', key: 'blahkey', value: 'blahvalue' })
+
+			// STORE.dispatch(function (dispatch, getState) {
+
+
+
+			// 	var ui = getState().ui
+
+			// 	dp({
+
+			// 	})
+
+			// })
 		},
 		buttonTwoClicked () {
 			dispatch({ type: 'TESTING_SET', values: [ 1, 0, 2, 3 ] })

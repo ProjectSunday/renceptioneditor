@@ -9,6 +9,7 @@ import masterBlocks from './masterBlocks'
 import slots 		from './slotsreducer'
 import testing 		from './testingreducer'
 import testValues	from './testingvaluesreducer'
+import ui			from './uireducer'
 
 export default combineReducers({
 	blocks,
@@ -17,6 +18,7 @@ export default combineReducers({
 	masterBlocks,
 	slots,
 	testing,
-	testValues
+	testValues,
+	ui
 })
 
