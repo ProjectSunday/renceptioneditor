@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 //other imports
 import './favicon.ico'
-import './index.html'  //this needs to be gone and the html webpack plugin needs to be used
 import './index.less'   //main styling file, needs to be converted to sass
 import './utils'
 

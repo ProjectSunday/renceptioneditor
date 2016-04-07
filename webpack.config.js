@@ -1,5 +1,6 @@
 var path 				= require('path');
 var webpack 			= require('webpack');
+var HtmlWebpackPlugin 	= require('html-webpack-plugin');
 
 var node_modules 	= path.resolve(__dirname, 'node_modules');
 var src 			= path.resolve(__dirname, 'src');
@@ -21,7 +22,11 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			template: './src/index.html',
+			inject: 'body'
+		})
 	],
 	module: {
 		loaders: [
@@ -34,10 +39,6 @@ module.exports = {
         	  		plugins: [ 'transform-runtime', 'transform-decorators-legacy' ],
           			presets: [ 'es2015', 'stage-0', 'react' ]
         		}
-			},
-			{ 
-				test: /\.html$/, 
-				loader: 'file?name=[name].[ext]' 
 			},
             {
                 test: /\.less$/,
