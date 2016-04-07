@@ -27,11 +27,26 @@ class EditorRight extends React.Component {
 		}
 
 		return (
-			<div className="row" style={styles}>
-				{slots.map((s, i) =>
-					<Slot key={i} id={s} />
-				)}
-			</div>
+			<div style={styles}>
+				<div className="row">
+					<div className="col-xs-12">
+						<Slot id={slots[0]} />
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-xs-6">
+						<Slot id={slots[1]} />
+					</div>
+					<div className="col-xs-6">
+						<Slot id={slots[1]} />
+					</div>
+			 	</div>
+			 	<div className="row">
+					<div className="col-xs-12">
+						<Slot id={slots[1]} />
+					</div>
+	 			</div>
+ 			</div>
 		)
 	}
 }

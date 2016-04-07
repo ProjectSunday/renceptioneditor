@@ -32,14 +32,18 @@ let initialState = {
 	],
 
 	editorRight: {
-		slots: [ 1000 ]
+		slots: [ 1000, 1001 ]
 	},
 
 	slots: [
 		{
 			id: 1000,
-			blocks: [ 100, 101, 102, 103, 104, 105 ],
-			lastUpdated: undefined,
+			blocks: [ 100, 101, 102, 103, 104, 105 ]
+		},
+		{
+			id: 1001,
+			blocks: []
+			// blocks: [ 102, 103, 104, 105 ]
 		}
 	],
 

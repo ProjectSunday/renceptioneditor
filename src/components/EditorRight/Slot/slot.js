@@ -61,11 +61,12 @@ class Slot extends React.Component {
 			background: '#F8F8F8',
 	    }
 
+	    	// <button onClick={this.addClicked}>Add</button>
+				// <button onClick={this.removeClicked}>Remove</button>
+				// <button onclick={this.test}>test</button>
+
 		return (
 			<div style={style}>
-				<button onClick={this.addClicked}>Add</button>
-				<button onClick={this.removeClicked}>Remove</button>
-				<button onclick={this.test}>test</button>
 				{nodes}
 			</div>
 		)

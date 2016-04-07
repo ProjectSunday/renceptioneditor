@@ -21,7 +21,7 @@ const ui = (state = {}, action) => {
 
 			// ui[0].test.splice(0, 0, action.value)
 			return ui
-		case 'DRAG_START':
+		case 'DRAG_STARTvoid':
 			var ui = Object.assign({}, state)
 
 			var { blockId, slotId } = action

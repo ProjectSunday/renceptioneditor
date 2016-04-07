@@ -61,7 +61,7 @@ class DropZone extends React.Component {
 		return false
 	}
 	render() {
-		console.log('dropzone.render ', this.props)
+		// console.log('dropzone.render ', this.props)
 		const { connectDropTarget, id, instant, visible } = this.props
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
