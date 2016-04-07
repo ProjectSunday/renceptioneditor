@@ -31,7 +31,6 @@ export default class Block extends Component {
 
 	onDragStart(e) {
 		// console.log('block.onDragStart')
-
 		const { id: blockId, slotId } = this.props
 
 		e.dataTransfer.setData('text', '');
@@ -45,54 +44,36 @@ export default class Block extends Component {
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
-		var { id, slotId } = this.props
+		var { id: blockId, slotId } = this.props
 
 	    const hoverBoundingRect = e.target.getBoundingClientRect()
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
 	    const hoverClientY = e.clientY - hoverBoundingRect.top
 
-		STORE.dispatch(function (dispatch, getState) {
-			var ui = getState().ui
-
-			var slot = ui.slots.fbi(slotId)
-
-			var blockIndex = slot.children.findIndex((c, i) => c == id && i % 2 != 0)
-
-			var dropZoneIndex = hoverMiddleY < hoverClientY ? blockIndex + 1 : blockIndex - 1
-
-			var dropZoneId = slot.children[dropZoneIndex]
-
-			dispatch({
-				type: 'UI_DROPZONE_SHOW',
-				slotId,
-				dropZoneId
-			})
+		STORE.dispatch({
+			type: 'BLOCK_DRAG_OVER',
+			slotId,
+			blockId,
+			below: hoverMiddleY < hoverClientY
 		})
 
 	}
 	onDragEnd(e) {
-		// console.log('block.onDragEnd')
-		// console.log(e)
-
-		const { id, onDragEnd } = this.props
-
-		onDragEnd(id)
-
-
-
+		ACTIONS.blockDragEnd()
 	}
 	shouldComponentUpdate(nextProps) {
-		console.log('block.shouldComponentUpdate', nextProps.index)
+		// console.log('block.shouldComponentUpdate', nextProps.index)
 		var self = this
 
-		if (nextProps.visible === false) {
-			setTimeout(function () {
-				self.refs.block.style.display = 'none'
-			}, 0)
-		}
 
-		return false
+		var display = nextProps.visible === false ? 'none': 'block'
+
+		setTimeout(function () {
+			self.refs.block.style.display = display
+		}, 0)
+
+		return true
 	}
 
 
@@ -111,12 +92,12 @@ export default class Block extends Component {
 			background: 'black',
 			color: 'yellow'
 		}
-				// onDragEnd={this.onDragEnd}>
 
 		return (
 			<div ref="block" className="block" style={styles} draggable="true"
 				onDragStart={this.onDragStart}
 				onDragOver={this.onDragOver}
+				onDragEnd={this.onDragEnd}
 			>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>

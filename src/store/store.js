@@ -31,39 +31,6 @@ let initialState = {
 		}
 	],
 
-	// dropZones: [
-	// 	{
-	// 		id: 200,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 201,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 202,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 203,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 204,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 205,
-	// 		visible: false,
-	// 		instant: false
-	// 	},{
-	// 		id: 299,
-	// 		visible: false,
-	// 		instant: false
-	// 	}
-	// ],
-
-
 	editorRight: {
 		slots: [ 1000 ]
 	},
@@ -90,21 +57,11 @@ let initialState = {
 	},
 
 	ui: {
-		dragBlock: {},
+		srcBlock: {},
 		slots: []
 	}
 
 }
-
-			// ui: {
-			// 	dragBlock: {},
-			// 	slots: [{
-			// 		id: 1000,
-			// 		children: [],
-			// 		dropzones: [],
-			// 	}]
-			// }
-
 
 export default createStore(reducers, initialState, applyMiddleware(thunk))
 
@@ -120,6 +77,12 @@ var sampleState = {
 		}
 	],
 
-	nextDropZoneAppearsInstantly: false
+	ui: {
+		srcBlock: {
+			// slotId,
+			// blockId
+		},
+		slots: []
+	}
 
 }

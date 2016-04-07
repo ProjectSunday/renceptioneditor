@@ -1,19 +1,16 @@
-// import 'babel-core/polyfill'  //i guess this needs to be first?
-
-import './index.html'
-
-import './favicon.ico'
-
-import 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.css'
-
-import './index.less'
-
-import './utils'
-
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+
+//third-party
+import 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
+
+//other imports
+import './favicon.ico'
+import './index.html'  //this needs to be gone and the html webpack plugin needs to be used
+import './index.less'   //main styling file, needs to be converted to sass
+import './utils'
 
 import Components from './components/components'
 

@@ -1,63 +1,30 @@
-	let nextBlockId = 2000
+// let nextBlockId = 2000
 
-export const addBlock = (slotId, block) => {
-	return {
-		type: 'ADD_BLOCK',
+export const initializeSlotUiChildren = (slotId, blocks) => {
+	STORE.dispatch({
+		type: 'UI_INITILIZE_SLOT_CHILDREN',
 		slotId,
-		block: { id: nextBlockId++, ...block }
-	}
+		blocks
+	})
 }
 
-export const dragBlock = (slotId, index) => {
-	return {
-		type: 'DRAG_BLOCK',
-		slotId,
-		index
-	}
-}
-
-export const moveBlock = (fromSlotId, fromIndex, toSlotId, toIndex) => {
-	return {
+//////////////////////////////////////////////////////////////////////////////////////////////
+// BLOCKS
+//////////////////////////////////////////////////////////////////////////////////////////////
+export const blockMove = (srcSlotId, srcBlockId, destSlotId, destBlockId) => {
+	STORE.dispatch({
 		type: 'MOVE_BLOCK',
-		fromSlotId,
-		fromIndex,
-		toSlotId,
-		toIndex
-	}
+		srcSlotId,
+		srcBlockId,
+		destSlotId,
+		destBlockId
+	})
 }
 
-export const insertDropZone = (slotId, index) => {
-	return {
-		type: 'INSERT_DROPZONE',
-		slotId,
-		index
-	}
+export const blockDragEnd = () => {
+	STORE.dispatch({
+		type: 'BLOCK_DRAG_END'
+	})
 }
-
-export const removeDropZone = (slotId, index) => {
-	return {
-		type: 'REMOVE_DROPZONE',
-		slotId,
-		index
-	}
-}
-
-export const resetDropZones = (slotId) => {
-	return {
-		type: 'RESET_DROPZONES',
-		slotId
-	}
-}
-export const showDropZone = (slotId, index, instant) => {
-	return {
-		type: 'SHOW_DROPZONE',
-		slotId,
-		index,
-		instant
-	}
-}
-
-
-
 
 

@@ -50,35 +50,42 @@ const slots = (state = [], action) => {
 
 			console.log('dragendslot', slots)
 			return slots
-		case 'SLOT_INITIALIZE_DROPZONES':
+		// case 'SLOT_INITIALIZE_DROPZONES':
+		// 	var slots = state.slice(0)
+		// 	var slot = slots.find(s => s.id == action.id)
+		// 	var dropZones = []
+		// 	for (var i = 0; i < slot.blocks.length + 1; i++) {
+		// 		dropZones.push(i)
+		// 	}
+		// 	slot.dropZones = dropZones
+		// 	return slots
+		case 'MOVE_BLOCK':
+			// console.log('slots MOVE_BLOCK')
+			var { srcSlotId, srcBlockId, destSlotId, destBlockId } = action
+
 			var slots = state.slice(0)
-			var slot = slots.find(s => s.id == action.id)
-			var dropZones = []
-			for (var i = 0; i < slot.blocks.length + 1; i++) {
-				dropZones.push(i)
+
+			var srcSlot = slots.fbi(srcSlotId)
+			var srcIndex = srcSlot.blocks.fibv(srcBlockId)
+			srcSlot.blocks.splice(srcIndex, 1)
+
+			var destSlot = slots.fbi(destSlotId)
+			if (destBlockId === undefined) {
+				var destIndex = destSlot.blocks.length
+			} else {
+				var destIndex = destSlot.blocks.fibv(destBlockId)
 			}
-			slot.dropZones = dropZones
+			destSlot.blocks.splice(destIndex, 0, srcBlockId)
+
 			return slots
-		case 'SLOT_MOVE_BLOCK':
-			var { fromSlotId, blockId, toSlotId, toIndex } = action
-			var slots = state.slice(0)
-
-			var fromSlot = slots.fbi(fromSlotId)
-			var toSlot = slots.fbi(toSlotId)
-
-			var dragBlock = fromSlot.blocks.splice(fromSlot.blocks.fibi(blockId), 1)[0]
-			toSlot.blocks.splice(toIndex, 0, dragBlock)
-
-			console.log('SLOT_MOVE_BLOCK', slots)
-			return slots
-		case 'RESET_DROPZONES':
-			var state = state.slice(0)
-			var slot = state.find(s => s.id == action.slotId)
-			slot.dropZones.forEach(d => {
-				d.enable = d.instant = true
-				d.visible = false
-			})
-			return state
+		// case 'RESET_DROPZONES':
+		// 	var state = state.slice(0)
+		// 	var slot = state.find(s => s.id == action.slotId)
+		// 	slot.dropZones.forEach(d => {
+		// 		d.enable = d.instant = true
+		// 		d.visible = false
+		// 	})
+		// 	return state
 		case 'SHOW_DROPZONE':
 			console.log('SHOW_DROPZONE index:', action.index)
 			var state = state.slice(0)
@@ -89,29 +96,29 @@ const slots = (state = [], action) => {
 				slot.dropZones[action.index].instant = true
 			}
 			return state
-		case 'SLOT_SET_DROPZONES':
-			console.log('SLOT_SET_DROPZONES', action)
-			var slots = state.slice(0)
-			var slot = state.find(s => s.id == action.id)
-			slot.dropZones = action.dropZones
-			return slots
-		case 'SLOT_SET_DROPZONE_VISIBLE':
-			// console.log('SLOT_SET_DROPZONE_VISIBLE', action.blockId)
+		// case 'SLOT_SET_DROPZONES':
+		// 	console.log('SLOT_SET_DROPZONES', action)
+		// 	var slots = state.slice(0)
+		// 	var slot = state.find(s => s.id == action.id)
+		// 	slot.dropZones = action.dropZones
+		// 	return slots
+		// case 'SLOT_SET_DROPZONE_VISIBLE':
+		// 	// console.log('SLOT_SET_DROPZONE_VISIBLE', action.blockId)
 
-			var state = state.slice(0)
-			var slot = state.find(s => s.id == action.slotId)
+		// 	var state = state.slice(0)
+		// 	var slot = state.find(s => s.id == action.slotId)
 
-			slot.dropZones.forEach(d => {
-				d.instant = false
-				if (action.below && d.blockAbove == action.blockId) {
-					d.visible = true
-				} else if (!action.below && d.blockBelow == action.blockId) {
-					d.visible = true
-				} else {
-					d.visible = false
-				}
-			})
-			return state
+		// 	slot.dropZones.forEach(d => {
+		// 		d.instant = false
+		// 		if (action.below && d.blockAbove == action.blockId) {
+		// 			d.visible = true
+		// 		} else if (!action.below && d.blockBelow == action.blockId) {
+		// 			d.visible = true
+		// 		} else {
+		// 			d.visible = false
+		// 		}
+		// 	})
+		// 	return state
 		default:
 			return state
 	}

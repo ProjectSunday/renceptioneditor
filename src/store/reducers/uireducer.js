@@ -26,25 +26,43 @@ const ui = (state = {}, action) => {
 
 			var { blockId, slotId } = action
 
-			var slot = ui.slots.find(s => s.id == slotId)
+			var slot = ui.slots.fbi(slotId)
 
 			//remove ui.children
 			var removeIndex = slot.children.findIndex((c, i) => c == blockId && i % 2 != 0)
 			var removed = slot.children.splice(removeIndex - 1, 2)
 
 			//instanst show dropzone below
-			var dropZone = slot.dropZones.find(d => d.id == slot.children[removeIndex - 1])
+			var dropZone = slot.dropZones.fbi(slot.children[removeIndex - 1])
 			dropZone.visible = dropZone.instant = true
 
-			//set dragblock
-			ui.dragBlock = { blockId, slotId }
+			//set sourceBlock
+			ui.srcBlock = { blockId, slotId }
 
 			return ui
-		case 'UI_DROPZONE_SHOW':
-			var { dropZoneId, slotId } = action
+		case 'UI_RESET_DROPZONES':
+			console.log('UI_RESET_DROPZONES')
+			var { slotId } = action
 			var ui = Object.assign({}, state)
 
-			var slot = ui.slots.find(s => s.id == slotId)
+			ui.slots.fbi(slotId).dropZones.forEach(d => {
+				d.instant = true
+				d.visible = false
+			})
+
+			return ui
+		case 'BLOCK_DRAG_OVER':
+			var { slotId, blockId, below } = action
+			var ui = Object.assign({}, state)
+
+			// ui.dragDest = { slotId, blockId, below }
+
+			var slot = ui.slots.fbi(slotId)
+			var index = slot.children.findIndex((c, i) => c == blockId && i % 2 != 0)
+
+			index =  below ? index + 1 : index - 1
+
+			var dropZoneId = slot.children[index]
 
 			slot.dropZones.forEach(d => {
 				d.instant = false
@@ -54,6 +72,26 @@ const ui = (state = {}, action) => {
 					d.visible = false
 				}
 			})
+
+			return ui
+
+		case 'BLOCK_DROP':
+			var { slotId, dropZoneId } = action
+			var ui = Object.assign({}, state)
+
+			//get block below dropzone and  insert source block
+
+			ui.slots.fbi(ui.srcBlock.slotId)
+				.children.filter(ui.srcBlock.blockId)
+
+
+			var dropZoneIndex = ui.slots.fbi(slotId).b
+
+
+			var slot = ui.slots.fibi(slotId)
+
+
+
 			return ui
 		case 'UI_INITILIZE_SLOT_CHILDREN':
 			// type: 'UI_INITILIZE_SLOT_CHILDREN',
@@ -78,7 +116,7 @@ const ui = (state = {}, action) => {
 			blocks.forEach((b, i) => {
 				dropZones.push({
 					id: i,
-					instant: false,
+					instant: true,
 					visible: false
 				})
 				children.push(i, b)
@@ -86,7 +124,7 @@ const ui = (state = {}, action) => {
 
 			dropZones.push({
 				id: blocks.length,
-				instant: false,
+				instant: true,
 				visible: false
 			})
 			children.push(blocks.length)
