@@ -67,7 +67,11 @@ let initialState = {
 
 	testing: {
 		childOne: [ 0, 1, 2, 3 ],
-		childTwo: 'blah'
+		childTwo: 'blah',
+		childTwoDirect: {
+			blah: 'blahvalue',
+			foo: 'foovalue'
+		}
 	},
 
 	ui: {

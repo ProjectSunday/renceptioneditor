@@ -3,24 +3,12 @@
 
 const testing = (state = [], action) => {
 	switch (action.type) {
-		case 'TESTING_SET':
-			return action.values
-		case 'TESTING_MOVE_AND_SET':
-			console.log('testing TESTING_MOVE_AND_SET')
-		
-			var testing = state.childOne.slice(0)
+		case 'TESTING':
+			var ui = Object.assign({}, state)
 
-			testing.splice(action.toIndex, 0, testing.splice(action.fromIndex, 1)[0])
+			ui.childTwoDirect.blah = "blahchanged"
 
-			return testing
-		// case 'INITIALIZE_DROPZONE':
-		// 	console.log('testing INITIALIZE_DROPZONE')
-
-		// 	var testing = state.childOne.slice(0)
-
-		// 	testing[1].value = 'changed'
-
-		// 	return testing
+			return ui
 		default:
 			return state
 	}

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Block from './block'
-import DropZone from './dropzone2'
+import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
 	// console.log('slot.mapStateToProps')

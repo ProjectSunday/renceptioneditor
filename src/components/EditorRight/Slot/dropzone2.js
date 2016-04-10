@@ -3,12 +3,63 @@ import { connect } from 'react-redux'
 
 const TRANSITION_DELAY = 2000
 
+class DropZoneBody extends React.Component {
+	constructor(props) {
+		super(props)
+		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		this.render = this.render.bind(this)
+	}
+	shouldComponentUpdate(nextProps) {
+		console.log('DropZoneBody.shouldComponentUpdate', nextProps)
+		var self = this
+		var { dropZone } = self.refs
+
+		dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
+
+		var height = nextProps.visible ? '50px' : '0px'
+		setTimeout(function () {
+			dropZone.style.height = height
+		}, 0)
+
+		return false
+	}
+	render() {
+		console.log('dropzone.render ', this.props)
+		const { connectDropTarget, id, instant, visible } = this.props
+
+		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
+		const style = {
+			height: visible ? '50px' : '0px',
+ 			// transition: instant ? '' : `height ${TRANSITION_DELAY}ms`,
+			// background: randomColor,
+			background: '#555',
+			// height: '0px',
+		}
+
+		if (instant === false) {
+			style.transition = `height ${TRANSITION_DELAY}ms`
+		}
+
+		const indexStyle = {
+			background: 'black',
+			color: 'yellow'
+		}
+
+		<div ref="dropZone" style={style} onDrop={this.onDrop} onDragOver={this.onDragOver}>
+			dropzone index: <span style={indexStyle}>{id}</span>
+		</div>
+	}
+}
+
+
+
 const mapStateToProps = (state, ownProps) => {
 	return Object.assign({}, 
 		state.ui.slots.find(s => s.id == ownProps.slotId)
 		.dropZones.find(d => d.id == ownProps.id)
 	)
 }
+
 
 @connect(mapStateToProps)
 class DropZone extends React.Component {
@@ -47,9 +98,17 @@ class DropZone extends React.Component {
 		})
 	}
 	shouldComponentUpdate(nextProps) {
+
+
 		console.log('dropzone.shouldComponentUpdate', nextProps)
 		var self = this
-		var { dropZone } = self.refs
+		var { dropZone } = this.refs
+
+
+
+		if (nextProps.instant) {
+
+		}
 
 		dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
 
@@ -84,6 +143,11 @@ class DropZone extends React.Component {
 			background: 'black',
 			color: 'yellow'
 		}
+
+
+		return <DropZoneBody instant={this.props.instant}
+
+
 
 		return (
 			<div ref="dropZone" style={style} onDrop={this.onDrop} onDragOver={this.onDragOver}>

@@ -22,7 +22,6 @@ class DropZone extends React.Component {
 		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
 		this.render = this.render.bind(this)
 	}
-
 	onDragOver(e) {
 		e.preventDefault()
 	}
@@ -44,21 +43,48 @@ class DropZone extends React.Component {
 			if (srcSlotId !== destSlotId) {
 				ACTIONS.initializeSlotUiChildren(destSlotId, state.slots.fbi(destSlotId).blocks)
 			}
+
 		})
 	}
 	shouldComponentUpdate(nextProps) {
 		console.log('dropzone.shouldComponentUpdate', nextProps)
-		var self = this
-		var { dropZone } = self.refs
+		var { slotId, id: dropZoneId } = this.props
+		var { dropZone } = this.refs
 
-		dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
+		// if (nextProps.visible) {
+		// 	dropZone.style.display = 'block'
+			
+		// 	if (nextProps.instant) {
+		// 		dropZone.style.transition = ''
+		// 	} else {
+		// 		dropZone.style.transition = `height ${TRANSITION_DELAY}ms`
+		// 	}
 
-		var height = nextProps.visible ? '50px' : '0px'
-		setTimeout(function () {
-			dropZone.style.height = height
-		}, 0)
+		// 	var height = nextProps.expanding ? '50px' : '0px'
+		// 	setTimeout(function () {
+		// 		dropZone.style.height = height
 
-		return false
+		// 		STORE.dispatch({
+		// 			type: 'UI_DROPZONE_SET',
+		// 			slotId,
+		// 			dropZoneId
+		// 		})
+
+		// 	}, 0)
+
+
+		// } else {
+		// 	dropZone.style.display = 'none'
+		// }
+
+		// dropZone.style.transition = nextProps.instant ? '' : `height ${TRANSITION_DELAY}ms`
+
+		// var height = nextProps.visible ? '50px' : '0px'
+		// setTimeout(function () {
+		// 	dropZone.style.height = height
+		// }, 0)
+
+		// return false
 	}
 	componentDidUpdate() {
 		console.log('dropzone.componentDidUpdate', this.props)
@@ -69,11 +95,11 @@ class DropZone extends React.Component {
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
 		const style = {
-			height: visible ? '50px' : '0px',
+			// height: visible ? '50px' : '0px',
  			// transition: instant ? '' : `height ${TRANSITION_DELAY}ms`,
 			// background: randomColor,
 			background: '#555',
-			// height: '0px',
+			height: '0px'
 		}
 
 		if (instant === false) {
