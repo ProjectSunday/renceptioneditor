@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Block from './block'
-import DropZone from './dropzone'
+import DropZone from './dropzone2'
 
 const mapStateToProps = (state, ownProps) => {
 	// console.log('slot.mapStateToProps')
@@ -27,6 +27,7 @@ class Slot extends React.Component {
 		this.addClicked = this.addClicked.bind(this)
 		this.removeClicked = this.removeClicked.bind(this)
 
+		this.componentDidUpdate = this.componentDidUpdate.bind(this)
 		this.render = this.render.bind(this)
 	}
 
@@ -34,7 +35,9 @@ class Slot extends React.Component {
 	}
 	removeClicked() {
 	}
-
+	componentDidUpdate() {
+		console.log('slot.componentDidUpdate')	
+	}
 	render() {
 		// console.log('slot.render', this.props)
 		const { id, blocks, children, dropZones } = this.props
@@ -53,7 +56,7 @@ class Slot extends React.Component {
 			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
     		overflow: 'hidden',
 
-	    	minHeight: '75px',
+	    	minHeight: '50px',
 			margin: '30px 0 0 0',
 			// border: '1px solid #E6DBDB',
 			position: 'relative',

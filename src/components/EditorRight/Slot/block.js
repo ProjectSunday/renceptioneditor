@@ -69,10 +69,8 @@ export default class Block extends Component {
 
 		var display = nextProps.visible === false ? 'none': 'block'
 
-		var opacity = nextProps.visible === false ? '0' : '1'
 		setTimeout(function () {
-			// self.refs.block.style.display = display
-			self.refs.block.style.opacity = opacity
+			self.refs.block.style.display = display
 
 		}, 0)
 
@@ -96,14 +94,13 @@ export default class Block extends Component {
 			color: 'yellow'
 		}
 
-				// 		onDragOver={this.onDragOver}
-				// onDragEnd={this.onDragEnd}
 				
 
 		return (
 			<div ref="block" className="block" style={styles} draggable="true"
 				onDragStart={this.onDragStart}
-
+				onDragOver={this.onDragOver}
+				onDragEnd={this.onDragEnd}
 			>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>

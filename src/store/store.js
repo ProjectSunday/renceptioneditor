@@ -32,16 +32,26 @@ let initialState = {
 	],
 
 	editorRight: {
-		slots: [ 1000, 1001 ]
+		slots: [ 1000, 1001, 1002, 1003 ]
 	},
 
 	slots: [
 		{
 			id: 1000,
-			blocks: [ 100, 101, 102, 103, 104, 105 ]
+			blocks: [ 100, 101 ]
 		},
 		{
 			id: 1001,
+			blocks: []
+			// blocks: [ 102, 103, 104, 105 ]
+		},
+		{
+			id: 1002,
+			blocks: []
+			// blocks: [ 102, 103, 104, 105 ]
+		},
+		{
+			id: 1003,
 			blocks: []
 			// blocks: [ 102, 103, 104, 105 ]
 		}

@@ -38,12 +38,12 @@ class EditorRight extends React.Component {
 						<Slot id={slots[1]} />
 					</div>
 					<div className="col-xs-6">
-						<Slot id={slots[1]} />
+						<Slot id={slots[2]} />
 					</div>
 			 	</div>
 			 	<div className="row">
 					<div className="col-xs-12">
-						<Slot id={slots[1]} />
+						<Slot id={slots[3]} />
 					</div>
 	 			</div>
  			</div>

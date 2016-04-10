@@ -3,25 +3,7 @@
 
 const ui = (state = {}, action) => {
 	switch (action.type) {
-		case 'UI_SET':
-			var ui = state.slice(0)
-
-			// ui[0] = { 'blah': 'this is completely new' }
-
-			// return ui
-
-			// console.log(ui[0].test === test)
-			// test.push(action.value)
-
-
-			ui[0].yo = { 'blah': 'this is completely new' }
-
-			console.log('test ', state[0] === ui[0])
-			console.log('test ', state === ui)
-
-			// ui[0].test.splice(0, 0, action.value)
-			return ui
-		case 'DRAG_STARTvoid':
+		case 'DRAG_START':
 			var ui = Object.assign({}, state)
 
 			var { blockId, slotId } = action
@@ -38,17 +20,6 @@ const ui = (state = {}, action) => {
 
 			//set sourceBlock
 			ui.srcBlock = { blockId, slotId }
-
-			return ui
-		case 'UI_RESET_DROPZONES':
-			console.log('UI_RESET_DROPZONES')
-			var { slotId } = action
-			var ui = Object.assign({}, state)
-
-			ui.slots.fbi(slotId).dropZones.forEach(d => {
-				d.instant = true
-				d.visible = false
-			})
 
 			return ui
 		case 'BLOCK_DRAG_OVER':
@@ -74,30 +45,7 @@ const ui = (state = {}, action) => {
 			})
 
 			return ui
-
-		case 'BLOCK_DROP':
-			var { slotId, dropZoneId } = action
-			var ui = Object.assign({}, state)
-
-			//get block below dropzone and  insert source block
-
-			ui.slots.fbi(ui.srcBlock.slotId)
-				.children.filter(ui.srcBlock.blockId)
-
-
-			var dropZoneIndex = ui.slots.fbi(slotId).b
-
-
-			var slot = ui.slots.fibi(slotId)
-
-
-
-			return ui
 		case 'UI_INITILIZE_SLOT_CHILDREN':
-			// type: 'UI_INITILIZE_SLOT_CHILDREN',
-			// slotId,
-			// blocks
-			// console.log('UI_INITILIZE_SLOT_CHILDREN')
 			var ui = Object.assign({}, state)
 
 			var { blocks, slotId } = action
@@ -116,7 +64,7 @@ const ui = (state = {}, action) => {
 			blocks.forEach((b, i) => {
 				dropZones.push({
 					id: i,
-					instant: true,
+					instant: false,
 					visible: false
 				})
 				children.push(i, b)
@@ -124,8 +72,8 @@ const ui = (state = {}, action) => {
 
 			dropZones.push({
 				id: blocks.length,
-				instant: true,
-				visible: false
+				instant: blocks.length === 0,
+				visible: blocks.length === 0
 			})
 			children.push(blocks.length)
 
