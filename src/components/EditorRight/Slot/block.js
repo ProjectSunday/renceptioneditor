@@ -6,8 +6,10 @@ import * as Actions from '../../../actions'
 import './block.less'
 
 const mapStateToProps = (state, ownProps) => {
-	// console.log('block.mapStateToProps', ownProps)
-	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
+	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
+	return Object.assign({
+		visible: state.ui.srcBlock.id !== ownProps.id
+	}, state.blocks.find(b => b.id === ownProps.id))
 }
 
 @connect(mapStateToProps)
@@ -31,20 +33,20 @@ export default class Block extends Component {
 
 	onDragStart(e) {
 		// console.log('block.onDragStart')
-		const { id: blockId, slotId } = this.props
+		const { id, slotId } = this.props
 
 		e.dataTransfer.setData('text', '');
 
 	    STORE.dispatch({
-	    	type: 'DRAG_START',
-	    	slotId,
-	    	blockId
+	    	type: 'UI_BLOCK_DRAG_START',
+	    	id,
+	    	slotId
 	    })
 
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
-		var { id: blockId, slotId } = this.props
+		var { id, slotId } = this.props
 
 	    const hoverBoundingRect = e.target.getBoundingClientRect()
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
@@ -52,26 +54,77 @@ export default class Block extends Component {
 	    const hoverClientY = e.clientY - hoverBoundingRect.top
 
 		STORE.dispatch({
-			type: 'BLOCK_DRAG_OVER',
+			type: 'UI_BLOCK_DRAG_OVER',
+			id,
 			slotId,
-			blockId,
 			below: hoverMiddleY < hoverClientY
 		})
 
 	}
 	onDragEnd(e) {
-		ACTIONS.blockDragEnd()
+
+		STORE.dispatch(function (dispatch, getState) {
+			var state = getState()
+
+			trace(state.ui.destDropZone)
+
+			/* 
+			if dest
+				move block
+			}
+
+				reset all children
+					reset dropzones and generate block children
+
+			*/
+
+			var { id: dropZoneId, slotId: destSlotId } = state.ui.destDropZone
+			var srcSlotId  = state.ui.srcBlock.slotId
+
+			if (dropZoneId !== null) {
+
+				var children = state.ui.slots.fbi(destSlotId).children
+				var childIndex = children.findIndex((c, i) => c === dropZoneId && i % 2 == 0)
+				
+				var destBlockId = children[childIndex + 1]
+
+
+				trace(destBlockId, destSlotId)
+				dispatch({
+					type: 'X_MOVE_BLOCK',
+					src: state.ui.srcBlock,
+					dest: { id: destBlockId, slotId: destSlotId }
+				})
+			}
+
+			dispatch({
+				type: 'UI_RESET_SLOT',
+				slotId: srcSlotId,
+				blocks: state.slots.fbi(srcSlotId).blocks
+			})
+
+			if (srcSlotId !== destSlotId) {
+				dispatch({
+					type: 'UI_RESET_SLOT',
+					slotId: destSlotId,
+					blocks: state.slots.fbi(destSlotId).blocks
+				})
+			}
+
+			dispatch({
+				type: 'UI_SET_ACTIVE_DROPZONE'
+			})
+		})
+
 	}
 	shouldComponentUpdate(nextProps) {
 		// console.log('block.shouldComponentUpdate', nextProps.index)
 		var self = this
+		var { visible } = nextProps
 
-
-		var display = nextProps.visible === false ? 'none': 'block'
 
 		setTimeout(function () {
-			self.refs.block.style.display = display
-
+			self.refs.block.style.display = visible ? 'block': 'none'
 		}, 0)
 
 		return true

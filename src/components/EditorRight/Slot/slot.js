@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 	var ui = state.ui.slots.find(s => s.id == ownProps.id)
 	if (!ui) {
 		STORE.dispatch({
-			type: 'UI_INITILIZE_SLOT_CHILDREN',
+			type: 'UI_RESET_SLOT',
 			slotId: slot.id,
 			blocks: slot.blocks
 		})
@@ -36,10 +36,10 @@ class Slot extends React.Component {
 	removeClicked() {
 	}
 	componentDidUpdate() {
-		console.log('slot.componentDidUpdate')	
+		// console.log('slot.componentDidUpdate')	
 	}
 	render() {
-		// console.log('slot.render', this.props)
+		console.log('slot.render', this.props)
 		const { id, blocks, children, dropZones } = this.props
 
 		let nodes = []
@@ -65,8 +65,8 @@ class Slot extends React.Component {
 	    }
 
 	    	// <button onClick={this.addClicked}>Add</button>
-				// <button onClick={this.removeClicked}>Remove</button>
-				// <button onclick={this.test}>test</button>
+			// <button onClick={this.removeClicked}>Remove</button>
+			// <button onclick={this.test}>test</button>
 
 		return (
 			<div style={style}>

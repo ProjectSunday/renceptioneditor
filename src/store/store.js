@@ -7,26 +7,32 @@ let initialState = {
 	blocks: [
 		{
 			id: 100,
+			slotId: 1000,
 			name: 'image'
 		},
 		{
 			id: 101,
+			slotId: 1000,
 			name: 'text'
 		},
 		{
 			id: 102,
+			slotId: 1000,
 			name: 'textplusimage'
 		},
 		{
 			id: 103,
+			slotId: 1000,
 			name: 'imageimage'
 		},
 		{
 			id: 104,
+			slotId: 1000,
 			name: 'texttext'
 		},
 		{
 			id: 105,
+			slotId: 1000,
 			name: 'textplusimagetextplusimage'
 		}
 	],
@@ -38,7 +44,7 @@ let initialState = {
 	slots: [
 		{
 			id: 1000,
-			blocks: [ 100, 101 ]
+			blocks: [ 100, 101, 102, 103, 104, 105 ]
 		},
 		{
 			id: 1001,
@@ -75,7 +81,14 @@ let initialState = {
 	},
 
 	ui: {
-		srcBlock: {},
+		destDropZone: {
+			id: null,
+			slotId: null
+		},
+		srcBlock: {
+			id: null,
+			slotId: null
+		},
 		slots: []
 	}
 
@@ -100,7 +113,12 @@ var sampleState = {
 			// slotId,
 			// blockId
 		},
-		slots: []
+		slots: [{
+			id: 1000,
+			activeDropZoneId: 1,
+			children:[],
+			dropZones: []
+		}]
 	}
 
 }

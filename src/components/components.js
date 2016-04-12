@@ -18,7 +18,7 @@ class Components extends React.Component {
 			<div className="col-xs-8 pull-right">
 				<EditorRight />
 			</div>
-			<Testing />
+
 		</div>)
 	}
 }

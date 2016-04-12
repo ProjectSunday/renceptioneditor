@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './favicon.ico'
 import './index.less'   //main styling file, needs to be converted to sass
 import './utils'
+import './debug'
 
 import Components from './components/components'
 
