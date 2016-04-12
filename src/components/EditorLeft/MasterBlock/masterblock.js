@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import './imageblock.png'
 import './textblock.png'
@@ -8,6 +9,11 @@ import './imageblock-drag.png'
 import './textblock-drag.png'
 import './textplusimageblock-drag.png'
 
+const mapStateToProps = (state, ownProps) => {
+	return state.masterBlocks.fbi(ownProps.id)
+}
+
+@connect(mapStateToProps)
 class MasterBlock extends React.Component {
 	constructor(props) {
 		super(props)
@@ -28,15 +34,20 @@ class MasterBlock extends React.Component {
 	}
 	onDragEnd(e) {
 		red('masterBlock onDragEnd', e)
+
 	}
 	render() {
-		red('masterBlock.render1', this.props)
+		// red('masterBlock.render1', this.props)
 
-		const { dragImage, src, type } = this.props.masterBlock
+		const { dragImage, src, type } = this.props
 
 		var masterBlockAttr = {
 			onDragStart: this.onDragStart,
-			onDragEnd: this.onDragEnd
+			onDragEnd: this.onDragEnd,
+			style: {
+				display: 'inline-block',
+				margin: '10px'
+			}
 		}
 
 		var dragImageAttr = {

@@ -35,6 +35,27 @@ let initialState = {
 		slots: [ 1000, 1001, 1002, 1003 ]
 	},
 
+	masterBlocks: [
+		{
+			id: 500,
+			type: 'image',
+			dragImage: 'imageblock-drag.png',
+			src: 'imageblock.png'
+		},
+		{
+			id: 501,
+			type: 'text',
+			dragImage: 'textblock-drag.png',
+			src: 'textblock.png'
+		},
+		{
+			id: 502,
+			type: 'textplusimage',
+			dragImage: 'textplusimageblock-drag.png',
+			src: 'textplusimageblock.png'
+		}
+	],
+
 	slots: [
 		{
 			id: 1000,
