@@ -33,8 +33,7 @@ class MasterBlock extends React.Component {
 		e.dataTransfer.setDragImage(dragImage, 58, 29);
 	}
 	onDragEnd(e) {
-		red('masterBlock onDragEnd', e)
-
+		ACTIONS.masterBlockDragEnd(this.props.id)
 	}
 	render() {
 		// red('masterBlock.render1', this.props)

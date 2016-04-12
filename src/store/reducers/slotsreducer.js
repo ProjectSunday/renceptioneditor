@@ -1,8 +1,6 @@
 import update from 'react-addons-update'
 import Immutable from 'immutable'
 
-let DROPZONE_COUNT = 0
-
 const slots = (state = [], action) => {
 	switch (action.type) {
 		case 'X_MOVE_BLOCK':

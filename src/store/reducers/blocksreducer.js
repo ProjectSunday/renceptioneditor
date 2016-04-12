@@ -2,13 +2,20 @@
 
 import Immutable from 'immutable'
 
+var BLOCK_ID = 200
+
 const blocks = (state = [], action) => {
 	switch (action.type) {
-		// case 'ADD_BLOCK':
-		// 	return [
-		// 		...state,
-		// 		action.block
-		// 	]
+		case 'SLOTS+BLOCKS.ADD_BLOCK':
+			var { masterBlock, dest } = action
+			var blocks = state.slice(0)
+
+			blocks.push({
+				id: ++BLOCK_ID,
+				name: masterBlock.type
+			})
+
+			return blocks
 		case 'X_BLOCK_DRAG_START':
 			var { id } = action
 			var blocks = state.slice(0)
