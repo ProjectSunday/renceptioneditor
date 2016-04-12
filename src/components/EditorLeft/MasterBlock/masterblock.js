@@ -30,7 +30,7 @@ class MasterBlock extends React.Component {
 		red('masterBlock onDragEnd', e)
 	}
 	render() {
-		red('masterBlock.render', this.props)
+		red('masterBlock.render1', this.props)
 
 		const { dragImage, src, type } = this.props.masterBlock
 
