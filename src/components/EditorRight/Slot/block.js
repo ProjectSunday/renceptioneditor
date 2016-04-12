@@ -7,9 +7,7 @@ import './block.less'
 
 const mapStateToProps = (state, ownProps) => {
 	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
-	return Object.assign({
-		visible: state.ui.srcBlock.id !== ownProps.id
-	}, state.blocks.find(b => b.id === ownProps.id))
+	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
 }
 
 @connect(mapStateToProps)
@@ -62,24 +60,13 @@ export default class Block extends Component {
 
 	}
 	onDragEnd(e) {
+		var { id: srcBlockId, slotId: srcSlotId } = this.props
 
 		STORE.dispatch(function (dispatch, getState) {
 			var state = getState()
 
-			trace(state.ui.destDropZone)
-
-			/* 
-			if dest
-				move block
-			}
-
-				reset all children
-					reset dropzones and generate block children
-
-			*/
-
 			var { id: dropZoneId, slotId: destSlotId } = state.ui.destDropZone
-			var srcSlotId  = state.ui.srcBlock.slotId
+			// var srcSlotId  = state.ui.srcBlock.slotId
 
 			if (dropZoneId !== null) {
 
@@ -89,13 +76,20 @@ export default class Block extends Component {
 				var destBlockId = children[childIndex + 1]
 
 
-				trace(destBlockId, destSlotId)
+				// red('dropping at', destBlockId, destSlotId)
 				dispatch({
 					type: 'X_MOVE_BLOCK',
-					src: state.ui.srcBlock,
+					src: { id: srcBlockid, slotId: srcSlotId },
 					dest: { id: destBlockId, slotId: destSlotId }
 				})
 			}
+
+			dispatch({
+				type: 'X_BLOCK_DRAG_START',
+				id
+			})
+
+			red('blcoks', state.slots.fbi(srcSlotId).blocks)
 
 			dispatch({
 				type: 'UI_RESET_SLOT',
@@ -111,9 +105,9 @@ export default class Block extends Component {
 				})
 			}
 
-			dispatch({
-				type: 'UI_SET_ACTIVE_DROPZONE'
-			})
+			// dispatch({
+			// 	type: 'UI_SET_ACTIVE_DROPZONE'
+			// })
 		})
 
 	}

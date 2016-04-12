@@ -4,12 +4,9 @@ import { connect } from 'react-redux'
 const TRANSITION_DELAY = 2000
 
 const mapStateToProps = (state, ownProps) => {
-	// red(ownProps)
 	var slot = state.ui.slots.fbi(ownProps.slotId)
 	var dropZone = slot.dropZones.fbi(ownProps.id)
-	return Object.assign({
-		active: slot.activeDropZoneId === ownProps.id
-	}, dropZone)
+	return Object.assign({}, dropZone)
 }
 
 @connect(mapStateToProps)
@@ -53,7 +50,7 @@ class DropZone extends React.Component {
 	// 	// })
 	// }
 	onDragEnter() {
-		// trace('dropZone.onDragENTER')
+		trace('dropZone.onDragENTER', this.props)
 		STORE.dispatch({
 			type: 'UI_SET_DEST_DROPZONE',
 			id: this.props.id,
@@ -61,7 +58,7 @@ class DropZone extends React.Component {
 		})
 	}
 	onDragLeave() {
-		// trace('dropzone.onDragLeave')
+		trace('dropzone.onDragLeave', this.props)
 		STORE.dispatch({
 			type: 'UI_SET_DEST_DROPZONE',
 			id: null,
@@ -69,29 +66,28 @@ class DropZone extends React.Component {
 		})
 	}
 	shouldComponentUpdate(nextProps) {
-		red(nextProps)
-		var { active, instant } = nextProps
-		var { slotId, id } = this.props
+		// red(nextProps)
+		var { pulse } = nextProps
+		var { id, slotId } = this.props
 		var { dropZone } = this.refs
 
-		if (nextProps.instant !== null) {
-			dropZone.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
+		if (pulse !== null) {
+			dropZone.style.transition = pulse.instant ? '' : `height ${TRANSITION_DELAY}ms`
 
-			STORE.dispatch({
-				type: 'UI_DROPZONE_SET_INSTANT_NULL',
-				id,
-				slotId
-			})
+			setTimeout(function () {  //timeout needed for transition to take affect
+				dropZone.style.height = pulse.height
+				
+				STORE.dispatch({
+					type: 'UI_DROPZONE_PULSE_SUCCESS',
+					id,
+					slotId
+				})
+			}, 0)
 		}
-
-		setTimeout(function () {  //timeout needed for transition to take affect
-			dropZone.style.height = active ? '50px' : '0px'
-		}, 0)
-
 		return false
 	}
 	componentDidUpdate() {
-		console.log('dropzone.componentDidUpdate', this.props)
+		// console.log('dropzone.componentDidUpdate', this.props)
 	}
 	render() {
 		// console.log('dropzone.render ', this.props)

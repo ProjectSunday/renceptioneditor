@@ -9,23 +9,17 @@ const blocks = (state = [], action) => {
 		// 		...state,
 		// 		action.block
 		// 	]
-		// case 'X_DRAG_START':
-		// 	// console.log('X_DRAG_START')
-		// 	var blocks = state.slice(0)
-		// 	var block = blocks.find(b => b.id == action.blockId)
-		// 	block.visible = false
-		// 	return blocks
-		// case 'X_DRAG_END':
-			// // console.log('X_DRAG_END')
-			// var blocks = state.slice(0)
-			// blocks.forEach(b => b.visible = true)
-			// return blockss
-		// case 'SLOT_MOVE_BLOCK':
-		// 	// console.log('SLOT_MOVE_BLOCK')
-		// 	var { blockId } = action
-		// 	var blocks = state.slice(0)
-		// 	blocks.fbi(blockId).visible = true
-		// 	return blocks
+		case 'X_BLOCK_DRAG_START':
+			var { id } = action
+			var blocks = state.slice(0)
+			var block = blocks.fbi(id)
+			block.beingDrag = true
+			return blocks
+		case 'X_BLOCK_DRAG_END':
+			var blocks = state.slice(0)
+			var block = blocks.fbi(id)
+			delete block.beingDrag
+			return blocks
 		default:
 			return state
 	}
