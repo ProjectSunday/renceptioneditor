@@ -22,25 +22,6 @@ const ui = (state = {}, action) => {
 			ui.srcBlock = { id, slotId }
 
 			return ui
-		// case 'X_DRAG_END':
-		// 	// console.log('X_DRAG_END')
-		// 	// red(action)
-		// 	// var { blockId, slotId } = action
-
-		// 	var ui = Object.assign({}, state)
-
-		// 	ui.activeDropZone.id == null
-		// 	ui.srcBlock = { id: null, slotId: null }
-
-		// 	ui.slots.forEach(s => {
-		// 		s.dropZones.forEach(d => {
-		// 			d.expanding = false
-		// 			d.instant = true
-		// 		})
-		// 	})
-
-		// 	red(ui)
-		// 	return ui
 		case 'UI_BLOCK_DRAG_OVER':
 			var { id, slotId, below } = action
 			var ui = Object.assign({}, state)
@@ -53,10 +34,12 @@ const ui = (state = {}, action) => {
 
 			var prevDropZone = slot.dropZones.find(d => d.visible)
 
-			if (prevDropZone.id === nextDropZoneId) { return state }
-
-			prevDropZone.visible = false
-			prevDropZone.pulse = { instant: false, height: '0px' }
+			if (prevDropZone) {  //when dragging from one slot to another, a visible dropzone in that new slot may not exist
+				if (prevDropZone.id === nextDropZoneId) { return state }
+				
+				prevDropZone.visible = false
+				prevDropZone.pulse = { instant: false, height: '0px' }
+			}
 
 			var nextDropZone = slot.dropZones.fbi(nextDropZoneId)
 			nextDropZone.visible = true
@@ -76,38 +59,55 @@ const ui = (state = {}, action) => {
 			var { slotId, blocks } = action
 
 			var slot = ui.slots.fbi(slotId)
-
 			if (!slot) {
 				slot = { id: slotId }
 				ui.slots.push(slot)
 			}
 
-			var children = []
-			var dropZones = []
+			slot.children = []
+			slot.dropZones = []
 
 			blocks.forEach((b, i) => {
-				dropZones.push({
+				slot.dropZones.push({
 					id: i,
 					visible: false,
 					pulse: { instant: true, height: '0px'}
 				})
-				children.push(i, b)
+				slot.children.push(i, b)
 			})
 
-			dropZones.push({
+			slot.dropZones.push({
 				id: blocks.length,
-				visible: blocks.length === 0,
-				pulse: blocks.length === 0 ? { instant: true, height: '50px' } : null
+				visible: false,
+				pulse: { instant: true, height: '0px' }
 			})
 
-			children.push(blocks.length)
+			if (!blocks.length) {
+				slot.dropZones[0].pulse = { instant: true, height: '50px'}
+				slot.dropZones[0].visible = true
+			}
 
-			slot.children = children
-			slot.dropZones = dropZones
+			slot.children.push(blocks.length)
 
-			red('slot0', ui.slots[0])
+			return ui
+		case 'UI_RESET_SLOT_DROPZONES':
+			var ui = Object.assign({}, state)
+
+			ui.slots.forEach(s => {
+				if (s.children.length === 1) {
+					s.dropZones[0].visible = true
+					s.dropZones[0].pulse = { instant: true, height: '50px' }
+				} else {
+					s.dropZones.forEach(d => {
+						d.visible = false
+						d.pulse = { instant: true, height: '0px' }
+					})
+				}
+			})
+
 			return ui
 		case 'UI_SET_DEST_DROPZONE':
+			// trace('UI_SET_DEST_DROPZONE ', action.id)
 			var ui = Object.assign({}, state)
 			var { id, slotId } = action
 			ui.destDropZone = { id, slotId }

@@ -7,32 +7,26 @@ let initialState = {
 	blocks: [
 		{
 			id: 100,
-			slotId: 1000,
 			name: 'image'
 		},
 		{
 			id: 101,
-			slotId: 1000,
 			name: 'text'
 		},
 		{
 			id: 102,
-			slotId: 1000,
 			name: 'textplusimage'
 		},
 		{
 			id: 103,
-			slotId: 1000,
 			name: 'imageimage'
 		},
 		{
 			id: 104,
-			slotId: 1000,
 			name: 'texttext'
 		},
 		{
 			id: 105,
-			slotId: 1000,
 			name: 'textplusimagetextplusimage'
 		}
 	],

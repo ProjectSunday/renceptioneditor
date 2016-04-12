@@ -16,6 +16,7 @@ const blocks = (state = [], action) => {
 			block.beingDrag = true
 			return blocks
 		case 'X_BLOCK_DRAG_END':
+			var { id } = action
 			var blocks = state.slice(0)
 			var block = blocks.fbi(id)
 			delete block.beingDrag

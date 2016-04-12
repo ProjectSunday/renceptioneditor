@@ -36,7 +36,7 @@ export default class Block extends Component {
 		e.dataTransfer.setData('text', '');
 
 	    STORE.dispatch({
-	    	type: 'UI_BLOCK_DRAG_START',
+	    	type: 'X_BLOCK_DRAG_START',
 	    	id,
 	    	slotId
 	    })
@@ -66,7 +66,6 @@ export default class Block extends Component {
 			var state = getState()
 
 			var { id: dropZoneId, slotId: destSlotId } = state.ui.destDropZone
-			// var srcSlotId  = state.ui.srcBlock.slotId
 
 			if (dropZoneId !== null) {
 
@@ -75,50 +74,47 @@ export default class Block extends Component {
 				
 				var destBlockId = children[childIndex + 1]
 
-
-				// red('dropping at', destBlockId, destSlotId)
 				dispatch({
 					type: 'X_MOVE_BLOCK',
-					src: { id: srcBlockid, slotId: srcSlotId },
+					src: { id: srcBlockId, slotId: srcSlotId },
 					dest: { id: destBlockId, slotId: destSlotId }
 				})
+
 			}
 
 			dispatch({
-				type: 'X_BLOCK_DRAG_START',
-				id
+				type: 'X_BLOCK_DRAG_END',
+				id: srcBlockId,
+				slotId: srcSlotId
 			})
 
-			red('blcoks', state.slots.fbi(srcSlotId).blocks)
 
-			dispatch({
-				type: 'UI_RESET_SLOT',
-				slotId: srcSlotId,
-				blocks: state.slots.fbi(srcSlotId).blocks
-			})
-
-			if (srcSlotId !== destSlotId) {
+			state.slots.forEach(s => {
 				dispatch({
 					type: 'UI_RESET_SLOT',
-					slotId: destSlotId,
-					blocks: state.slots.fbi(destSlotId).blocks
+					slotId: s.id,
+					blocks: s.blocks
 				})
-			}
+			})
 
-			// dispatch({
-			// 	type: 'UI_SET_ACTIVE_DROPZONE'
-			// })
+			dispatch({ type: 'UI_RESET_SLOT_DROPZONES' })
+
+			dispatch({
+				type: 'UI_SET_DEST_DROPZONE',
+				id: null,
+				slotId: null
+			})
 		})
 
 	}
 	shouldComponentUpdate(nextProps) {
 		// console.log('block.shouldComponentUpdate', nextProps.index)
 		var self = this
-		var { visible } = nextProps
+		var { beingDrag } = nextProps
 
 
 		setTimeout(function () {
-			self.refs.block.style.display = visible ? 'block': 'none'
+			self.refs.block.style.display = beingDrag ? 'none': 'block'
 		}, 0)
 
 		return true

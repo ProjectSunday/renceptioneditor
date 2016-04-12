@@ -39,7 +39,7 @@ class Slot extends React.Component {
 		// console.log('slot.componentDidUpdate')	
 	}
 	render() {
-		console.log('slot.render', this.props)
+		// trace('slot ', this.props)
 		const { id, blocks, children, dropZones } = this.props
 
 		let nodes = []
