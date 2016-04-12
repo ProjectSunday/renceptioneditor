@@ -8,30 +8,58 @@ import './imageblock-drag.png'
 import './textblock-drag.png'
 import './textplusimageblock-drag.png'
 
-import './masterblock.less'
+class MasterBlock extends React.Component {
+	constructor(props) {
+		super(props)
 
-let MasterBlock = ({ masterBlock }) => {
+		this.onDragStart = this.onDragStart.bind(this)
+		this.onDragEnd = this.onDragEnd.bind(this)
 
-	const onDragStart = (e) => {
+		this.render = this.render.bind(this)
+	}
+	onDragStart(e) {
 		// this.isMasterBlock = true;
 		// this.masterBlockInfo = masterInfo;
 
-		let dragImage = e.currentTarget.querySelector('.dragimage');
+		var dragImage = this.refs.dragImage
 
 		e.dataTransfer.setData("text/plain", "<strong>Body</strong>");
 		e.dataTransfer.setDragImage(dragImage, 58, 29);
 	}
-
-	const dragImageStyles = {
-		backgroundImage: 'url(' + masterBlock.dragImage + ')'
+	onDragEnd(e) {
+		red('masterBlock onDragEnd', e)
 	}
+	render() {
+		red('masterBlock.render', this.props)
 
-	return (
-		<div className="masterblock" onDragStart={onDragStart}>
-			<img src={masterBlock.src} />
-			<div className="dragimage" style={dragImageStyles} />
-		</div>
-	)
+		const { dragImage, src, type } = this.props.masterBlock
+
+		var masterBlockAttr = {
+			onDragStart: this.onDragStart,
+			onDragEnd: this.onDragEnd
+		}
+
+		var dragImageAttr = {
+			ref: 'dragImage',
+			style: {
+				backgroundImage: `url(${dragImage})`,
+				backgroundSize: '116px 58px',
+				width: '116px',
+				height: '58px',
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				zIndex: '-1'
+			}
+		}
+
+		return (
+			<div {...masterBlockAttr}>
+				<img src={src} />
+				<div {...dragImageAttr} />
+			</div>
+		)
+	}
 }
 
 export default MasterBlock
