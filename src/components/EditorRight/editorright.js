@@ -19,7 +19,7 @@ class EditorRight extends React.Component {
 		var styles = {
 			border: '1px solid #ddd',
 			boxShadow: '0px 0px 17px -3px rgba(0,0,0,0.41)',
-			height: '400px',
+			height: '600px',
 			background: 'white',
 			padding: '0 30px 0px 30px',
 			margin: '30px 0 0 0',

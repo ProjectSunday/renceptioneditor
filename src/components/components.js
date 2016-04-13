@@ -1,5 +1,6 @@
 import React from 'react'
 
+import EditorTop from './editortop/editortop'
 import EditorLeft from './editorleft/editorleft'
 import EditorRight from './editorright/editorright'
 
@@ -12,6 +13,8 @@ class Components extends React.Component {
 	}
 	render() {
 		return (<div>
+			<EditorTop />
+			
 			<div className="col-xs-4 pull-left">
 				<EditorLeft />
 			</div>

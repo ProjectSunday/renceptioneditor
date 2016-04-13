@@ -24,19 +24,7 @@ class Slot extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.addClicked = this.addClicked.bind(this)
-		this.removeClicked = this.removeClicked.bind(this)
-
-		this.componentDidUpdate = this.componentDidUpdate.bind(this)
 		this.render = this.render.bind(this)
-	}
-
-	addClicked() {
-	}
-	removeClicked() {
-	}
-	componentDidUpdate() {
-		// console.log('slot.componentDidUpdate')	
 	}
 	render() {
 		// trace('slot ', this.props)
@@ -63,10 +51,6 @@ class Slot extends React.Component {
 			// box-shadow: inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75),	
 			background: '#F8F8F8',
 	    }
-
-	    	// <button onClick={this.addClicked}>Add</button>
-			// <button onClick={this.removeClicked}>Remove</button>
-			// <button onclick={this.test}>test</button>
 
 		return (
 			<div style={style}>
