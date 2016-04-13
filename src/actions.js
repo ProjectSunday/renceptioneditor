@@ -1,29 +1,19 @@
+
 export const masterBlockDragEnd = (id) => {
-	red('masterBlockDragEnd id:', id)
-
-	//check valid dropzone
-
-	//add block
-
-	//reset all ui slots
-
-	//reset all dropzone
-
-
 	STORE.dispatch((dispatch, getState) => {
 		var state = getState()
 
 		var dest = state.ui.destDropZone
 
 		if (dest.id !== null) {
-			var children = state.ui.slots.fbi(dest.id).children
-			var childIndex = children.findIndex((c, i) => c === dest.id && i % 2 == 0)
-			
-
+			var { newBlock } = dispatch({
+				type: 'BLOCKS.ADD_BLOCK',
+				name: state.masterBlocks.fbi(id).type
+			})
 			dispatch({
-				type: 'SLOTS+BLOCKS.ADD_BLOCK',
-				masterBlock: state.masterBlocks.fbi(id),
-				dest: { id: children[childIndex + 1], slotId: dest.slotId }
+				type: 'SLOTS.ADD_BLOCK',
+				dest,
+				blockId: newBlock.id,
 			})
 		}
 
@@ -45,7 +35,4 @@ export const masterBlockDragEnd = (id) => {
 			slotId: null
 		})
 	})
-
-
-
 }

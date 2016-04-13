@@ -4,8 +4,6 @@ import Immutable from 'immutable'
 const slots = (state = [], action) => {
 	switch (action.type) {
 		case 'X_MOVE_BLOCK':
-			// console.log('slotsreducer.X_MOVE_BLOCK')
-			// red(action)
 			var { src, dest } = action
 
 			var slots = state.slice(0)
@@ -22,8 +20,16 @@ const slots = (state = [], action) => {
 			}
 			destSlot.blocks.splice(destIndex, 0, src.id)
 
-			// red(slots[0].blocks)
 			return slots
+
+		case 'SLOTS.ADD_BLOCK':
+			const { dest, blockId } = action
+			var slots = state.slice(0)
+			var slot = slots.fbi(dest.slotId)
+
+			slot.blocks.splice(dest.id, 0, blockId)
+			return slots
+
 		default:
 			return state
 	}

@@ -6,15 +6,15 @@ var BLOCK_ID = 200
 
 const blocks = (state = [], action) => {
 	switch (action.type) {
-		case 'SLOTS+BLOCKS.ADD_BLOCK':
-			var { masterBlock, dest } = action
+		case 'BLOCKS.ADD_BLOCK':
+			var { name } = action
 			var blocks = state.slice(0)
 
-			blocks.push({
-				id: ++BLOCK_ID,
-				name: masterBlock.type
-			})
-
+			action.newBlock = {
+				id: BLOCK_ID++,
+				name
+			}
+			blocks.push(action.newBlock)
 			return blocks
 		case 'X_BLOCK_DRAG_START':
 			var { id } = action

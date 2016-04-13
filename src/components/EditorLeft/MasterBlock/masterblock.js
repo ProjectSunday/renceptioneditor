@@ -37,7 +37,6 @@ class MasterBlock extends React.Component {
 	}
 	render() {
 		// red('masterBlock.render1', this.props)
-
 		const { dragImage, src, type } = this.props
 
 		var masterBlockAttr = {
@@ -75,7 +74,7 @@ class MasterBlock extends React.Component {
 export default MasterBlock
 
 // module.exports = React.createClass({
-// 	dragStart: function (e) {
+// 	dragStart: function (e) {asdfsdf
 // 		var masterInfo = {
 // 			type: this.props.data.type
 // 		};

@@ -106,6 +106,9 @@ const ui = (state = {}, action) => {
 			})
 
 			return ui
+		case 'UI.GET_DEST_DROPZONE':
+			action.dest = Object.assign({}, state.destDropZone)
+			return state
 		case 'UI_SET_DEST_DROPZONE':
 			// trace('UI_SET_DEST_DROPZONE ', action.id)
 			var ui = Object.assign({}, state)
