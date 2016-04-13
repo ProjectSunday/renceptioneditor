@@ -14,11 +14,6 @@ class EditorTop extends React.Component {
 				height: '70px',
 				background: '#f3f3f3',
 				textAlign: 'center'
-
-				// button
-				// 	margin: 5px 0 0 5px
-				// 	opacity: 0.3
-
 			}
 		}
 
@@ -28,12 +23,15 @@ class EditorTop extends React.Component {
 			}
 		}
 
+		var title = 'yo'
+		// var title = 'This is a mockup demo for the Cloud Editor\'s proposed drag and drop ability.'
+
 		return (
 			<div {...editorTopAttr}>
 				<DesignTools />
 				<div className="clearfix" />
 				<div {...titleAttr}>
-					This is a mockup demo for the Cloud Editor's proposed drag and drop ability.
+					{title}
 				</div>
 			</div>
 		)
