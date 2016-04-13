@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const TRANSITION_DELAY = 50
+const TRANSITION_DELAY = 2000
 
 const mapStateToProps = (state, ownProps) => {
 	var slot = state.ui.slots.fbi(ownProps.slotId)
@@ -55,6 +55,11 @@ class DropZone extends React.Component {
 		var { dropZone } = this.refs
 
 		if (pulse !== null) {
+
+			// if (pulse.instant) {
+			// 	red('instant for ', id)
+			// }
+
 			dropZone.style.transition = pulse.instant ? '' : `height ${TRANSITION_DELAY}ms`
 
 			setTimeout(function () {  //timeout needed for transition to take affect
@@ -73,7 +78,7 @@ class DropZone extends React.Component {
 		// console.log('dropzone.componentDidUpdate', this.props)
 	}
 	render() {
-		// console.log('dropzone.render ', this.props)
+		// red('dropzone.render ', this.props)
 		const { id, pulse } = this.props
 
 		// let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
@@ -88,7 +93,8 @@ class DropZone extends React.Component {
 			style: {
 				background: '#555',
 				display: 'block',
-				height: pulse.height || '0px'
+				height: pulse.height || '0px',
+				overflow: 'hidden'
 			},
 			onDragOver: this.onDragOver,
 			onDrop: this.onDrop

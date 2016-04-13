@@ -30,6 +30,32 @@ const slots = (state = [], action) => {
 			slot.blocks.splice(dest.id, 0, blockId)
 			return slots
 
+		case 'SLOTS.SET_HEIGHT_FLEXIBLE':
+			red('SLOTS.SET_HEIGHT_FLEXIBLE')
+			var { heightFlexible } = action
+			var slots = state.slice(0)
+
+			slots.all({ heightFlexible })
+			return slots
+
+		case 'SLOTS.UPDATE_SLOT':
+			var { id } = action
+			var slots = state.slice(0)
+			slots.fbi(id).update = true
+			return slots
+
+		case 'SLOTS.UPDATE_ALL_SLOTS':
+			var { id } = action
+			var slots = state.slice(0)
+			slots.all({ update: true })
+			return slots
+
+		case 'SLOTS.UPDATE_SLOT_SUCCESS':
+			var { id } = action
+			var slots = state.slice(0)
+			slots.fbi(id).update = false
+			return slots
+
 		default:
 			return state
 	}

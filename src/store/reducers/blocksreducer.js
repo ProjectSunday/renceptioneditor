@@ -16,7 +16,8 @@ const blocks = (state = [], action) => {
 			}
 			blocks.push(action.newBlock)
 			return blocks
-		case 'X_BLOCK_DRAG_START':
+		case 'BLOCK+UI.DRAG_START':
+			// red('BLOCK --> BLOCK+UI.DRAG_START')
 			var { id } = action
 			var blocks = state.slice(0)
 			var block = blocks.fbi(id)

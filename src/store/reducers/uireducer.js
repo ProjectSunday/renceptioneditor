@@ -3,8 +3,8 @@
 
 const ui = (state = {}, action) => {
 	switch (action.type) {
-		case 'X_BLOCK_DRAG_START':
-			// red(action)
+		case 'BLOCK+UI.DRAG_START':
+			// red('UI --> BLOCK+UI.DRAG_START')
 			var { id, slotId } = action
 			var ui = Object.assign({}, state)
 			var slot = ui.slots.fbi(slotId)

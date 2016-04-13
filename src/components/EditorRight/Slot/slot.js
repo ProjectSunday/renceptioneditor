@@ -16,18 +16,84 @@ const mapStateToProps = (state, ownProps) => {
 		})
 		ui = state.ui.slots.find(s => s.id == ownProps.id)
 	}
-	return Object.assign({}, ui, slot)
+	return Object.assign({
+		dragSource: state.editor.dragSource
+	}, ui, slot)
 }
 
 @connect(mapStateToProps)
 class Slot extends React.Component {
 	constructor(props) {
 		super(props)
-
-		this.render = this.render.bind(this)
 	}
+	onDragEnter() {
+		red('yoooo onDragOver')
+
+	    STORE.dispatch({
+	    	type: 'SLOTS.SET_HEIGHT_FLEXIBLE',
+	    	heightFlexible: false
+	    })
+
+
+
+
+
+
+	}
+
+	shouldComponentUpdate(nextProps) {
+		trace('slot.componentShouldUpdate update: ', !!nextProps.update)
+
+		var { dragSource, update } = nextProps
+		var { slot } = this.refs
+
+
+		if (dragSource.isMasterBlock) {
+			var height = 'auto'
+		} else {
+			var height = slot.getBoundingClientRect().height + 'px'
+		}
+
+		red('yoooo', height)
+		slot.style.height = height
+
+		return !!update
+	}
+	componentDidUpdate() {
+
+		STORE.dispatch({
+			type: 'SLOTS.UPDATE_SLOT_SUCCESS',
+			id: this.props.id
+		})
+
+
+		// trace('slot.componentDidUpdate', this.props)
+		// var { heightFlexible } = this.props
+		// var { slot } = this.refs
+
+		// if (heightFlexible) {
+		// 	var height = 'auto'
+		// } else {
+		// 	var height = slot.getBoundingClientRect().height + 'px'
+		// }
+
+		// slot.style.height = height
+	}
+	// componentDidMount() {
+	// 	trace('slot.componentDidMount', this.props)
+	// 	var { heightFlexible } = this.props
+	// 	var { slot } = this.refs
+	// 	if (heightFlexible) {
+	// 		var height = 'auto'
+	// 	} else {
+	// 		var height = slot.getBoundingClientRect().height + 'px'
+	// 	}
+
+	// 	slot.style.height = height
+	// }
+
 	render() {
-		// trace('slot ', this.props)
+		trace('slot.render', this.props.id)
 		const { id, blocks, children, dropZones } = this.props
 
 		let nodes = []
@@ -40,20 +106,29 @@ class Slot extends React.Component {
 			}
 		})
 
-	    const style = {
-			boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
-    		overflow: 'hidden',
+		var slotAttr = {
+			ref: 'slot',
+			// onDragOver: this.onDragOver,
+			onDragEnter: this.onDragEnter,
+			style: {
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+	    		overflow: 'hidden',
 
-	    	minHeight: '50px',
-			margin: '30px 0 0 0',
-			// border: '1px solid #E6DBDB',
-			position: 'relative',
-			// box-shadow: inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75),	
-			background: '#F8F8F8',
+		    	minHeight: '50px',
+				margin: '30px 0 0 0',
+				// border: '1px solid #E6DBDB',
+				position: 'relative',
+				// box-shadow: inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75),	
+				background: '#F8F8F8'
+			}
+		}
+
+	    const style = {
+			
 	    }
 
 		return (
-			<div style={style}>
+			<div {...slotAttr}>
 				{nodes}
 			</div>
 		)

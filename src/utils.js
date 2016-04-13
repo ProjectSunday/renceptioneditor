@@ -11,3 +11,12 @@ Array.prototype.fbv = function (id) {
 Array.prototype.fibv = function (id) {
 	return this.findIndex(x => x === id)
 }
+
+Array.prototype.all = function (obj) {
+	var keys = Object.keys(obj)
+	return this.forEach(x => {
+		keys.forEach(k => {
+			x[k] = obj[k]
+		})
+	})
+}

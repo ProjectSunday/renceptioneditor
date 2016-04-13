@@ -35,11 +35,15 @@ export default class Block extends Component {
 
 		e.dataTransfer.setData('text', '');
 
+
+
 	    STORE.dispatch({
-	    	type: 'X_BLOCK_DRAG_START',
+	    	type: 'BLOCK+UI.DRAG_START',
 	    	id,
 	    	slotId
 	    })
+
+
 
 	}
 	onDragOver(e) {
@@ -50,6 +54,7 @@ export default class Block extends Component {
 	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
 	    const hoverClientY = e.clientY - hoverBoundingRect.top
+
 
 		STORE.dispatch({
 			type: 'UI_BLOCK_DRAG_OVER',
@@ -104,17 +109,23 @@ export default class Block extends Component {
 				id: null,
 				slotId: null
 			})
+
+			dispatch({
+				type: 'SLOTS.UPDATE_ALL_SLOTS'
+			})
 		})
 
 	}
 	shouldComponentUpdate(nextProps) {
-		// console.log('block.shouldComponentUpdate', nextProps.index)
+		// trace('block.shouldComponentUpdate', nextProps)
 		var self = this
 		var { beingDrag } = nextProps
 
 
 		setTimeout(function () {
 			self.refs.block.style.display = beingDrag ? 'none': 'block'
+			// self.refs.block.style.opacity = beingDrag ? 0 : 1
+			// self.refs.block.style.zIndex = beingDrag ? -99 : 0
 		}, 0)
 
 		return true
@@ -125,26 +136,29 @@ export default class Block extends Component {
 		// console.log('block.render', this.props)
 		const { id, name } = this.props
 
-		let styles = {
-			display: 'block',
-			background: '#aaa',
-			height: '50px',
-			boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
+		var blockAttr = {
+			ref: 'block',
+			className: 'block',
+			draggable: true,
+			onDragStart: this.onDragStart,
+			onDragOver: this.onDragOver,
+			onDragEnd: this.onDragEnd,
+			style: {
+				display: 'block',
+				background: '#aaa',
+				height: '50px',
+				boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
+			}
 		}
 
 		const idStyles = {
 			background: 'black',
 			color: 'yellow'
 		}
-
 				
 
 		return (
-			<div ref="block" className="block" style={styles} draggable="true"
-				onDragStart={this.onDragStart}
-				onDragOver={this.onDragOver}
-				onDragEnd={this.onDragEnd}
-			>
+			<div {...blockAttr}>
 				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)
