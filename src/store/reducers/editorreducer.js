@@ -7,7 +7,7 @@ const editor = (state = {}, action) => {
 
 		case 'EDITOR.SET_DRAG_SOURCE':
 			var { source } = action
-			var editor = state.slice(0)
+			var editor = Object.assign({}, state)
 			editor.dragSource = source
 			return editor
 

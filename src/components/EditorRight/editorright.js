@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Slot from './slot/slot'
+import Slot from './slot/slot2'
 
 const mapStateToProps = (state) => {
 	return state.editorRight
@@ -33,6 +33,16 @@ class EditorRight extends React.Component {
 						<Slot id={slots[0]} />
 					</div>
 				</div>
+
+ 			</div>
+		)
+	}
+}
+
+export default EditorRight
+
+/*
+
 				<div className="row">
 					<div className="col-xs-6">
 						<Slot id={slots[1]} />
@@ -46,9 +56,6 @@ class EditorRight extends React.Component {
 						<Slot id={slots[3]} />
 					</div>
 	 			</div>
- 			</div>
-		)
-	}
-}
 
-export default EditorRight
+
+*/

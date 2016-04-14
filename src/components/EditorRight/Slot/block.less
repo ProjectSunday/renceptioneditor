@@ -6,6 +6,10 @@
 	position: relative;
 	overflow: hidden;
 
+	background: #aaa;
+	box-shadow: 0px 10px 17px -3px rgba(0,0,0,0.41);
+
+
 	// > * {
 	// 	// pointer-events: none;
 	// }
@@ -49,4 +53,58 @@
 		background: gray;
 		color: white
 	}
+
+	&.dropzone {
+		background: blue
+
+
+	}
+
+	&.dropzone::after {
+		background: red;
+		content: "yo yo";
+	}
+
+
+}
+
+.block-container {
+
+
+
+	&.dropzone {
+		// background: blue
+		// transition: height 0s;
+
+		&.above::before {
+			// opacity: 0;
+			background: red;
+			content: "yo yo";
+			display: block;
+		}
+		&.below::after {
+			// opacity: 0;
+			background: red;
+			content: "yo yo below";
+			display: block;
+		}
+
+		&.gradual::before, &.gradual::after {
+			// height: 10px;
+			transition: height 2s;
+		}
+		&.instant::before, &.expanding::after {
+			// height: 10px;
+			transition: '';
+		}
+
+		&.collapsing::before, &.collapsing::after {
+			height: 0px
+		}
+		&.expanding::before, &.expanding::after {
+			height: 50px
+		}
+
+	}
+
 }

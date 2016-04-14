@@ -29,6 +29,41 @@ const blocks = (state = [], action) => {
 			var block = blocks.fbi(id)
 			delete block.beingDrag
 			return blocks
+
+		case 'BLOCKS.SET_DROPZONE':
+			var { id, below } = action
+			var blocks = state.slice(0)
+			var prevBlock = blocks.find(b => b.dropZone)
+			if (prevBlock) {
+				delete prevBlock.dropZone
+				prevBlock.update = true
+				prevBlock.render = false
+			}
+
+			var block = blocks.fbi(id)
+			block.dropZone = {
+				instant: false,
+				below: below,
+				expanding: true
+			}
+			block.update = true
+			block.render = false
+			return blocks
+
+		case 'BLOCKS.UPDATE_SUCCESS':
+			var { id } = action
+			var blocks = state.slice(0)
+			var block = blocks.fbi(id)
+			delete block.update
+			return blocks
+
+		case 'BLOCKS.RENDER_SUCCESS':
+			var { id } = action
+			var blocks = state.slice(0)
+			var block = blocks.fbi(id)
+			delete block.render
+			return blocks
+
 		default:
 			return state
 	}

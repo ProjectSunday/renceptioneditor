@@ -1,24 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Block from './block'
+import Block from './block2'
 import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
 	// console.log('slot.mapStateToProps')
-	var slot = state.slots.find(s => s.id == ownProps.id)
-	var ui = state.ui.slots.find(s => s.id == ownProps.id)
-	if (!ui) {
-		STORE.dispatch({
-			type: 'UI_RESET_SLOT',
-			slotId: slot.id,
-			blocks: slot.blocks
-		})
-		ui = state.ui.slots.find(s => s.id == ownProps.id)
+	var slot = state.slots.fbi(ownProps.id)
+	// var ui = state.ui.slots.find(s => s.id == ownProps.id)
+	// if (!ui) {
+	// 	STORE.dispatch({
+	// 		type: 'UI_RESET_SLOT',
+	// 		slotId: slot.id,
+	// 		blocks: slot.blocks
+	// 	})
+	// 	ui = state.ui.slots.find(s => s.id == ownProps.id)
+	// }
+	return {
+		...slot
 	}
-	return Object.assign({
-		dragSource: state.editor.dragSource
-	}, ui, slot)
 }
 
 @connect(mapStateToProps)
@@ -34,34 +34,31 @@ class Slot extends React.Component {
 	    	heightFlexible: false
 	    })
 
-
-
-
-
-
 	}
 
 	shouldComponentUpdate(nextProps) {
-		// trace('slot.componentShouldUpdate update: ', !!nextProps.update)
+		trace('slot.componentShouldUpdate update: ', nextProps)
 
-		var { dragSource, update } = nextProps
+		return false
 
-		if (!update) { return false }
+		// var { dragSource, update } = nextProps
 
-		}
+		// if (!update) { return false }
 
-		var { slot } = this.refs
+		// }
 
-		if (!!update) {
+		// var { slot } = this.refs
 
-		}
+		// if (!!update) {
 
-		var height = slot.getBoundingClientRect().height + ( dragSource.isMasterBlock ? 50 : 0 )
+		// }
 
-		red('yoooo', height)
-		slot.style.height = height + 'px'
+		// var height = slot.getBoundingClientRect().height + ( dragSource.isMasterBlock ? 50 : 0 )
 
-		return true
+		// red('yoooo', height)
+		// slot.style.height = height + 'px'
+
+		// return true
 	}
 	componentDidUpdate() {
 
@@ -102,18 +99,14 @@ class Slot extends React.Component {
 
 		let nodes = []
 
-		children.forEach((c, i) => {
-			if (i % 2 == 0) {
-				nodes.push(<DropZone key={i} id={c} slotId={id} />)
-			} else {
-				nodes.push(<Block key={i} id={c} slotId={id} />)
-			}
+		blocks.forEach((b, i) => {
+			nodes.push(<Block key={i} id={b} slotId={id} />)
 		})
 
 		var slotAttr = {
 			ref: 'slot',
 			// onDragOver: this.onDragOver,
-			onDragEnter: this.onDragEnter,
+			// onDragEnter: this.onDragEnter,
 			style: {
 				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
 	    		overflow: 'hidden',
@@ -126,10 +119,6 @@ class Slot extends React.Component {
 				background: '#F8F8F8'
 			}
 		}
-
-	    const style = {
-			
-	    }
 
 		return (
 			<div {...slotAttr}>
