@@ -30,8 +30,18 @@ const blocks = (state = [], action) => {
 			delete block.beingDrag
 			return blocks
 
+		case 'BLOCKS.SET_BEING_DRAG':
+			var { id } = action
+			var blocks = state.slice(0)
+			var block = blocks.fbi(id)
+			block.beingDrag = true
+			block.update = true
+			block.render = false
+
+			return blocks
+
 		case 'BLOCKS.SET_DROPZONE':
-			var { id, below } = action
+			var { id, below, instant } = action
 			var blocks = state.slice(0)
 			var prevBlock = blocks.find(b => b.dropZone)
 			if (prevBlock) {
@@ -41,11 +51,7 @@ const blocks = (state = [], action) => {
 			}
 
 			var block = blocks.fbi(id)
-			block.dropZone = {
-				instant: false,
-				below: below,
-				expanding: true
-			}
+			block.dropZone = { below, instant }
 			block.update = true
 			block.render = false
 			return blocks

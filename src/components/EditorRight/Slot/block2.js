@@ -5,7 +5,7 @@ import * as Actions from '../../../actions'
 
 import './block.less'
 
-const TRANSITION_DELAY = 100
+const TRANSITION_DELAY = 2000
 
 const mapStateToProps = (state, ownProps) => {
 	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
@@ -44,8 +44,27 @@ export default class Block extends Component {
 
 		e.dataTransfer.setData('text', '')  //neded for HTML5 dragging to work, do not remove
 
+		var { nextBlock } = STORE.dispatch({
+			type: 'SLOTS.GET_NEXT_BLOCK',
+			id: slotId,
+			blockId: id
+		})
 
+		red('nextBlock', nextBlock)
 
+		if (nextBlock !== undefined) {
+			STORE.dispatch({
+				type:'BLOCKS.SET_DROPZONE',
+				id: nextBlock,
+				below: false,
+				instant: true
+			})
+		}
+
+		STORE.dispatch({
+			type: 'BLOCKS.SET_BEING_DRAG',
+			id: id
+		})
 
 
 	 //    STORE.dispatch({
@@ -70,7 +89,8 @@ export default class Block extends Component {
 		STORE.dispatch({
 			type: 'BLOCKS.SET_DROPZONE',
 			id,
-			below: hoverMiddleY < hoverClientY
+			below: hoverMiddleY < hoverClientY,
+			instant: false
 		})
 
 		// STORE.dispatch({
@@ -142,58 +162,30 @@ export default class Block extends Component {
 
 		var classList = blockContainer.classList
 		if (dropZone) {
-			// classList.add('dropzone')
-			var { instant, below, expanding } = dropZone
+			var { instant, below } = dropZone
 
+			dropZoneAbove.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
+			dropZoneBelow.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
 
-
-
-			// 	classList.add('instant'); classList.remove('gradual')
-			// } else {
-			// 	classList.add('gradual'); classList.remove('instant')
-			// }
-
-			// setTimeout(() => {
-
-
-					dropZoneAbove.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
-					dropZoneBelow.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
-
-					dropZoneAbove.style.height = below ? '0px' : '50px'
-					dropZoneBelow.style.height = below ? '50px' : '0px'
-
-
-
-				// dropZoneAbove.style.height = expanding ? '50px' : '0px'
-
-
-				// if (below) {
-
-
-				// 	classList.add('below'); classList.remove('above')
-				// } else {
-				// 	classList.add('above'); classList.remove('below')
-				// }
-
-				// if (expanding) {
-				// 	classList.add('expanding'); classList.remove('collapsing')
-				// } else {
-				// 	classList.add('collapsing'); classList.remove('expanding')
-				// }
-
-			// }, 0)
+			var heightAbove = below ? '0px' : '50px'
+			var heightBelow = below ? '50px' : '0px'
 
 		} else {
-			dropZoneAbove.style.height = '0px'
-			dropZoneBelow.style.height = '0px'
-			// classList.remove('dropzone', 'gradual', 'instant', 'expanding', 'collapsing', 'above', 'below')
+			var heightAbove = '0px'
+			var hieghtBelow = '0px'
 		}
 
-		// setTimeout(function () {
-		// 	self.refs.block.style.display = beingDrag ? 'none': 'block'
-		// 	// self.refs.block.style.opacity = beingDrag ? 0 : 1
-		// 	// self.refs.block.style.zIndex = beingDrag ? -99 : 0
-		// }, 0)
+		setTimeout(function () {
+			blockContainer.style.display = beingDrag ? 'none': 'block'
+			dropZoneAbove.style.height = heightAbove
+			dropZoneBelow.style.height = heightBelow
+
+			setTimeout(() => {
+				dropZoneAbove.style.transition = `height ${TRANSITION_DELAY}ms`
+				dropZoneBelow.style.transition = `height ${TRANSITION_DELAY}ms`
+			}, 0)
+
+		}, 0)
 
 		return ( render === true )
 	}
@@ -226,8 +218,8 @@ export default class Block extends Component {
 			style: {
 				background: 'red',
 				display: 'block',
-				height: '0px',
-				opacity: '0'
+				height: '0px'
+				// opacity: '0'
 			}
 		}
 

@@ -22,6 +22,13 @@ const slots = (state = [], action) => {
 
 			return slots
 
+		case 'SLOTS.GET_NEXT_BLOCK':
+			var { id, blockId } = action
+			var blocks = state.fbi(id).blocks
+			var index = blocks.fibv(blockId)
+			action.nextBlock = blocks[index + 1]
+			return state
+
 		case 'SLOTS.ADD_BLOCK':
 			const { dest, blockId } = action
 			var slots = state.slice(0)
