@@ -16,16 +16,14 @@ const blocks = (state, action) => {
 			}
 			blocks.push(action.newBlock)
 			return blocks
+
 		
 		case 'SET_BEING_DRAG':
 			// trace('SET_BEING_DRAG', action)
-			var { id, beingDrag } = action
+			var { beingDrag } = action
 			var state = { ...state }
-			var block = state.blocks.fbi(id)
+			var block = state.blocks.fbi(state.blockSrc.blockId)
 			block.beingDrag = beingDrag
-			// block.update = true
-			// block.render = false
-
 			return state
 
 

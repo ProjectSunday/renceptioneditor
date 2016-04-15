@@ -61,7 +61,8 @@ export default class Block extends Component {
 
 		STORE.dispatch({
 			type: 'EDITOR.DRAG_START',
-			id
+			blockId: id,
+			slotId
 		})
 
 
@@ -182,10 +183,14 @@ export default class Block extends Component {
 		// 	var hieghtBelow = '0px'
 		// }
 
-		block.style.top = top + 'px'
+		// block.style.top = top + 'px'
+
+		// if (instant) {
+		// 	block.style.transition = ''
+		// }
 
 		setTimeout(function () {
-			block.style.display = beingDrag ? 'none': 'block'
+			// block.style.display = beingDrag ? 'none': 'block'
 			block.style['z-index'] = beingDrag ? -9999 : 0
 			// dropZoneAbove.style.height = heightAbove
 			// dropZoneBelow.style.height = heightBelow
@@ -198,10 +203,13 @@ export default class Block extends Component {
 		}, 0)
 
 
-
-		return ( render === true )
+		return true
+		// return ( render === true )
 	}
 
+	componentDidMount() {
+		this.refs.block.style.transition = 'top 100ms'
+	}
 
 	render() {
 		trace('block.render', this.props)
@@ -216,7 +224,7 @@ export default class Block extends Component {
 		// 	}
 		// }
 
-		// top = (top === undefined) ? index * 50 : top
+		var t = (top === undefined) ? index * 50 : top
 
 		var blockAttr = {
 			ref: 'block',
@@ -232,8 +240,8 @@ export default class Block extends Component {
 				width: '100%',
 			// 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
 				position: 'absolute',
-				top: `${index * 50}px`,
-				transition: 'top 100ms'
+				top: t + 'px',
+				transition: ''
 				// top: top + 'px'
 			}
 		}
