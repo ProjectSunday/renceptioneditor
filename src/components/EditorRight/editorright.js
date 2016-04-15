@@ -1,10 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Slot from './slot/slot2'
+import Slot from './slot/slot3'
 
 const mapStateToProps = (state) => {
-	return state.editorRight
+	var slotIds = state.editor.slots.map(s => s.id)
+	return {
+		slotIds: slotIds
+	}
 }
 
 @connect(mapStateToProps)
@@ -14,7 +17,7 @@ class EditorRight extends React.Component {
 		this.render = this.render.bind(this)
 	}
 	render() {
-		const { slots } = this.props
+		const { slotIds } = this.props
 
 		var styles = {
 			border: '1px solid #ddd',
@@ -30,7 +33,7 @@ class EditorRight extends React.Component {
 			<div style={styles}>
 				<div className="row">
 					<div className="col-xs-12">
-						<Slot id={slots[0]} />
+						<Slot id={slotIds[0]} />
 					</div>
 				</div>
 

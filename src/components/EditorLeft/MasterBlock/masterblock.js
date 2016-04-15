@@ -10,7 +10,7 @@ import './textblock-drag.png'
 import './textplusimageblock-drag.png'
 
 const mapStateToProps = (state, ownProps) => {
-	return state.masterBlocks.fbi(ownProps.id)
+	return state.editor.masterBlocks.fbi(ownProps.id)
 }
 
 @connect(mapStateToProps)

@@ -3,84 +3,81 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 
 let initialState = {
-	
-	blocks: [
-		{
-			id: 100,
-			name: 'image'
-		},
-		{
-			id: 101,
-			name: 'text'
-		},
-		{
-			id: 102,
-			name: 'textplusimage'
-		},
-		{
-			id: 103,
-			name: 'imageimage'
-		},
-		{
-			id: 104,
-			name: 'texttext'
-		},
-		{
-			id: 105,
-			name: 'textplusimagetextplusimage'
-		}
-	],
 
 	editor: {
-		dragSource: {}
+
+		blocks: [
+			{
+				id: 100,
+				name: 'image'
+			},
+			{
+				id: 101,
+				name: 'text'
+			},
+			{
+				id: 102,
+				name: 'textplusimage'
+			},
+			{
+				id: 103,
+				name: 'imageimage'
+			},
+			{
+				id: 104,
+				name: 'texttext'
+			},
+			{
+				id: 105,
+				name: 'textplusimagetextplusimage'
+			}
+		],
+
+		slots: [
+			{
+				id: 1000,
+				blocks: [ 100, 101, 102, 103, 104, 105 ]
+			}
+			// {
+			// 	id: 1001,
+			// 	blocks: []
+			// 	// blocks: [ 102, 103, 104, 105 ]
+			// },
+			// {
+			// 	id: 1002,
+			// 	blocks: []
+			// 	// blocks: [ 102, 103, 104, 105 ]
+			// },
+			// {
+			// 	id: 1003,
+			// 	blocks: []
+			// 	// blocks: [ 102, 103, 104, 105 ]
+			// }
+		],
+
+		masterBlocks: [
+			{
+				id: 500,
+				type: 'image',
+				dragImage: 'imageblock-drag.png',
+				src: 'imageblock.png'
+			},
+			{
+				id: 501,
+				type: 'text',
+				dragImage: 'textblock-drag.png',
+				src: 'textblock.png'
+			},
+			{
+				id: 502,
+				type: 'textplusimage',
+				dragImage: 'textplusimageblock-drag.png',
+				src: 'textplusimageblock.png'
+			}
+		]
+
+
 	},
-
-	editorRight: {
-		slots: [ 1000, 1001, 1002, 1003 ]
-	},
-
-	masterBlocks: [
-		{
-			id: 500,
-			type: 'image',
-			dragImage: 'imageblock-drag.png',
-			src: 'imageblock.png'
-		},
-		{
-			id: 501,
-			type: 'text',
-			dragImage: 'textblock-drag.png',
-			src: 'textblock.png'
-		},
-		{
-			id: 502,
-			type: 'textplusimage',
-			dragImage: 'textplusimageblock-drag.png',
-			src: 'textplusimageblock.png'
-		}
-	],
-
-	slots: [
-		{
-			id: 1000,
-			blocks: [ 100, 101, 102, 103, 104, 105 ]
-		},
-		{
-			id: 1001,
-			blocks: []
-			// blocks: [ 102, 103, 104, 105 ]
-		},
-		{
-			id: 1002,
-			blocks: []
-			// blocks: [ 102, 103, 104, 105 ]
-		},
-		{
-			id: 1003,
-			blocks: []
-			// blocks: [ 102, 103, 104, 105 ]
-		}
-	],
 
 
 	testValues: [
@@ -97,19 +94,19 @@ let initialState = {
 			blah: 'blahvalue',
 			foo: 'foovalue'
 		}
-	},
-
-	ui: {
-		destDropZone: {
-			id: null,
-			slotId: null
-		},
-		srcBlock: {
-			id: null,
-			slotId: null
-		},
-		slots: []
 	}
+
+	// ui: {
+	// 	destDropZone: {
+	// 		id: null,
+	// 		slotId: null
+	// 	},
+	// 	srcBlock: {
+	// 		id: null,
+	// 		slotId: null
+	// 	},
+	// 	slots: []
+	// }
 
 }
 
