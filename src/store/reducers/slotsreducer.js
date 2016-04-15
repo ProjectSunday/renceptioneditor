@@ -1,26 +1,58 @@
 import update from 'react-addons-update'
 import Immutable from 'immutable'
 
-const slots = (state = [], action) => {
+const slots = (state, action) => {
 	switch (action.type) {
-		case 'X_MOVE_BLOCK':
-			var { src, dest } = action
+		case 'MOVE_BLOCK':
+			var { blockId, slotId } = action
+			var state = { ...state }
 
-			var slots = state.slice(0)
+			state.slots.fbi(slotId).blocks.rbv(blockId)
 
-			var srcSlot = slots.fbi(src.slotId)
-			var srcIndex = srcSlot.blocks.fibv(src.id)
-			srcSlot.blocks.splice(srcIndex, 1)
+			state.slots.fbi(state.dropSlot).blocks.splice(state.dropIndex, 0, blockId)
 
-			var destSlot = slots.fbi(dest.slotId)
-			if (dest.id === undefined) {
-				var destIndex = destSlot.blocks.length
-			} else {
-				var destIndex = destSlot.blocks.fibv(dest.id)
-			}
-			destSlot.blocks.splice(destIndex, 0, src.id)
+			trace('MOVE_BLOCK', state)
+			return state
 
-			return slots
+
+		case 'SET_TOP_FOR_ALL_SLOTS_ALL_BLOCKS': 
+			var state = { ...state }
+			state.slots.forEach(s => {
+				var top = 0
+
+				var blocks = [ ...s.blocks ]
+
+				blocks.forEach(b => {
+					state.blocks.fbi(b).top = top
+					top += 50
+				})
+
+				s.blocks = blocks
+				
+				s.render = new Date()
+			})
+			return state
+
+
+		case 'SET_TOP_FOR_ALL_BLOCKS_IN_SLOT':
+			var { slotId, index } = action
+			var state = { ...state }
+			var slot = state.slots.fbi(slotId)
+
+			var top = 0
+			slot.blocks.forEach((b, i) => {
+				var block = state.blocks.fbi(b)
+				if (i === index) { top += 50 }
+				if (!block.beingDrag) {
+					block.top = top
+					top += 50
+				}
+			})
+
+			slot.render = new Date()
+
+			return state
+
 
 		case 'SLOTS.GET_NEXT_BLOCK':
 			var { id, blockId } = action

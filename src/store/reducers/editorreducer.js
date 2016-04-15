@@ -7,8 +7,8 @@ const editor = (state = {}, action) => {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// BLOCKS
 		//////////////////////////////////////////////////////////////////////////////////////////
-		case 'BLOCKS.BLAH BLAH':
-			return blocks(state, action)
+		// case 'BLOCKS.SET_BEINGDRAG':
+			// return { ...state, ...blocks(state, action) }
 
 
 
@@ -23,23 +23,51 @@ const editor = (state = {}, action) => {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// EDITOR
 		//////////////////////////////////////////////////////////////////////////////////////////
-		case 'EDITOR.GET_DRAG_SOURCE':
-			action.dragSource = Object.assign({}, state.dragSource)
+		case 'EDITOR.DRAG_START':
+			var { id } = action
+			var blockAction = { type: 'SET_BEING_DRAG', id, beingDrag: true }
+			var state = { ...state, ...blocks(state, blockAction)}
 			return state
 
-		case 'EDITOR.SET_DRAG_SOURCE':
-			var { source } = action
-			var editor = Object.assign({}, state)
-			editor.dragSource = source
-			return editor
+
+		case 'EDITOR.MOUSE_OVER_BLOCK':
+			var { slotId, index } = action
+			state = slots(state, { type: 'SET_TOP_FOR_ALL_BLOCKS_IN_SLOT', slotId, index })
+			state.dropIndex = index
+			return state
+
+
+		case 'EDITOR.DRAG_END':
+			trace('EDITOR.DRAG_END', action)
+			var { blockId, slotId } = action
+
+			var blockAction = { type: 'SET_BEING_DRAG', id: blockId, beingDrag: false }
+			var state = { ...state, ...blocks(state, blockAction)}
+
+			if (state.dropSlot !== undefined) {
+				state = slots(state, { ...action, type: 'MOVE_BLOCK' })
+			}
+
+			state = slots(state, { type: 'SET_TOP_FOR_ALL_SLOTS_ALL_BLOCKS' })
+
+			state.dropIndex = undefined
+			state.dropSlot = undefined
+			
+			red(state)
+			return state
+
+
+		case 'EDITOR.SET_DROP_SLOT':
+			// trace('EDITOR.SET_DROP_SLOT', action)
+			var { id } = action
+			var state = { ...state }
+			state.dropSlot = id
+			return state
 
 
 		//////////////////////////////////////////////////////////////////////////////////////////
-		// EDITOR
+		// MASTER BLOCKS
 		//////////////////////////////////////////////////////////////////////////////////////////
-
-
-		//move masterblocks here
 
 		default:
 			return state

@@ -5,7 +5,7 @@ import Block from './block3'
 import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
-	// console.log('slot.mapStateToProps')
+	// red('slot.mapStateToProps', state.editor.slots[0])
 	var slot = state.editor.slots.fbi(ownProps.id)
 	// var ui = state.ui.slots.find(s => s.id == ownProps.id)
 	// if (!ui) {
@@ -16,9 +16,10 @@ const mapStateToProps = (state, ownProps) => {
 	// 	})
 	// 	ui = state.ui.slots.find(s => s.id == ownProps.id)
 	// }
-	return {
-		...slot
-	}
+
+
+
+	return { ...slot }
 }
 
 @connect(mapStateToProps)
@@ -27,76 +28,68 @@ class Slot extends React.Component {
 		super(props)
 
 		this.onDragOver = this.onDragOver.bind(this)
+		this.onDrop = this.onDrop.bind(this)
 	}
 
-	onDragOver(e) {
-		// red('slot.onDragOver', this.props)
+	onDrop() {
+		trace('slot.onDragOver', this.props)
 
-		var { slot } = this.refs
-
-	    const hoverBoundingRect = slot.getBoundingClientRect()
-
-	    // console.log(hoverBoundingRect.top)
-	    // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
-	    const hoverClientY = e.clientY - hoverBoundingRect.top
-
-	    red(e.clientY)
-	}
-	onDragEnter() {
-		red('yoooo onDragOver')
-
-	    STORE.dispatch({
-	    	type: 'SLOTS.SET_HEIGHT_FLEXIBLE',
-	    	heightFlexible: false
-	    })
-
-	}
-
-	shouldComponentUpdate(nextProps) {
-		trace('slot.componentShouldUpdate update: ', nextProps)
-
-		return false
-
-		// var { dragSource, update } = nextProps
-
-		// if (!update) { return false }
-
-		// }
-
-		// var { slot } = this.refs
-
-		// if (!!update) {
-
-		// }
-
-		// var height = slot.getBoundingClientRect().height + ( dragSource.isMasterBlock ? 50 : 0 )
-
-		// red('yoooo', height)
-		// slot.style.height = height + 'px'
-
-		// return true
-	}
-	componentDidUpdate() {
+		var { id } = this.props
 
 		STORE.dispatch({
-			type: 'SLOTS.UPDATE_SLOT_SUCCESS',
-			id: this.props.id
+			type: 'EDITOR.SET_DROP_SLOT',
+			id
 		})
 
-
-		// trace('slot.componentDidUpdate', this.props)
-		// var { heightFlexible } = this.props
-		// var { slot } = this.refs
-
-		// if (heightFlexible) {
-		// 	var height = 'auto'
-		// } else {
-		// 	var height = slot.getBoundingClientRect().height + 'px'
-		// }
-
-		// slot.style.height = height
 	}
+	onDragOver(e) {
+		e.preventDefault()   //needed for ondrop to work
+	}
+
+	// shouldComponentUpdate(nextProps) {
+	// 	trace('slot.componentShouldUpdate update: ', nextProps)
+
+	// 	return true
+
+	// 	// var { dragSource, update } = nextProps
+
+	// 	// if (!update) { return false }
+
+	// 	// }
+
+	// 	// var { slot } = this.refs
+
+	// 	// if (!!update) {
+
+	// 	// }
+
+	// 	// var height = slot.getBoundingClientRect().height + ( dragSource.isMasterBlock ? 50 : 0 )
+
+	// 	// red('yoooo', height)
+	// 	// slot.style.height = height + 'px'
+
+	// 	// return true
+	// }
+	// componentDidUpdate() {
+
+	// 	STORE.dispatch({
+	// 		type: 'SLOTS.UPDATE_SLOT_SUCCESS',
+	// 		id: this.props.id
+	// 	})
+
+
+	// 	// trace('slot.componentDidUpdate', this.props)
+	// 	// var { heightFlexible } = this.props
+	// 	// var { slot } = this.refs
+
+	// 	// if (heightFlexible) {
+	// 	// 	var height = 'auto'
+	// 	// } else {
+	// 	// 	var height = slot.getBoundingClientRect().height + 'px'
+	// 	// }
+
+	// 	// slot.style.height = height
+	// }
 	// componentDidMount() {
 	// 	trace('slot.componentDidMount', this.props)
 	// 	var { heightFlexible } = this.props
@@ -111,8 +104,8 @@ class Slot extends React.Component {
 	// }
 
 	render() {
-		trace('slot.render', this.props.id)
-		const { id, blocks, children, dropZones } = this.props
+		trace('slot.render', this.props.blocks)
+		const { id, blocks } = this.props
 
 		let nodes = []
 
@@ -122,13 +115,13 @@ class Slot extends React.Component {
 
 		var slotAttr = {
 			ref: 'slot',
-			// onDragOver: this.onDragOver,
+			onDragOver: this.onDragOver,
 			// onDragEnter: this.onDragEnter,
+			onDrop: this.onDrop,
 			style: {
 				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
 				height: `${blocks.length * 50}px`,
 	    		overflow: 'hidden',
-
 		    	minHeight: '50px',
 				margin: '30px 0 0 0',
 				// border: '1px solid #E6DBDB',
@@ -141,7 +134,6 @@ class Slot extends React.Component {
 		return (
 			<div {...slotAttr}>
 				{nodes}
-				<div className="clearfix" />
 			</div>
 		)
 	}

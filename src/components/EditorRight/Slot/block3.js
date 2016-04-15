@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import * as Actions from '../../../actions'
-
 import './block.less'
 
 const TRANSITION_DELAY = 2000
@@ -62,8 +60,8 @@ export default class Block extends Component {
 		// }
 
 		STORE.dispatch({
-			type: 'BLOCKS.SET_BEING_DRAG',
-			id: id
+			type: 'EDITOR.DRAG_START',
+			id
 		})
 
 
@@ -89,9 +87,9 @@ export default class Block extends Component {
 	    if (hoverMiddleY < hoverClientY) { index++ }
 
 		STORE.dispatch({
-			type: 'SLOTS.MOUSE_OVER_BLOCK',
-			id: slotId,
-			index: index
+			type: 'EDITOR.MOUSE_OVER_BLOCK',
+			slotId,
+			index
 		})
 
 		// STORE.dispatch({
@@ -103,6 +101,14 @@ export default class Block extends Component {
 
 	}
 	onDragEnd(e) {
+		trace('block.onDragEnd')
+		var { id: blockId, slotId } = this.props
+
+		STORE.dispatch({
+			type: 'EDITOR.DRAG_END',
+			blockId,
+			slotId
+		})
 		// var { id: srcBlockId, slotId: srcSlotId } = this.props
 
 		// STORE.dispatch(function (dispatch, getState) {
@@ -156,8 +162,8 @@ export default class Block extends Component {
 	}
 	shouldComponentUpdate(nextProps) {
 		// trace('block.shouldComponentUpdate', nextProps)
-		var { update, render, beingDrag, dropZone } = nextProps
-		if (update !== true) { return false }  //update can be undefined
+		var { update, render, beingDrag, top } = nextProps
+		// if (update !== true) { return false }  //update can be undefined
 
 		var { block } = this.refs
 
@@ -176,6 +182,8 @@ export default class Block extends Component {
 		// 	var hieghtBelow = '0px'
 		// }
 
+		block.style.top = top + 'px'
+
 		setTimeout(function () {
 			block.style.display = beingDrag ? 'none': 'block'
 			block.style['z-index'] = beingDrag ? -9999 : 0
@@ -189,13 +197,15 @@ export default class Block extends Component {
 
 		}, 0)
 
+
+
 		return ( render === true )
 	}
 
 
 	render() {
-		// console.log('block.render', this.props)
-		const { id, index, name, top } = this.props
+		trace('block.render', this.props)
+		var { id, index, name, top } = this.props
 
 		// var blockContainerAttr = {
 		// 	ref: 'blockContainer',
@@ -206,13 +216,15 @@ export default class Block extends Component {
 		// 	}
 		// }
 
+		// top = (top === undefined) ? index * 50 : top
+
 		var blockAttr = {
 			ref: 'block',
 			className: 'block',
 			draggable: true,
 			onDragStart: this.onDragStart,
 			onDragOver: this.onDragOver,
-			// onDragEnd: this.onDragEnd,
+			onDragEnd: this.onDragEnd,
 			style: {
 				display: 'block',
 			// 	background: '#aaa',
@@ -221,7 +233,7 @@ export default class Block extends Component {
 			// 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
 				position: 'absolute',
 				top: `${index * 50}px`,
-				transition: 'top 2s'
+				transition: 'top 100ms'
 				// top: top + 'px'
 			}
 		}
