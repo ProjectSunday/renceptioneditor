@@ -17,9 +17,19 @@ const mapStateToProps = (state, ownProps) => {
 	// 	ui = state.ui.slots.find(s => s.id == ownProps.id)
 	// }
 
+	// red(ownProps.blocks === slot.blocks)
 
+	// var blah = { ...slot afgadfg}
 
-	return { ...slot }
+	// red(ownProps === blah )
+
+	// var blah = state.editor.sasdfadsflots.fbi(ownProps.id).blocks
+
+	// red('blah ', blah === ownProps.blocks)
+
+	return { 
+		...slot
+	}
 }
 
 @connect(mapStateToProps)
@@ -29,6 +39,8 @@ class Slot extends React.Component {
 
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
+
+		this.render = this.render.bind(this)
 	}
 
 	onDrop() {
@@ -104,13 +116,13 @@ class Slot extends React.Component {
 	// }
 
 	render() {
-		trace('slot.render', this.props.blocks)
+		trace('slot.render1', this.props.blocks)
 		const { id, blocks } = this.props
 
 		let nodes = []
 
 		blocks.forEach((b, i) => {
-			nodes.push(<Block key={i} id={b} index={i} slotId={id} />)
+			nodes.push(<Block key={i} id={b} index={i} slotId={id} blah={blocks[i]} />)
 		})
 
 		var slotAttr = {

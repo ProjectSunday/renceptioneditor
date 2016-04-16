@@ -24,15 +24,19 @@ const slots = (state, action) => {
 			slotSrc.blocks.rbv(src.blockId)
 
 			var slotDest = state.slots.fbi(dest.slotId)
-			slotDest.blocks.splice(dest.index, 0, src.blockId)
 
+			var insertIndex = slotDest.blocks.fibv(dest.blockId)
+			if (dest.below) { insertIndex++ } 
+
+			slotDest.blocks.splice(insertIndex, 0, src.blockId)
 
 			calculateTopPositionOfBlocks(state, slotSrc)
 			if (slotSrc !== slotDest) {
 				calculateTopPositionOfBlocks(state, slotDest)
 			}
 
-			red('MOVE_BLOCK', src, dest, state.slots[0].blocks)
+
+			trace('MOVE_BLOCK', state.slots[0].blocks)
 			return state
 
 
@@ -50,7 +54,7 @@ const slots = (state, action) => {
 
 				s.blocks = blocks
 				
-				s.render = new Date()
+				// s.render = new Date()
 			})
 			return state
 
@@ -70,7 +74,7 @@ const slots = (state, action) => {
 				}
 			})
 
-			slot.render = new Date()
+			// slot.render = new Date()
 
 			return state
 

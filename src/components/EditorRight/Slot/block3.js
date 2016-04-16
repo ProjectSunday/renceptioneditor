@@ -18,91 +18,47 @@ export default class Block extends Component {
 	constructor(props) {
 		super(props)
 
-
-		this.render = this.render.bind(this)
 		this.onDragStart = this.onDragStart.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDragEnd = this.onDragEnd.bind(this)
 
-		// this.componentDidMount = this.componentDidMount.bind(this)
-		// this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
-
+		// this.render = this.render.bind(this)
 	}
-	// componentDidMount() {
-	// 	console.log('componentDidMount', this.props.index)
-	// 	if (this.props.isDragging) {
-	// 		this.props.dragBlock(this.props.index)
-	// 	}
-	// }
 
 	onDragStart(e) {
-		// console.log('block.onDragStart')
+		// red('block.onDragStart', this.props)
 		var { id, slotId } = this.props
 		// var { blockContainer } = this.refs
 
 		e.dataTransfer.setData('text', '')  //neded for HTML5 dragging to work, do not remove
-
-		// var { nextBlock } = STORE.dispatch({
-		// 	type: 'SLOTS.GET_NEXT_BLOCK',
-		// 	id: slotId,
-		// 	blockId: id
-		// })
-
-		// red('nextBlock', nextBlock)
-
-		// if (nextBlock !== undefined) {
-		// 	STORE.dispatch({
-		// 		type:'BLOCKS.SET_DROPZONE',
-		// 		id: nextBlock,
-		// 		below: false,
-		// 		instant: true
-		// 	})
-		// }
 
 		STORE.dispatch({
 			type: 'EDITOR.DRAG_START',
 			blockId: id,
 			slotId
 		})
-
-
-	 //    STORE.dispatch({
-	 //    	type: 'BLOCK+UI.DRAG_START',
-	 //    	id,
-	 //    	slotId
-	 //    })
-
-
-
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
-		var { id, index, slotId } = this.props
+		var { id: blockId, index, slotId } = this.props
 		var { block } = this.refs
 
-	    const hoverBoundingRect = block.getBoundingClientRect()
-	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+	    const blockRect = block.getBoundingClientRect()
+	    const blockMid = (blockRect.bottom - blockRect.top) / 2
 
-	    const hoverClientY = e.clientY - hoverBoundingRect.top
-
-	    if (hoverMiddleY < hoverClientY) { index++ }
+	    const mouseY = e.clientY - blockRect.top
 
 		STORE.dispatch({
 			type: 'EDITOR.MOUSE_OVER_BLOCK',
-			slotId,
-			index
+			blockId,
+			slotId, 
+			below: mouseY > blockMid
 		})
 
-		// STORE.dispatch({
-		// 	type: 'UI_BLOCK_DRAG_OVER',
-		// 	id,
-		// 	slotId,
-		// 	below: hoverMiddleY < hoverClientY
-		// })
 
 	}
 	onDragEnd(e) {
-		trace('block.onDragEnd')
+		// trace('block.onDragEnd')
 		var { id: blockId, slotId } = this.props
 
 		STORE.dispatch({
@@ -110,150 +66,89 @@ export default class Block extends Component {
 			blockId,
 			slotId
 		})
-		// var { id: srcBlockId, slotId: srcSlotId } = this.props
-
-		// STORE.dispatch(function (dispatch, getState) {
-		// 	var state = getState()
-
-		// 	var { id: dropZoneId, slotId: destSlotId } = state.ui.destDropZone
-
-		// 	if (dropZoneId !== null) {
-
-		// 		var children = state.ui.slots.fbi(destSlotId).children
-		// 		var childIndex = children.findIndex((c, i) => c === dropZoneId && i % 2 == 0)
-				
-		// 		var destBlockId = children[childIndex + 1]
-
-		// 		dispatch({
-		// 			type: 'X_MOVE_BLOCK',
-		// 			src: { id: srcBlockId, slotId: srcSlotId },
-		// 			dest: { id: destBlockId, slotId: destSlotId }
-		// 		})
-
-		// 	}
-
-		// 	dispatch({
-		// 		type: 'X_BLOCK_DRAG_END',
-		// 		id: srcBlockId,
-		// 		slotId: srcSlotId
-		// 	})
-
-
-		// 	state.slots.forEach(s => {
-		// 		dispatch({
-		// 			type: 'UI_RESET_SLOT',
-		// 			slotId: s.id,
-		// 			blocks: s.blocks
-		// 		})
-		// 	})
-
-		// 	dispatch({ type: 'UI_RESET_SLOT_DROPZONES' })
-
-		// 	dispatch({
-		// 		type: 'UI_SET_DEST_DROPZONE',
-		// 		id: null,
-		// 		slotId: null
-		// 	})
-
-		// 	dispatch({
-		// 		type: 'SLOTS.UPDATE_ALL_SLOTS'
-		// 	})
-		// })
 
 	}
 	shouldComponentUpdate(nextProps) {
 		// trace('block.shouldComponentUpdate', nextProps)
-		var { update, render, beingDrag, top } = nextProps
-		// if (update !== true) { return false }  //update can be undefined
+		var { beingDrag } = nextProps
 
 		var { block } = this.refs
 
-		// var classList = blockContainer.classList
-		// if (dropZone) {
-		// 	var { instant, below } = dropZone
-
-		// 	dropZoneAbove.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
-		// 	dropZoneBelow.style.transition = instant ? '' : `height ${TRANSITION_DELAY}ms`
-
-		// 	var heightAbove = below ? '0px' : '50px'
-		// 	var heightBelow = below ? '50px' : '0px'
-
-		// } else {
-		// 	var heightAbove = '0px'
-		// 	var hieghtBelow = '0px'
-		// }
-
-		// block.style.top = top + 'px'
-
-		// if (instant) {
-		// 	block.style.transition = ''
-		// }
-
 		setTimeout(function () {
-			// block.style.display = beingDrag ? 'none': 'block'
-			block.style['z-index'] = beingDrag ? -9999 : 0
-			// dropZoneAbove.style.height = heightAbove
-			// dropZoneBelow.style.height = heightBelow
-
-			// setTimeout(() => {
-			// 	dropZoneAbove.style.transition = `height ${TRANSITION_DELAY}ms`
-			// 	dropZoneBelow.style.transition = `height ${TRANSITION_DELAY}ms`
-			// }, 0)
-
+			block.style.display = beingDrag ? 'none' : 'block'
+			// block.style['z-index'] = beingDrag ? -9999 : 0
 		}, 0)
 
-
 		return true
-		// return ( render === true )
 	}
 
 	componentDidMount() {
-		this.refs.block.style.transition = 'top 100ms'
+		this.refs.blockContainer.style.transition = 'top 100ms'
 	}
 
 	render() {
-		trace('block.render', this.props)
+		// trace('block.render', this.props)
 		var { id, index, name, top } = this.props
-
-		// var blockContainerAttr = {
-		// 	ref: 'blockContainer',
-		// 	className: 'block-container', 
-		// 	style: {
-		// 		position: 'absolute',
-		// 		top: '0px'
-		// 	}
-		// }
 
 		var t = (top === undefined) ? index * 50 : top
 
-		var blockAttr = {
-			ref: 'block',
-			className: 'block',
-			draggable: true,
-			onDragStart: this.onDragStart,
-			onDragOver: this.onDragOver,
-			onDragEnd: this.onDragEnd,
+		var blockContainerAttr = {
+			ref: 'blockContainer',
+			// background: 'blue',
+
+			// className: 'block',
+
 			style: {
 				display: 'block',
 			// 	background: '#aaa',
+				// background: 'blue',
 				height: '50px',
 				width: '100%',
 			// 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
 				position: 'absolute',
 				top: t + 'px',
-				transition: ''
+				transition: '',
 				// top: top + 'px'
+			}
+
+		}
+
+
+		var dropZoneAttr = {
+			ref: 'dropZone',
+			style: {
+				height: '100%',
+				width: '100%',
+				// background: 'red',
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+				position: 'absolute'
 			}
 		}
 
-		// var dropZoneAttr = {
-		// 	style: {
-		// 		background: 'red',
-		// 		display: 'block',
-		// 		height: '0px'
-		// 		// opacity: '0'
-		// 	}
-		// }
+		var blockAttr = {
+			ref: 'block',
+			// className: 'block',
+			draggable: true,
+			onDragStart: this.onDragStart,
+			onDragOver: this.onDragOver,
+			onDragEnd: this.onDragEnd,
+
+			style: {
+			// 	display: 'block',
+				background: '#aaa',
+				height: '100%',
+				width: '100%',
+				// background: 'blue',
+
+			// // 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
+				position: 'absolute'
+			// 	top: t + 'px',
+			// 	transition: '',
+			// 	zIndex: 0
+			// 	// top: top + 'px'
+			}
+		}
+
 
 		const idStyles = {
 			background: 'black',
@@ -262,8 +157,11 @@ export default class Block extends Component {
 				
 
 		return (
-			<div {...blockAttr}>
-				<span className="name">{name}<span style={idStyles}>{id}</span></span>
+			<div {...blockContainerAttr}>
+				<div {...dropZoneAttr}>drop stuff here</div>
+				<div {...blockAttr}>
+					<span className="name">{name}<span style={idStyles}>{id}</span></span>
+				</div>
 			</div>
 		)
 	}

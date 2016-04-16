@@ -32,13 +32,14 @@ const editor = (state = {}, action) => {
 
 
 		case 'EDITOR.MOUSE_OVER_BLOCK':
-			var { slotId, index } = action
-			if ( state.blockDest && state.blockDest.slotId === slotId && state.blockDest.index === index ) {
-				// red('EDITOR.MOUSE_OVER_BLOCK no change', state.blockDest)
+			var { blockId, slotId, below  } = action
+
+			var d = state.blockDest
+			if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
 				return state
 			}
 
-			state.blockDest =  { slotId, index }
+			state.blockDest =  { blockId, slotId, below }
 
 			state = slots(state, { type: 'MOVE_BLOCK' })
 			
@@ -52,6 +53,8 @@ const editor = (state = {}, action) => {
 			var state = { ...state }
 			state.blockSrc = { blockId, slotId }
 			state = blocks(state, { type: 'SET_BEING_DRAG', beingDrag: false })
+
+			// state.slots.all({ updated: new Date() })
 			
 			delete state.blockSrc
 			delete state.blockDest
