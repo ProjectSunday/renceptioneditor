@@ -2,122 +2,58 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Block from './block'
-import DropZone from './dropzone'
 
 const mapStateToProps = (state, ownProps) => {
-	// console.log('slot.mapStateToProps')
-	var slot = state.slots.find(s => s.id == ownProps.id)
-	var ui = state.ui.slots.find(s => s.id == ownProps.id)
-	if (!ui) {
-		STORE.dispatch({
-			type: 'UI_RESET_SLOT',
-			slotId: slot.id,
-			blocks: slot.blocks
-		})
-		ui = state.ui.slots.find(s => s.id == ownProps.id)
+	return { 
+		...state.editor.slots.fbi(ownProps.id)
 	}
-	return Object.assign({
-		dragSource: state.editor.dragSource
-	}, ui, slot)
 }
 
 @connect(mapStateToProps)
 class Slot extends React.Component {
 	constructor(props) {
 		super(props)
-	}
-	onDragEnter() {
-		red('yoooo onDragOver')
 
-	    STORE.dispatch({
-	    	type: 'SLOTS.SET_HEIGHT_FLEXIBLE',
-	    	heightFlexible: false
-	    })
+		this.onDragOver = this.onDragOver.bind(this)
+		this.onDrop = this.onDrop.bind(this)
 
-
-
-
-
-
+		this.render = this.render.bind(this)
 	}
 
-	shouldComponentUpdate(nextProps) {
-		// trace('slot.componentShouldUpdate update: ', !!nextProps.update)
+	onDrop() {
+		// trace('slot.onDragOver', this.props)
 
-		var { dragSource, update } = nextProps
+		// var { id } = this.props
 
-		if (!update) { return false }
+		// STORE.dispatch({
+		// 	type: 'EDITOR.SET_DROP_SLOT',
+		// 	id
+		// })
 
-		}
-
-		var { slot } = this.refs
-
-		if (!!update) {
-
-		}
-
-		var height = slot.getBoundingClientRect().height + ( dragSource.isMasterBlock ? 50 : 0 )
-
-		red('yoooo', height)
-		slot.style.height = height + 'px'
-
-		return true
 	}
-	componentDidUpdate() {
-
-		STORE.dispatch({
-			type: 'SLOTS.UPDATE_SLOT_SUCCESS',
-			id: this.props.id
-		})
-
-
-		// trace('slot.componentDidUpdate', this.props)
-		// var { heightFlexible } = this.props
-		// var { slot } = this.refs
-
-		// if (heightFlexible) {
-		// 	var height = 'auto'
-		// } else {
-		// 	var height = slot.getBoundingClientRect().height + 'px'
-		// }
-
-		// slot.style.height = height
+	onDragOver(e) {
+		e.preventDefault()   //needed for ondrop to work
 	}
-	// componentDidMount() {
-	// 	trace('slot.componentDidMount', this.props)
-	// 	var { heightFlexible } = this.props
-	// 	var { slot } = this.refs
-	// 	if (heightFlexible) {
-	// 		var height = 'auto'
-	// 	} else {
-	// 		var height = slot.getBoundingClientRect().height + 'px'
-	// 	}
-
-	// 	slot.style.height = height
-	// }
 
 	render() {
-		trace('slot.render', this.props.id)
-		const { id, blocks, children, dropZones } = this.props
+		// trace('slot.render1', this.props.blocks)
+		const { id, blocks } = this.props
 
 		let nodes = []
 
-		children.forEach((c, i) => {
-			if (i % 2 == 0) {
-				nodes.push(<DropZone key={i} id={c} slotId={id} />)
-			} else {
-				nodes.push(<Block key={i} id={c} slotId={id} />)
-			}
+		blocks.forEach((b, i) => {
+			nodes.push(<Block key={i} id={b} index={i} slotId={id} />)
 		})
 
 		var slotAttr = {
 			ref: 'slot',
-			// onDragOver: this.onDragOver,
-			onDragEnter: this.onDragEnter,
+			onDragOver: this.onDragOver,
+			// onDragEnter: this.onDragEnter,
+			onDrop: this.onDrop,
 			style: {
 				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+				height: `${blocks.length * 50}px`,
 	    		overflow: 'hidden',
-
 		    	minHeight: '50px',
 				margin: '30px 0 0 0',
 				// border: '1px solid #E6DBDB',
@@ -126,10 +62,6 @@ class Slot extends React.Component {
 				background: '#F8F8F8'
 			}
 		}
-
-	    const style = {
-			
-	    }
 
 		return (
 			<div {...slotAttr}>

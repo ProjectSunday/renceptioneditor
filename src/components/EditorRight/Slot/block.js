@@ -1,155 +1,150 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import * as Actions from '../../../actions'
-
-import './block.less'
-
 const mapStateToProps = (state, ownProps) => {
 	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
-	return Object.assign({}, state.blocks.find(b => b.id === ownProps.id))
+	var block = state.editor.blocks.fbi(ownProps.id)
+	return {
+		...block
+	}
 }
 
 @connect(mapStateToProps)
 export default class Block extends Component {
 	constructor(props) {
 		super(props)
-		this.render = this.render.bind(this)
+
 		this.onDragStart = this.onDragStart.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDragEnd = this.onDragEnd.bind(this)
 
-		// this.componentDidMount = this.componentDidMount.bind(this)
-		this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this)
+		// this.render = this.render.bind(this)
 	}
-	// componentDidMount() {
-	// 	console.log('componentDidMount', this.props.index)
-	// 	if (this.props.isDragging) {
-	// 		this.props.dragBlock(this.props.index)
-	// 	}
-	// }
 
 	onDragStart(e) {
-		// console.log('block.onDragStart')
-		const { id, slotId } = this.props
+		// red('block.onDragStart', this.props)
+		var { id, slotId } = this.props
+		// var { blockContainer } = this.refs
 
-		e.dataTransfer.setData('text', '');
+		e.dataTransfer.setData('text', '')  //neded for HTML5 dragging to work, do not remove
 
-
-
-	    STORE.dispatch({
-	    	type: 'BLOCK+UI.DRAG_START',
-	    	id,
-	    	slotId
-	    })
-
-
-
+		STORE.dispatch({
+			type: 'EDITOR.DRAG_START',
+			blockId: id,
+			slotId
+		})
 	}
 	onDragOver(e) {
 		// console.log('onDragOver')
-		var { id, slotId } = this.props
+		var { id: blockId, index, slotId } = this.props
+		var { block } = this.refs
 
-	    const hoverBoundingRect = e.target.getBoundingClientRect()
-	    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+	    const blockRect = block.getBoundingClientRect()
+	    const blockMid = (blockRect.bottom - blockRect.top) / 2
 
-	    const hoverClientY = e.clientY - hoverBoundingRect.top
-
+	    const mouseY = e.clientY - blockRect.top
 
 		STORE.dispatch({
-			type: 'UI_BLOCK_DRAG_OVER',
-			id,
-			slotId,
-			below: hoverMiddleY < hoverClientY
+			type: 'EDITOR.MOUSE_OVER_BLOCK',
+			blockId,
+			slotId, 
+			below: mouseY > blockMid
 		})
+
 
 	}
 	onDragEnd(e) {
-		var { id: srcBlockId, slotId: srcSlotId } = this.props
+		// trace('block.onDragEnd')
+		var { id: blockId, slotId } = this.props
 
-		STORE.dispatch(function (dispatch, getState) {
-			var state = getState()
-
-			var { id: dropZoneId, slotId: destSlotId } = state.ui.destDropZone
-
-			if (dropZoneId !== null) {
-
-				var children = state.ui.slots.fbi(destSlotId).children
-				var childIndex = children.findIndex((c, i) => c === dropZoneId && i % 2 == 0)
-				
-				var destBlockId = children[childIndex + 1]
-
-				dispatch({
-					type: 'X_MOVE_BLOCK',
-					src: { id: srcBlockId, slotId: srcSlotId },
-					dest: { id: destBlockId, slotId: destSlotId }
-				})
-
-			}
-
-			dispatch({
-				type: 'X_BLOCK_DRAG_END',
-				id: srcBlockId,
-				slotId: srcSlotId
-			})
-
-
-			state.slots.forEach(s => {
-				dispatch({
-					type: 'UI_RESET_SLOT',
-					slotId: s.id,
-					blocks: s.blocks
-				})
-			})
-
-			dispatch({ type: 'UI_RESET_SLOT_DROPZONES' })
-
-			dispatch({
-				type: 'UI_SET_DEST_DROPZONE',
-				id: null,
-				slotId: null
-			})
-
-			dispatch({
-				type: 'SLOTS.UPDATE_ALL_SLOTS'
-			})
+		STORE.dispatch({
+			type: 'EDITOR.DRAG_END',
+			blockId,
+			slotId
 		})
 
 	}
 	shouldComponentUpdate(nextProps) {
 		// trace('block.shouldComponentUpdate', nextProps)
-		var self = this
 		var { beingDrag } = nextProps
 
+		var { block } = this.refs
 
 		setTimeout(function () {
-			self.refs.block.style.display = beingDrag ? 'none': 'block'
-			// self.refs.block.style.opacity = beingDrag ? 0 : 1
-			// self.refs.block.style.zIndex = beingDrag ? -99 : 0
+			block.style.display = beingDrag ? 'none' : 'block'
+			// block.style['z-index'] = beingDrag ? -9999 : 0
 		}, 0)
 
 		return true
 	}
 
+	componentDidMount() {
+		this.refs.blockContainer.style.transition = 'top 100ms'
+	}
 
 	render() {
-		// console.log('block.render', this.props)
-		const { id, name } = this.props
+		// trace('block.render', this.props)
+		var { id, index, name, top } = this.props
+
+		var t = (top === undefined) ? index * 50 : top
+
+		var blockContainerAttr = {
+			ref: 'blockContainer',
+			// background: 'blue',
+
+			// className: 'block',
+
+			style: {
+				display: 'block',
+			// 	background: '#aaa',
+				// background: 'blue',
+				height: '50px',
+				width: '100%',
+			// 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
+				position: 'absolute',
+				top: t + 'px',
+				transition: '',
+				// top: top + 'px'
+			}
+
+		}
+
+
+		var dropZoneAttr = {
+			ref: 'dropZone',
+			style: {
+				height: '100%',
+				width: '100%',
+				background: '#F8F8F8',
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+				position: 'absolute'
+			}
+		}
 
 		var blockAttr = {
 			ref: 'block',
-			className: 'block',
+			// className: 'block',
 			draggable: true,
 			onDragStart: this.onDragStart,
 			onDragOver: this.onDragOver,
 			onDragEnd: this.onDragEnd,
+
 			style: {
-				display: 'block',
+			// 	display: 'block',
 				background: '#aaa',
-				height: '50px',
-				boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)'
+				height: '100%',
+				width: '100%',
+				// background: 'blue',
+
+			// // 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
+				position: 'absolute'
+			// 	top: t + 'px',
+			// 	transition: '',
+			// 	zIndex: 0
+			// 	// top: top + 'px'
 			}
 		}
+
 
 		const idStyles = {
 			background: 'black',
@@ -158,8 +153,11 @@ export default class Block extends Component {
 				
 
 		return (
-			<div {...blockAttr}>
-				<span className="name">{name}<span style={idStyles}>{id}</span></span>
+			<div {...blockContainerAttr}>
+				<div {...dropZoneAttr}>drop stuff here</div>
+				<div {...blockAttr}>
+					<span className="name">{name}<span style={idStyles}>{id}</span></span>
+				</div>
 			</div>
 		)
 	}

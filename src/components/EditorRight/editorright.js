@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Slot from './slot/slot3'
+import Slot from './slot/slot'
 
 const mapStateToProps = (state) => {
 	var slotIds = state.editor.slots.map(s => s.id)

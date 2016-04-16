@@ -7,17 +7,11 @@ const editor = (state = {}, action) => {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// BLOCKS
 		//////////////////////////////////////////////////////////////////////////////////////////
-		// case 'BLOCKS.SET_BEINGDRAG':
-			// return { ...state, ...blocks(state, action) }
-
 
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// SLOTS
 		//////////////////////////////////////////////////////////////////////////////////////////
-		case 'SLOTS.BLAHBLAHBLAH':
-			return slots(state, action)
-
 
 
 		//////////////////////////////////////////////////////////////////////////////////////////
@@ -47,38 +41,14 @@ const editor = (state = {}, action) => {
 
 
 		case 'EDITOR.DRAG_END':
-			trace('EDITOR.DRAG_END', action)
-			
 			var { blockId, slotId } = action
 			var state = { ...state }
 			state.blockSrc = { blockId, slotId }
 			state = blocks(state, { type: 'SET_BEING_DRAG', beingDrag: false })
 
-			// state.slots.all({ updated: new Date() })
-			
 			delete state.blockSrc
 			delete state.blockDest
 
-
-			// var { blockId, slotId } = action
-
-
-
-			// var blockAction = { type: 'SET_BEING_DRAG', id: blockId, beingDrag: false }
-			// var state = { ...state, ...blocks(state, blockAction)}
-
-
-
-			// if (state.dropSlot !== undefined) {
-			// 	state = slots(state, { ...action, type: 'MOVE_BLOCK' })
-			// }
-
-			// state = slots(state, { type: 'SET_TOP_FOR_ALL_SLOTS_ALL_BLOCKS' })
-
-			// state.dropIndex = undefined
-			// state.dropSlot = undefined
-			
-			// red(state)
 			return state
 
 
