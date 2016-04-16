@@ -12,6 +12,8 @@ const editor = (state = {}, action) => {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// SLOTS
 		//////////////////////////////////////////////////////////////////////////////////////////
+		case 'DRAG_OVER_SLOT':
+			return slots(state, action)
 
 
 		//////////////////////////////////////////////////////////////////////////////////////////
@@ -25,23 +27,11 @@ const editor = (state = {}, action) => {
 			return state
 
 
-		case 'EDITOR.MOUSE_OVER_BLOCK':
-			var { blockId, slotId, below } = action
 
-			var d = state.blockDest
-			if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
-				return state
-			}
-
-			state.blockDest =  { blockId, slotId, below }
-
-			state = slots(state, { type: 'MOVE_BLOCK' })
-			
-			return state
 
 
 		// case 'EDITOR.MOUSE_OVER_BLOCK':
-		// 	var { blockId, slotId, below  } = action
+		// 	var { blockId, slotId, below } = action
 
 		// 	var d = state.blockDest
 		// 	if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
@@ -67,12 +57,15 @@ const editor = (state = {}, action) => {
 			return state
 
 
-		case 'EDITOR.SET_DROP_SLOT':
-			// trace('EDITOR.SET_DROP_SLOT', action)
-			var { id } = action
-			var state = { ...state }
-			state.dropSlot = id
-			return state
+
+
+
+		// case 'EDITOR.SET_DROP_SLOT':
+		// 	// trace('EDITOR.SET_DROP_SLOT', action)
+		// 	var { id } = action
+		// 	var state = { ...state }
+		// 	// state.blockDest. = id
+		// 	return state
 
 
 		//////////////////////////////////////////////////////////////////////////////////////////
