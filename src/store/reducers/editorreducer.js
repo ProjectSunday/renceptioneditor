@@ -26,7 +26,7 @@ const editor = (state = {}, action) => {
 
 
 		case 'EDITOR.MOUSE_OVER_BLOCK':
-			var { blockId, slotId, below  } = action
+			var { blockId, slotId, below } = action
 
 			var d = state.blockDest
 			if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
@@ -38,6 +38,21 @@ const editor = (state = {}, action) => {
 			state = slots(state, { type: 'MOVE_BLOCK' })
 			
 			return state
+
+
+		// case 'EDITOR.MOUSE_OVER_BLOCK':
+		// 	var { blockId, slotId, below  } = action
+
+		// 	var d = state.blockDest
+		// 	if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
+		// 		return state
+		// 	}
+
+		// 	state.blockDest =  { blockId, slotId, below }
+
+		// 	state = slots(state, { type: 'MOVE_BLOCK' })
+			
+		// 	return state
 
 
 		case 'EDITOR.DRAG_END':

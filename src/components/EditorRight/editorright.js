@@ -37,6 +37,12 @@ class EditorRight extends React.Component {
 					</div>
 				</div>
 
+			 	<div className="row">
+					<div className="col-xs-12">
+						<Slot id={slotIds[1]} />
+					</div>
+	 			</div>
+
  			</div>
 		)
 	}

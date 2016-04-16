@@ -23,34 +23,50 @@ export default class Block extends Component {
 
 	onDragStart(e) {
 		// red('block.onDragStart', this.props)
-		var { id, slotId } = this.props
+		var { id, slotId, index } = this.props
 		// var { blockContainer } = this.refs
 
 		e.dataTransfer.setData('text', '')  //neded for HTML5 dragging to work, do not remove
+
+		this.dragIndex = index
 
 		STORE.dispatch({
 			type: 'EDITOR.DRAG_START',
 			blockId: id,
 			slotId
 		})
+
 	}
 	onDragOver(e) {
-		// console.log('onDragOver')
-		var { id: blockId, index, slotId } = this.props
-		var { block } = this.refs
+		// console.log('onDragOver', this.props.index)
 
-	    const blockRect = block.getBoundingClientRect()
-	    const blockMid = (blockRect.bottom - blockRect.top) / 2
+		if (!this.prevMouseY) {
+			this.prevMouseY = e.clientY
+			return
+		}
 
-	    const mouseY = e.clientY - blockRect.top
+	 	if (e.clientY > this.prevMouseY) {
+	 		var below = true
+	 	} else if (e.clientY < this.prevMouseY) {
+	 		var below = false
+	 	} else {
+	 		var below = undefined
+	 	}
+
+	 	if (below === undefined) {
+	 		return
+	 	}
+
+	 	var { id: blockId, slotId } = this.props
 
 		STORE.dispatch({
 			type: 'EDITOR.MOUSE_OVER_BLOCK',
 			blockId,
-			slotId, 
-			below: mouseY > blockMid
+			slotId,
+			below: below
 		})
 
+		this.prevMouseY = e.clientY
 
 	}
 	onDragEnd(e) {
@@ -62,6 +78,7 @@ export default class Block extends Component {
 			blockId,
 			slotId
 		})
+
 
 	}
 	shouldComponentUpdate(nextProps) {
