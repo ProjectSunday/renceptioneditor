@@ -8,3 +8,5 @@ notes
 ======
 
 how do i insert a block on the fly
+
+a dropzone has to be in place in the new slot because a block in that block is not being dragged
