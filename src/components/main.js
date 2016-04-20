@@ -6,7 +6,7 @@ import EditorRight from './editorright/editorright'
 
 import Testing from './testing/testing'
 
-class Components extends React.Component {
+class Main extends React.Component {
 	constructor(props) {
 		super(props)
 		this.render = this.render.bind(this)
@@ -25,4 +25,4 @@ class Components extends React.Component {
 		</div>)
 	}
 }
-export default Components
+export default Main

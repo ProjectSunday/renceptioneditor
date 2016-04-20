@@ -12,7 +12,7 @@ import './index.less'   //main styling file, needs to be converted to sass
 import './utils'
 import './debug'
 
-import Components from './components/components'
+import Main from './components/main'
 
 import Store from './store/store'
 import * as Actions from './actions'
@@ -22,7 +22,7 @@ window.ACTIONS = Actions
 
 render(
 	<Provider store={Store}>
-		<Components />
+		<Main />
 	</Provider>,
 	document.getElementById('main')
 )
