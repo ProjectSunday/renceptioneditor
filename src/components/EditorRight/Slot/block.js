@@ -16,7 +16,6 @@ export default class Block extends React.Component {
 		super(props)
 
 		this.onDragStart = this.onDragStart.bind(this)
-		this.onDragOver = this.onDragOver.bind(this)
 		this.onDragEnd = this.onDragEnd.bind(this)
 
 		// this.render = this.render.bind(this)
@@ -39,39 +38,6 @@ export default class Block extends React.Component {
 		})
 
 	}
-	onDragOver(e) {
-		// console.log('onDragOver', this.props.index)
-
-		// if (!this.prevMouseY) {
-		// 	this.prevMouseY = e.clientY
-		// 	return
-		// }
-
-	 // 	if (e.clientY > this.prevMouseY) {
-	 // 		var below = true
-	 // 	} else if (e.clientY < this.prevMouseY) {
-	 // 		var below = false
-	 // 	} else {
-	 // 		var below = undefined
-	 // 	}
-
-	 // 	if (below === undefined) {
-	 // 		return
-	 // 	}
-
-	 // 	var { id: blockId, slotId } = this.props
-
-		// STORE.dispatch({
-		// 	type: 'EDITOR.MOUSE_OVER_BLOCK',
-		// 	blockId,
-		// 	slotId,
-		// 	below: below
-		// })
-
-		// this.prevMouseY = e.clientY
-
-
-	}
 	onDragEnd(e) {
 		l('block.onDragEnd', e)
 		var { id, slotId } = this.props
@@ -85,71 +51,35 @@ export default class Block extends React.Component {
 
 
 	}
-	shouldComponentUpdate(nextProps) {
-		// trace('block.shouldComponentUpdate', nextProps)
-
-
-
-		return true
-	}
-
 	componentDidUpdate() {
-
-
 		var { beingDrag, index, transitionOn } = this.props
-		l('block.componentDidUpdate id:', this.props.id, 'transitionOn:', transitionOn)
+		// l('block.componentDidUpdate id:', this.props.id, 'transitionOn:', transitionOn)
 
 		var { block } = this.refs
 
-		if (transitionOn) {
-				block.style.transition = 'top 100ms'
-		} else {
-				block.style.transition = 'top 0ms'
-
-		}
-
-		// block.style.transition = 'top 2000ms'
-
-		// window.getComputedStyle(block)
-
+		block.style.transition = transitionOn ? 'top 100ms' : ''
 		block.style.top = (index * 50) + 'px'
 
-
-		
-
-
-		setTimeout(function () {
+		setTimeout(() => {
 			block.style.display = beingDrag ? 'none' : 'block'
-		// 	// block.style['z-index'] = beingDrag ? -9999 : 0
-		// 	// block.style.top = (index * 50) + 'px'
 		}, 0)
-
 
 	}
 
-	// componentDidMount() {
-	// 	l('block.componentDidMount id:', this.props.id)
-	// 	setTimeout(() => {
-	// 		// this.refs.block.style.transition = 'top 100ms'
-	// 	}, 0)
-	// }
-
 	render() {
-		trace('block.render1', this.props)
+		// trace('block.render1', this.props)
 		var { id, index, name } = this.props
 
 		var blockAttr = {
 			ref: 'block',
 			draggable: true,
 			onDragStart: this.onDragStart,
-			onDragOver: this.onDragOver,
 			onDragEnd: this.onDragEnd,
 
 			style: {
 				background: '#aaa',
 				height: '50px',
 				position: 'absolute',
-				// transition: '',
 				top: (index * 50) + 'px',
 				width: '100%',
 				zIndex: 2

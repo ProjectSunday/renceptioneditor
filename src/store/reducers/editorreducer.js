@@ -1,11 +1,6 @@
-// import blocks 	from './blocksreducer'
-// import slots 	from './slotsreducer'
-
-
 import Immutable from 'immutable'
 
 var NEXT_BLOCK_ID = 200
-
 
 const resetAllSlotsAndBlocks = (state) => {
 	delete state.blockSrc
@@ -21,7 +16,6 @@ const resetAllSlotsAndBlocks = (state) => {
 	})
 	
 }
-
 
 const editor = (state = {}, action) => {
 	switch (action.type) {
@@ -46,6 +40,12 @@ const editor = (state = {}, action) => {
 			return state
 
 
+		case 'MASTERBLOCK_DRAG_START':
+			var state = { ...state }
+
+			state.transitionOn = true
+			
+			return state
 
 
 		case 'DRAG_OVER':
@@ -92,29 +92,25 @@ const editor = (state = {}, action) => {
 			slot.blocks.splice(dest.index, 0, src.blockId)
 
 			resetAllSlotsAndBlocks(state)
-
-
 			return state
+
 
 		case 'MASTERBLOCK_DRAG_END': 
 			var { masterBlock } = action
 			var state = Immutable.fromJS(state).toJS()
 
-			state.transitionOn = true
+			state.transitionOn = false
 
 			var dest = state.blockDest
 
 			var id = NEXT_BLOCK_ID++
 
 			state.blocks.push({ id, name: masterBlock.type })
-
 			state.slots.fbi(dest.slotId).blocks.splice(dest.index, 0, id)
 
-
 			resetAllSlotsAndBlocks(state)
-
-
 			return state
+
 
 		default:
 			return state

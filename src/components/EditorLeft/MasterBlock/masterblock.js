@@ -29,6 +29,11 @@ class MasterBlock extends React.Component {
 		e.dataTransfer.setData("text/plain", "<strong>Body</strong>");
 		e.dataTransfer.setDragImage(dragImage, 58, 29);
 
+		STORE.dispatch({
+			type: 'MASTERBLOCK_DRAG_START'
+		})
+
+
 	}
 	onDragEnd(e) {
 		var { type } = this.props
