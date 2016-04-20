@@ -97,7 +97,8 @@ class Slot extends React.Component {
 			nodes.push(<Block key={i} id={b} index={i} slotId={id} />)
 		})
 
-		nodes.push(<DropZone key="dz" index={-1} slotId={id} />)
+
+		nodes.push(<DropZone key="dz" slotId={id} slotEmpty={blocks.length === 0} />)
 
 		var slotHeight = blocks.length * 50
 		if (dropZone.index !== -1) {
@@ -119,7 +120,7 @@ class Slot extends React.Component {
 				position: 'relative',
 				// box-shadow: inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75),	
 				background: '#F8F8F8',
-				transition: 'height 2000ms'
+				transition: 'height 100ms'
 			}
 		}
 

@@ -36,7 +36,8 @@ let initialState = {
 		slots: [
 			{
 				id: 1000,
-				blocks: [ 100, 101, 102 ],
+				blocks: [],
+				// blocks: [ 100, 101, 102 ],
 				dropZone: { index: -1 }
 			},
 			{

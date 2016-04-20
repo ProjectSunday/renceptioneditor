@@ -99,7 +99,7 @@ export default class Block extends React.Component {
 	}
 
 	componentDidMount() {
-		this.refs.block.style.transition = 'top 2000ms'
+		this.refs.block.style.transition = 'top 100ms'
 	}
 
 	render() {

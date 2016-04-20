@@ -9,7 +9,10 @@ const resetAllSlotsAndBlocks = (state) => {
 	delete state.blockSrc
 	delete state.blockDest
 
-	state.slots.all({ dropZone: { index: -1 }, updateTimeStamp: new Date() })
+	state.slots.forEach(s => {
+		s.dropZone.index = -1
+		s.updateTimeStamp = new Date()
+	})
 	state.blocks.forEach(b => {
 		b.beingDrag = false
 		delete b.index
@@ -42,6 +45,7 @@ const editor = (state = {}, action) => {
 
 
 		case 'DRAG_OVER':
+
 			var { index, slotId } = action
 
 			var b = state.blockDest
