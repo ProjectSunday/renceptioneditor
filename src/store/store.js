@@ -6,33 +6,6 @@ let initialState = {
 
 	editor: {
 
-		blocks: [
-			{
-				id: 100,
-				name: 'image'
-			},
-			{
-				id: 101,
-				name: 'text'
-			},
-			{
-				id: 102,
-				name: 'textplusimage'
-			},
-			{
-				id: 103,
-				name: 'imageimage'
-			},
-			{
-				id: 104,
-				name: 'texttext'
-			},
-			{
-				id: 105,
-				name: 'textplusimagetextplusimage'
-			}
-		],
-
 		masterBlocks: [
 			{
 				id: 500,
@@ -54,10 +27,11 @@ let initialState = {
 			}
 		],
 
+		blocks: [],
+
 		slots: [
 			{
 				id: 1000,
-				// blocks: [ 100, 101, 102 ],
 				blocks: [],
 				dropZone: { index: -1 }
 			},
@@ -78,6 +52,9 @@ let initialState = {
 			}
 		],
 
+		blockHeight: 50,
+		showDropZoneDragOverState: false,
+		textures: [ 'clean_gray_paper', 'debut_light', 'fabric_of_squares_gray', 'p5', 'p6', 'skin_side_up', 'subtlenet' ],
 		transitionOn: false
 
 	},

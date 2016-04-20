@@ -1,5 +1,7 @@
 import Immutable from 'immutable'
 
+import SandBox from './sandboxreducer'
+
 var NEXT_BLOCK_ID = 200
 
 const resetAllSlotsAndBlocks = (state) => {
@@ -15,6 +17,37 @@ const resetAllSlotsAndBlocks = (state) => {
 		delete b.index
 	})
 	
+}
+
+const masterBlock = (state, action) => {
+	switch (action.type) {
+		case 'MASTERBLOCK_DRAG_START':
+			var state = { ...state }
+			state.transitionOn = true
+			return state
+
+
+		case 'MASTERBLOCK_DRAG_END': 
+			var { masterBlock } = action
+			var state = Immutable.fromJS(state).toJS()
+
+			state.transitionOn = false
+
+			var dest = state.blockDest
+
+			var id = NEXT_BLOCK_ID++
+
+			state.blocks.push({ id, name: masterBlock.type })
+			state.slots.fbi(dest.slotId).blocks.splice(dest.index, 0, id)
+
+			resetAllSlotsAndBlocks(state)
+			return state
+
+
+		default:
+			return state
+	}
+
 }
 
 const editor = (state = {}, action) => {
@@ -40,7 +73,6 @@ const editor = (state = {}, action) => {
 			return state
 
 
-		case 'MASTERBLOCK_DRAG_START':
 			var state = { ...state }
 
 			state.transitionOn = true
@@ -94,22 +126,15 @@ const editor = (state = {}, action) => {
 			resetAllSlotsAndBlocks(state)
 			return state
 
+		case 'MASTERBLOCK_DRAG_START':
+		case 'MASTERBLOCK_DRAG_END':
+			return masterBlock(state, action)
 
-		case 'MASTERBLOCK_DRAG_END': 
-			var { masterBlock } = action
-			var state = Immutable.fromJS(state).toJS()
 
-			state.transitionOn = false
-
-			var dest = state.blockDest
-
-			var id = NEXT_BLOCK_ID++
-
-			state.blocks.push({ id, name: masterBlock.type })
-			state.slots.fbi(dest.slotId).blocks.splice(dest.index, 0, id)
-
-			resetAllSlotsAndBlocks(state)
-			return state
+		case 'ADD_SAMPLE_BLOCKS':
+		case 'CLEAR_ALL_BLOCKS':
+		case 'SET_DROPZONE_DRAG_OVER_STATE':
+			return SandBox(state, action)
 
 
 		default:

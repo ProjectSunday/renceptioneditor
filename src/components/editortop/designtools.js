@@ -7,8 +7,24 @@ class DesignTools extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.render = this.render.bind(this)
+		this.addSampleBlocks = this.addSampleBlocks.bind(this)
+		this.clearAllBlocks = this.clearAllBlocks.bind(this)
+		
+		// this.render = this.render.bind(this)
 	}
+
+	addSampleBlocks() {
+		STORE.dispatch({
+			type: 'ADD_SAMPLE_BLOCKS'
+		})
+	}
+
+	clearAllBlocks() {
+		STORE.dispatch({
+			type: 'CLEAR_ALL_BLOCKS'
+		})
+	}
+
 	render() {
 
 		// var events = this.props.events;
@@ -29,7 +45,7 @@ class DesignTools extends React.Component {
 		var bringTheRainAttr = {
 			type: 'button',
 			className: 'btn btn-default pull-left',
-			// onClick: {this.onBringThe}
+			onClick: this.addSampleBlocks,
 			style: {
 				...buttonStyle
 			}
@@ -38,7 +54,7 @@ class DesignTools extends React.Component {
 		var wipeTheFloorAttr = {
 			type: 'button',
 			className: 'btn btn-default pull-left',
-			// onClick: this.onClick
+			onClick: this.clearAllBlocks,
 			style: {
 				...buttonStyle
 			}

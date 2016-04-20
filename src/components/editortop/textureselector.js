@@ -1,28 +1,32 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 
+const mapStateToProps = (state, ownProps) => {
+	return {
+		textures: state.editor.textures
+	}
+}
+@connect(mapStateToProps)
 class TextureSelector extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.render = this.render.bind(this)
 	}
 	render() {
-		// var textures = this.props.textures;
+		var { textures } = this.props
 
-		// var textureOptions = [];
-		// textures.forEach(function (texture, i) {
-		// 	textureOptions.push(
-		// 		<MenuItem key={i} eventKey={i}>{texture}</MenuItem>
-		// 	);
-		// });
+		var nodes = [];
+		textures.forEach((t, i) => {
+			nodes.push(<MenuItem key={i} eventKey={i}>{t}</MenuItem>);
+		});
 
-		var textureSelector = {
+
+
+		var textureSelectorAttr = {
 			className: 'pull-left'
 		}
-
-		var textureOptions = <MenuItem key={0} >MenuItemasdf</MenuItem>
 
 		var dropDownButtonAttr = {
 			id: 'dropdown-size-medium',
@@ -35,9 +39,9 @@ class TextureSelector extends React.Component {
 		}
 
 		return (
-			<div {...textureSelector}>
+			<div {...textureSelectorAttr}>
 				<DropdownButton {...dropDownButtonAttr}>
-					{textureOptions}
+					{nodes}
 				</DropdownButton>
 			</div>
 		);

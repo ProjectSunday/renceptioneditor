@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 const mapStateToProps = (state, ownProps) => {
 	return {
 		transitionOn: state.editor.transitionOn,
+		height: state.editor.blockHeight,
 		...state.editor.blocks.fbi(ownProps.id)
 	}
 }
@@ -40,13 +41,13 @@ export default class Block extends React.Component {
 		})
 	}
 	componentDidUpdate() {
-		var { beingDrag, index, transitionOn } = this.props
+		var { beingDrag, height, index, transitionOn } = this.props
 		// l('block.componentDidUpdate id:', this.props.id, 'transitionOn:', transitionOn)
 
 		var { block } = this.refs
 
 		block.style.transition = transitionOn ? 'top 100ms' : ''
-		block.style.top = (index * 50) + 'px'
+		block.style.top = (index * height) + 'px'
 
 		setTimeout(() => {
 			block.style.display = beingDrag ? 'none' : 'block'
@@ -56,7 +57,7 @@ export default class Block extends React.Component {
 
 	render() {
 		// trace('block.render1', this.props)
-		var { id, index, name } = this.props
+		var { id, height, index, name } = this.props
 
 		var blockAttr = {
 			ref: 'block',
@@ -66,9 +67,9 @@ export default class Block extends React.Component {
 
 			style: {
 				background: '#aaa',
-				height: '50px',
+				height: height + 'px',
 				position: 'absolute',
-				top: (index * 50) + 'px',
+				top: (index * height) + 'px',
 				width: '100%',
 				zIndex: 2
 			}

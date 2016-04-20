@@ -1,24 +1,46 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { DropdownButton, MenuItem }  from 'react-bootstrap'
 
+const mapStateToProps = (state, ownProps) => {
+	return {
+		showDropZoneDragOverState: state.editor.showDropZoneDragOverState
+	}
+}
+
+@connect(mapStateToProps)
 class HoverSelector extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.render = this.render.bind(this)
+		this.onSelect = this.onSelect.bind(this)
+
+		// this.render = this.render.bind(this)
 	}
+
+	onSelect(e, key) {
+
+		l('k', key, e)
+
+		STORE.dispatch({
+			type: 'SET_DROPZONE_DRAG_OVER_STATE',
+			value: key
+		})
+	}
+
 	render() {
 		// var events = this.props.events;
+		var { showDropZoneDragOverState } = this.props
 
 		var hoverSelectorAttr = {
 			className: 'pull-left'
 		}
 
 		var dropDownButtonAttr = {
-			title: 'title', //{ 'Drag Over State: ' + this.props.dropZoneDragOverState }
+			title: 'showDropZoneDragOverState: ' + (showDropZoneDragOverState ? 'on' : 'off' ),
 			id: 'hover-selector',
-			// onSelect: {events.dropZoneDragOverStateChange}
+			onSelect: this.onSelect,
 			style: {
 				margin: '5px 0 0 5px',
     			opacity: 0.3
@@ -30,8 +52,8 @@ class HoverSelector extends React.Component {
 		return (
 			<div {...hoverSelectorAttr}>
 				<DropdownButton {...dropDownButtonAttr}>
-					<MenuItem key={0} eventKey="hidden">hidden</MenuItem>
-					<MenuItem key={1} eventKey="show">show</MenuItem>
+					<MenuItem key={0} eventKey={true}>on</MenuItem>
+					<MenuItem key={1} eventKey={false}>off</MenuItem>
 				</DropdownButton>
 			</div>
 		);
