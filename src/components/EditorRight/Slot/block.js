@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 @connect(mapStateToProps)
-export default class Block extends Component {
+export default class Block extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -31,9 +31,10 @@ export default class Block extends Component {
 		// this.dragIndex = index
 
 		STORE.dispatch({
-			type: 'EDITOR.DRAG_START',
+			type: 'DRAG_START',
 			blockId: id,
-			slotId
+			slotId,
+			index
 		})
 
 	}
@@ -71,12 +72,13 @@ export default class Block extends Component {
 
 	}
 	onDragEnd(e) {
-		// trace('block.onDragEnd')
+		l('block.onDragEnd', e)
 		var { id, slotId } = this.props
 
+
 		STORE.dispatch({
-			type: 'EDITOR.DRAG_END',
-			blockId: id,
+			type: 'DRAG_END',
+			// blockId: id,
 			slotId
 		})
 
@@ -97,69 +99,27 @@ export default class Block extends Component {
 	}
 
 	componentDidMount() {
-		this.refs.blockContainer.style.transition = 'top 100ms'
+		this.refs.block.style.transition = 'top 2000ms'
 	}
 
 	render() {
 		// trace('block.render', this.props)
-		var { id, index, name, top } = this.props
-
-		var t = (top === undefined) ? index * 50 : top
-
-		var blockContainerAttr = {
-			ref: 'blockContainer',
-			// background: 'blue',
-
-			// className: 'block',
-
-			style: {
-				display: 'block',
-			// 	background: '#aaa',
-				// background: 'blue',
-				height: '50px',
-				width: '100%',
-			// 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
-				position: 'absolute',
-				top: t + 'px',
-				transition: '',
-				// top: top + 'px'
-			}
-
-		}
-
-
-		var dropZoneAttr = {
-			ref: 'dropZone',
-			style: {
-				height: '100%',
-				width: '100%',
-				background: '#F8F8F8',
-				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
-				position: 'absolute'
-			}
-		}
+		var { id, index, name } = this.props
 
 		var blockAttr = {
 			ref: 'block',
-			// className: 'block',
 			draggable: true,
 			onDragStart: this.onDragStart,
 			onDragOver: this.onDragOver,
 			onDragEnd: this.onDragEnd,
 
 			style: {
-			// 	display: 'block',
 				background: '#aaa',
-				height: '100%',
+				height: '50px',
+				position: 'absolute',
+				top: (index * 50) + 'px',
 				width: '100%',
-				// background: 'blue',
-
-			// // 	boxShadow: '0px 10px 17px -3px rgba(0,0,0,0.41)',
-				position: 'absolute'
-			// 	top: t + 'px',
-			// 	transition: '',
-			// 	zIndex: 0
-			// 	// top: top + 'px'
+				zIndex: 2
 			}
 		}
 
@@ -171,11 +131,8 @@ export default class Block extends Component {
 				
 
 		return (
-			<div {...blockContainerAttr}>
-				<div {...dropZoneAttr}>drop stuff here</div>
-				<div {...blockAttr}>
-					<span className="name">{name}<span style={idStyles}>{id}</span></span>
-				</div>
+			<div {...blockAttr}>
+				<span className="name">{name}<span style={idStyles}>{id}</span></span>
 			</div>
 		)
 	}

@@ -1,76 +1,91 @@
-import blocks 	from './blocksreducer'
-import slots 	from './slotsreducer'
+// import blocks 	from './blocksreducer'
+// import slots 	from './slotsreducer'
+
+
+import Immutable from 'immutable'
+
+
+const resetAllSlotsAndBlocks = (state) => {
+	delete state.blockSrc
+	delete state.blockDest
+
+	state.slots.all({ dropZone: { index: -1 }, updateTimeStamp: new Date() })
+	state.blocks.forEach(b => {
+		b.beingDrag = false
+		delete b.index
+	})
+	
+}
+
 
 const editor = (state = {}, action) => {
 	switch (action.type) {
 
-		//////////////////////////////////////////////////////////////////////////////////////////
-		// BLOCKS
-		//////////////////////////////////////////////////////////////////////////////////////////
+		case 'DRAG_START':
+			var { blockId, slotId, index} = action
 
-
-		//////////////////////////////////////////////////////////////////////////////////////////
-		// SLOTS
-		//////////////////////////////////////////////////////////////////////////////////////////
-		case 'DRAG_OVER_SLOT':
-			return slots(state, action)
-
-
-		//////////////////////////////////////////////////////////////////////////////////////////
-		// EDITOR
-		//////////////////////////////////////////////////////////////////////////////////////////
-		case 'EDITOR.DRAG_START':
-			var { blockId, slotId } = action
 			var state = { ...state }
-			state.blockSrc = { blockId, slotId }
-			state = blocks(state, { type: 'SET_BEING_DRAG', beingDrag: true })
-			return state
+
+			state.blocks.fbi(blockId).beingDrag = true
+
+			var slot = state.slots.fbi(slotId)
+			slot.dropZone.index = index
+
+			state.slots.fbi(slotId).blocks.rbv(blockId)
 
 
-
-
-
-		// case 'EDITOR.MOUSE_OVER_BLOCK':
-		// 	var { blockId, slotId, below } = action
-
-		// 	var d = state.blockDest
-		// 	if ( d && d.slotId === slotId && d.blockId === blockId && d.below === below ) {
-		// 		return state
-		// 	}
-
-		// 	state.blockDest =  { blockId, slotId, below }
-
-		// 	state = slots(state, { type: 'MOVE_BLOCK' })
-			
-		// 	return state
-
-
-		case 'EDITOR.DRAG_END':
-			var { blockId, slotId } = action
-			var state = { ...state }
-			state.blockSrc = { blockId, slotId }
-			state = blocks(state, { type: 'SET_BEING_DRAG', beingDrag: false })
-
-			delete state.blockSrc
-			delete state.blockDest
+			state.blockSrc = { blockId, slotId }  //don't trust the component to give you the proper one
 
 			return state
 
 
 
 
+		case 'DRAG_OVER':
+			var { index, slotId } = action
 
-		// case 'EDITOR.SET_DROP_SLOT':
-		// 	// trace('EDITOR.SET_DROP_SLOT', action)
-		// 	var { id } = action
-		// 	var state = { ...state }
-		// 	// state.blockDest. = id
-		// 	return state
+			var b = state.blockDest
+			if (b && b.index === index && b.slotId === slotId) { return state }
+
+			var state = { ...state }
+
+			r('dragover action', action)
+
+			var slot = state.slots.fbi(slotId)
+			var i = 0
+			slot.blocks.forEach(b => {
+				if (i === action.index) { i++ }
+				state.blocks.fbi(b).index = i++
+			})
 
 
-		//////////////////////////////////////////////////////////////////////////////////////////
-		// MASTER BLOCKS
-		//////////////////////////////////////////////////////////////////////////////////////////
+			slot.dropZone = { index }
+
+			// l('dragover dz', slot.dropZone)
+
+			state.blockDest = { index, slotId }
+
+			return state
+
+
+
+		case 'DRAG_END':
+			// var { slotId } = action
+
+			var state = Immutable.fromJS(state).toJS()
+
+			var src = state.blockSrc
+			var dest = state.blockDest
+
+			//insert block into dest
+			var slot = state.slots.fbi(dest.slotId)
+			slot.blocks.splice(dest.index, 0, src.blockId)
+
+			resetAllSlotsAndBlocks(state)
+
+
+			return state
+
 
 		default:
 			return state

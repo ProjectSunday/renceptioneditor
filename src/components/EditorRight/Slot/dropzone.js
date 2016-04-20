@@ -2,18 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => {
-	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
-	var dz = state.editor.blocks.fbi(ownProps.slotId)
-
-
-	return block
-
-	// var blah = { ...block }
-
-	// r()
-
-
-	// return blah
+	return { ...state.editor.slots.fbi(ownProps.slotId).dropZone }
 }
 
 @connect(mapStateToProps)
@@ -23,21 +12,24 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		var { id, index } = this.props
-		// l('dropzone.render', 'index', index)
+		var { index, slotId } = this.props
+		l('dropzone.render', 'index', index, 'slotId', slotId)
 
 		var dropZoneAttr = {
 			style: {
-				background: 'blue',
-				zIndex: 1,
+				background: '#F8F8F8',
+				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+				height: '50px',
 				position: 'absolute',
-				top: (index * 50) + 'px'
+				top: (index * 50) + 'px',
+				width: '100%',
+				zIndex: 1
 			}
 		}				
 
 		return (
 			<div {...dropZoneAttr}>
-				dropZone
+				dropZone {slotId}
 			</div>
 		)
 	}
