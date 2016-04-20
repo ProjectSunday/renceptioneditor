@@ -24,41 +24,26 @@ class MasterBlock extends React.Component {
 		this.render = this.render.bind(this)
 	}
 	onDragStart(e) {
-		// this.isMasterBlock = true;
-		// this.masterBlockInfo = masterInfo;
-
 		var dragImage = this.refs.dragImage
 
 		e.dataTransfer.setData("text/plain", "<strong>Body</strong>");
 		e.dataTransfer.setDragImage(dragImage, 58, 29);
 
-
-		// STORE.dispatch({
-	 //    	type: 'SLOTS.SET_HEIGHT_FLEXIBLE',
-	 //    	heightFlexible: true
-	 //    })
-
-	    STORE.dispatch({
-	    	type: 'EDITOR.SET_DRAG_SOURCE',
-	    	source: { isMasterBlock: true }
-	    })
-
 	}
 	onDragEnd(e) {
+		var { type } = this.props
 
 		STORE.dispatch({
-			type: 'EDITOR.SET_DRAG_SOURCE',
-			source: {}
+			type: 'MASTERBLOCK_DRAG_END',
+			masterBlock: { type: type }
 		})
-
-
-		ACTIONS.masterBlockDragEnd(this.props.id)
 	}
 	render() {
 		// red('masterBlock.render1', this.props)
 		const { dragImage, src, type } = this.props
 
 		var masterBlockAttr = {
+			draggable: true,
 			onDragStart: this.onDragStart,
 			onDragEnd: this.onDragEnd,
 			style: {
@@ -91,35 +76,3 @@ class MasterBlock extends React.Component {
 }
 
 export default MasterBlock
-
-// module.exports = React.createClass({
-// 	dragStart: function (e) {asdfsdf
-// 		var masterInfo = {
-// 			type: this.props.data.type
-// 		};
-// 		this.props.events.dragStart(e, masterInfo);
-// 	},
-// 	render: function () {
-
-// 		var masterBlockInfo = this.props.data;
-// 		var events = this.props.events;
-
-// 		var content;
-
-// 		return (
-// 			<div
-// 				className="master-block"
-// 				draggable="true"
-// 				onDragStart={this.dragStart}
-// 				onDragEnd={events.dragEnd}
-// 				>
-// 				{content}
-
-
-
-// 			</div>
-// 		)
-// 	}
-// });
-
-

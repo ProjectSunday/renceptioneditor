@@ -33,6 +33,27 @@ let initialState = {
 			}
 		],
 
+		masterBlocks: [
+			{
+				id: 500,
+				type: 'image',
+				dragImage: 'imageblock-drag.png',
+				src: 'imageblock.png'
+			},
+			{
+				id: 501,
+				type: 'text',
+				dragImage: 'textblock-drag.png',
+				src: 'textblock.png'
+			},
+			{
+				id: 502,
+				type: 'textplusimage',
+				dragImage: 'textplusimageblock-drag.png',
+				src: 'textplusimageblock.png'
+			}
+		],
+
 		slots: [
 			{
 				id: 1000,
@@ -59,27 +80,7 @@ let initialState = {
 			// }
 		],
 
-		masterBlocks: [
-			{
-				id: 500,
-				type: 'image',
-				dragImage: 'imageblock-drag.png',
-				src: 'imageblock.png'
-			},
-			{
-				id: 501,
-				type: 'text',
-				dragImage: 'textblock-drag.png',
-				src: 'textblock.png'
-			},
-			{
-				id: 502,
-				type: 'textplusimage',
-				dragImage: 'textplusimageblock-drag.png',
-				src: 'textplusimageblock.png'
-			}
-		]
-
+		transitionOn: false
 
 	},
 
@@ -100,45 +101,7 @@ let initialState = {
 		}
 	}
 
-	// ui: {
-	// 	destDropZone: {
-	// 		id: null,
-	// 		slotId: null
-	// 	},
-	// 	srcBlock: {
-	// 		id: null,
-	// 		slotId: null
-	// 	},
-	// 	slots: []
-	// }
-
 }
 
 export default createStore(reducers, initialState, applyMiddleware(thunk))
 
-//just a visual example for me to look at, this is not used anywhere
-var sampleState = {
-
-	blocks: [],
-	
-	slots: [
-		{
-			id: 1000,
-			blocks: [ 100, 101, 102, 103, 104, 105 ]
-		}
-	],
-
-	ui: {
-		srcBlock: {
-			// slotId,
-			// blockId
-		},
-		slots: [{
-			id: 1000,
-			activeDropZoneId: 1,
-			children:[],
-			dropZones: []
-		}]
-	}
-
-}

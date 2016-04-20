@@ -4,6 +4,8 @@
 
 import Immutable from 'immutable'
 
+var NEXT_BLOCK_ID = 200
+
 
 const resetAllSlotsAndBlocks = (state) => {
 	delete state.blockSrc
@@ -29,6 +31,8 @@ const editor = (state = {}, action) => {
 
 			var state = { ...state }
 
+			state.transitionOn = true
+
 			state.blocks.fbi(blockId).beingDrag = true
 
 			var slot = state.slots.fbi(slotId)
@@ -53,7 +57,7 @@ const editor = (state = {}, action) => {
 
 			var state = { ...state }
 
-			r('dragover action', action)
+			// r('dragover action', action)
 
 			var slot = state.slots.fbi(slotId)
 			var i = 0
@@ -81,6 +85,8 @@ const editor = (state = {}, action) => {
 			var src = state.blockSrc
 			var dest = state.blockDest
 
+			state.transitionOn = false
+
 			//insert block into dest
 			var slot = state.slots.fbi(dest.slotId)
 			slot.blocks.splice(dest.index, 0, src.blockId)
@@ -90,6 +96,25 @@ const editor = (state = {}, action) => {
 
 			return state
 
+		case 'MASTERBLOCK_DRAG_END': 
+			var { masterBlock } = action
+			var state = Immutable.fromJS(state).toJS()
+
+			state.transitionOn = true
+
+			var dest = state.blockDest
+
+			var id = NEXT_BLOCK_ID++
+
+			state.blocks.push({ id, name: masterBlock.type })
+
+			state.slots.fbi(dest.slotId).blocks.splice(dest.index, 0, id)
+
+
+			resetAllSlotsAndBlocks(state)
+
+
+			return state
 
 		default:
 			return state

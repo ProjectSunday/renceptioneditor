@@ -30,7 +30,7 @@ class DropZone extends React.Component {
 
 	render() {
 		var { index, slotId, slotEmpty } = this.props
-		l('dropzone.render', 'index', index, 'slotId', slotId)
+		// l('dropzone.render', 'index', index, 'slotId', slotId)
 
 		var t = slotEmpty ? 0 : (index * 50)
 

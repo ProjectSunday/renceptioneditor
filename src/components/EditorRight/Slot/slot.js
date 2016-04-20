@@ -94,7 +94,7 @@ class Slot extends React.Component {
 		let nodes = []
 
 		blocks.forEach((b, i) => {
-			nodes.push(<Block key={i} id={b} index={i} slotId={id} />)
+			nodes.push(<Block key={i} id={b} index={i} slotId={id} updateTimeStamp={this.updateTimeStamp} />)
 		})
 
 
@@ -119,8 +119,8 @@ class Slot extends React.Component {
 				// border: '1px solid #E6DBDB',
 				position: 'relative',
 				// box-shadow: inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75),	
-				background: '#F8F8F8',
-				transition: 'height 100ms'
+				background: '#F8F8F8'
+				// transition: 'height 100ms'
 			}
 		}
 

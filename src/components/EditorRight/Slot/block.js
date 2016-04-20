@@ -5,6 +5,7 @@ const mapStateToProps = (state, ownProps) => {
 	// console.log('block.mapStateToProps', ownProps, state.ui.srcBlock.blockId)
 	var block = state.editor.blocks.fbi(ownProps.id)
 	return {
+		transitionOn: state.editor.transitionOn,
 		...block
 	}
 }
@@ -86,24 +87,55 @@ export default class Block extends React.Component {
 	}
 	shouldComponentUpdate(nextProps) {
 		// trace('block.shouldComponentUpdate', nextProps)
-		var { beingDrag } = nextProps
 
-		var { block } = this.refs
 
-		setTimeout(function () {
-			block.style.display = beingDrag ? 'none' : 'block'
-			// block.style['z-index'] = beingDrag ? -9999 : 0
-		}, 0)
 
 		return true
 	}
 
-	componentDidMount() {
-		this.refs.block.style.transition = 'top 100ms'
+	componentDidUpdate() {
+
+
+		var { beingDrag, index, transitionOn } = this.props
+		l('block.componentDidUpdate id:', this.props.id, 'transitionOn:', transitionOn)
+
+		var { block } = this.refs
+
+		if (transitionOn) {
+				block.style.transition = 'top 100ms'
+		} else {
+				block.style.transition = 'top 0ms'
+
+		}
+
+		// block.style.transition = 'top 2000ms'
+
+		// window.getComputedStyle(block)
+
+		block.style.top = (index * 50) + 'px'
+
+
+		
+
+
+		setTimeout(function () {
+			block.style.display = beingDrag ? 'none' : 'block'
+		// 	// block.style['z-index'] = beingDrag ? -9999 : 0
+		// 	// block.style.top = (index * 50) + 'px'
+		}, 0)
+
+
 	}
 
+	// componentDidMount() {
+	// 	l('block.componentDidMount id:', this.props.id)
+	// 	setTimeout(() => {
+	// 		// this.refs.block.style.transition = 'top 100ms'
+	// 	}, 0)
+	// }
+
 	render() {
-		// trace('block.render', this.props)
+		trace('block.render1', this.props)
 		var { id, index, name } = this.props
 
 		var blockAttr = {
@@ -117,6 +149,7 @@ export default class Block extends React.Component {
 				background: '#aaa',
 				height: '50px',
 				position: 'absolute',
+				// transition: '',
 				top: (index * 50) + 'px',
 				width: '100%',
 				zIndex: 2
