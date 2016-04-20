@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 const mapStateToProps = (state, ownProps) => {
 	return { 
 		showDropZoneDragOverState: state.editor.showDropZoneDragOverState,
+		activeTexture: state.editor.activeTexture,
 		...state.editor.slots.fbi(ownProps.slotId).dropZone
 	}
 }
@@ -32,19 +33,20 @@ class DropZone extends React.Component {
 	}
 
 	render() {
-		var { index, showDropZoneDragOverState, slotId, slotEmpty } = this.props
+		var { index, activeTexture, showDropZoneDragOverState, slotId, slotEmpty } = this.props
 		// l('dropzone.render', 'index', index, 'slotId', slotId)
 
 		var t = slotEmpty ? 0 : (index * 50)
 
 		var text = showDropZoneDragOverState ? 'Drop Here' : 'Drop Blocks or Content Here'
+		var background = `url(${activeTexture}.png)`
 
 		var dropZoneAttr = {
 			ref: 'dropZone',
 			onDragEnter: this.onDragEnter,
 			onDragLeave: this.onDragLeave,
 			style: {
-				background: '#F8F8F8',
+				background: background,
 				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
 				height: '50px',
 				position: 'absolute',

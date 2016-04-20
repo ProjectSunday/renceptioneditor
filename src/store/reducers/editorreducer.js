@@ -134,6 +134,7 @@ const editor = (state = {}, action) => {
 		case 'ADD_SAMPLE_BLOCKS':
 		case 'CLEAR_ALL_BLOCKS':
 		case 'SET_DROPZONE_DRAG_OVER_STATE':
+		case 'SET_ACTIVE_TEXTURE':
 			return SandBox(state, action)
 
 

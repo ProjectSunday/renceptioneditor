@@ -15,14 +15,9 @@ class HoverSelector extends React.Component {
 		super(props)
 
 		this.onSelect = this.onSelect.bind(this)
-
-		// this.render = this.render.bind(this)
 	}
 
 	onSelect(e, key) {
-
-		l('k', key, e)
-
 		STORE.dispatch({
 			type: 'SET_DROPZONE_DRAG_OVER_STATE',
 			value: key
@@ -30,7 +25,6 @@ class HoverSelector extends React.Component {
 	}
 
 	render() {
-		// var events = this.props.events;
 		var { showDropZoneDragOverState } = this.props
 
 		var hoverSelectorAttr = {
@@ -46,8 +40,6 @@ class HoverSelector extends React.Component {
     			opacity: 0.3
 			}
 		}
-
-
 
 		return (
 			<div {...hoverSelectorAttr}>

@@ -54,7 +54,8 @@ let initialState = {
 
 		blockHeight: 50,
 		showDropZoneDragOverState: false,
-		textures: [ 'clean_gray_paper', 'debut_light', 'fabric_of_squares_gray', 'p5', 'p6', 'skin_side_up', 'subtlenet' ],
+		activeTexture: 'texture_clean_gray_paper',
+		textures: [ 'texture_clean_gray_paper', 'texture_debut_light', 'texture_fabric_of_squares_gray', 'texture_p5', 'texture_p6', 'texture_skin_side_up', 'texture_subtlenet' ],
 		transitionOn: false
 
 	},

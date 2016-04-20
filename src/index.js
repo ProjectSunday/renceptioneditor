@@ -7,7 +7,7 @@ import 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 
 //other imports
-import './favicon.ico'
+import './images'
 import './index.less'   //main styling file, needs to be converted to sass
 import './utils'
 import './debug'

@@ -5,7 +5,8 @@ import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		textures: state.editor.textures
+		textures: state.editor.textures,
+		activeTexture: state.editor.activeTexture
 	}
 }
 @connect(mapStateToProps)
@@ -13,9 +14,18 @@ class TextureSelector extends React.Component {
 	constructor(props) {
 		super(props)
 
+		this.onSelect = this.onSelect.bind(this)
+	}
+	onSelect(e, key) {
+		var { textures } = this.props
+		var activeTexture = textures[key]
+		STORE.dispatch({
+			type: 'SET_ACTIVE_TEXTURE',
+			activeTexture
+		})
 	}
 	render() {
-		var { textures } = this.props
+		var { activeTexture, textures } = this.props
 
 		var nodes = [];
 		textures.forEach((t, i) => {
@@ -30,8 +40,8 @@ class TextureSelector extends React.Component {
 
 		var dropDownButtonAttr = {
 			id: 'dropdown-size-medium',
-			title: 'title', //textures[this.props.activeTexture]
-			// onSelect: this.props.events.textureChange
+			title: activeTexture,
+			onSelect: this.onSelect,
 			style: {
 				margin: '5px 0 0 5px',
     			opacity: 0.3

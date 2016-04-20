@@ -80,7 +80,12 @@ const SandBox = (state, action) => {
 			state.showDropZoneDragOverState = action.value
 			return state
 			
-
+		case 'SET_ACTIVE_TEXTURE':
+			var state = { ...state }
+			state.activeTexture = action.activeTexture
+			return state
+			
+			
 		default:
 			return state
 	}

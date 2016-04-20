@@ -1,14 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import './imageblock.png'
-import './textblock.png'
-import './textplusimageblock.png'
-
-import './imageblock-drag.png'
-import './textblock-drag.png'
-import './textplusimageblock-drag.png'
-
 const mapStateToProps = (state, ownProps) => {
 	return state.editor.masterBlocks.fbi(ownProps.id)
 }
