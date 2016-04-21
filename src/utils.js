@@ -1,4 +1,3 @@
-
 //find by id
 Array.prototype.fbi = function(id) {
 	return this.find(x => x.id === id)
@@ -16,19 +15,9 @@ Array.prototype.fibv = function (v) {
 	return this.findIndex(x => x === v)
 }
 
+
 //remove by value 
 Array.prototype.rbv = function (v) {
 	var index = this.findIndex(x => x === v)
 	this.splice(index, 1)
-}
-
-//all
-
-Array.prototype.all = function (obj) {
-	var keys = Object.keys(obj)
-	return this.forEach(x => {
-		keys.forEach(k => {
-			x[k] = obj[k]
-		})
-	})
 }

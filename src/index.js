@@ -8,18 +8,13 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 //other imports
 import './images'
-import './index.less'   //main styling file, needs to be converted to sass
 import './utils'
 import './debug'
 
-import Main from './components/main'
-
 import Store from './store/store'
-import * as Actions from './actions'
-
 window.STORE = Store
-window.ACTIONS = Actions
 
+import Main from './components/main'
 render(
 	<Provider store={Store}>
 		<Main />

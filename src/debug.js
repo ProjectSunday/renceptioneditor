@@ -1,6 +1,4 @@
-
 //tracing
-
 window.trace = function () {
     var caller = ((new Error).stack.split('\n')[2]).trim();
     var args = Array.prototype.slice.call(arguments);
@@ -24,4 +22,3 @@ window.c = function () {
 
 window.l = console.log.bind(console);
 
-export default {}
