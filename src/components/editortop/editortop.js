@@ -23,8 +23,8 @@ class EditorTop extends React.Component {
 			}
 		}
 
-		var title = 'yo'
-		// var title = 'This is a mockup demo for the Cloud Editor\'s proposed drag and drop ability.'
+		// var title = 'yo'
+		var title = 'This is a mockup demo for the Cloud Editor\'s proposed drag and drop ability.'
 
 		return (
 			<div {...editorTopAttr}>

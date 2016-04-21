@@ -10,3 +10,8 @@ notes
 finally, finally over
 
 working on textureselector
+
+
+heroku git:remote -a renceptioneditor
+
+webpack --progress -p --config webpack.config.prod.js
