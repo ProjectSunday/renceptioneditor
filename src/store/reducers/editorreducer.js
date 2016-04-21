@@ -3,6 +3,7 @@ import Immutable from 'immutable'
 import SandBox from './sandboxreducer'
 
 var NEXT_BLOCK_ID = 200
+const IPSUM = 'Bacon ipsum dolor amet short ribs hamburger chicken, fatback capicola tri-tip kielbasa biltong cow doner meatball meatloaf flank alcatra. Bresaola porchetta tenderloin, ground round pork chop beef salami. Capicola doner alcatra short ribs pancetta. Shank leberkas kevin frankfurter porchetta hamburger filet mignon tail bacon shankle turducken beef ribs flank chuck ham hock. Ham leberkas frankfurter, drumstick t-bone tongue alcatra ball tip. Porchetta brisket andouille swine, tri-tip pancetta ham flank cupim ball tip pastrami strip steak jerky. Shoulder chuck hamburger pork belly ball tip bacon cow.';
 
 const resetAllSlotsAndBlocks = (state) => {
 	delete state.blockSrc
@@ -37,7 +38,39 @@ const masterBlock = (state, action) => {
 
 			var id = NEXT_BLOCK_ID++
 
-			state.blocks.push({ id, name: masterBlock.type })
+			var newBlock
+
+			switch (masterBlock.type) {
+				case 'text':
+					newBlock = {
+						id,
+						name: 'textname',
+						type: 'text',
+						text: IPSUM
+					}
+					break
+				case 'image':
+					newBlock = {
+						id,
+						name: 'imagename',
+						type: 'image',
+						imageSrc: 'defaultimage.svg'
+					}
+					break
+				case 'textplusimage':
+					newBlock = {
+						id,
+						name: 'textplusimagename',
+						type: 'textplusimage',
+						imageSrc: 'defaultimage.svg',
+						text: IPSUM
+					}
+					break
+				default:
+					throw 'WTF'
+			}
+
+			state.blocks.push(newBlock)
 			state.slots.fbi(dest.slotId).blocks.splice(dest.index, 0, id)
 
 			resetAllSlotsAndBlocks(state)

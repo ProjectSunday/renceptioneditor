@@ -84,11 +84,11 @@ class Slot extends React.Component {
 			ref: 'slot',
 			onDragOver: this.onDragOver,
 			style: {
-				boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
+				// boxShadow: 'inset 5px 5px 23px -6px rgba(0, 0, 0, 0.75)',
 				height: slotHeight + 'px',
 	    		overflow: 'hidden',
 		    	minHeight: blockHeight + 'px',
-				margin: '30px 0 0 0',
+				margin: '0 0 15px 0',
 				// border: '1px solid #E6DBDB',
 				position: 'relative',
 				background: '#F8F8F8',

@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+// import thunk from 'redux-thunk'
 import reducers from './reducers'
 
 let initialState = {
@@ -52,10 +52,10 @@ let initialState = {
 			}
 		],
 
-		blockHeight: 50,
+		blockHeight: 80,
 		showDropZoneDragOverState: false,
-		activeTexture: 'texture_clean_gray_paper',
-		textures: [ 'texture_clean_gray_paper', 'texture_debut_light', 'texture_fabric_of_squares_gray', 'texture_p5', 'texture_p6', 'texture_skin_side_up', 'texture_subtlenet' ],
+		activeTexture: 'clean_gray_paper',
+		textures: [ 'clean_gray_paper', 'debut_light', 'fabric_of_squares_gray', 'p5', 'p6', 'skin_side_up', 'subtlenet' ],
 		transitionOn: false
 
 	},
@@ -79,5 +79,5 @@ let initialState = {
 
 }
 
-export default createStore(reducers, initialState, applyMiddleware(thunk))
+export default createStore(reducers, initialState)
 

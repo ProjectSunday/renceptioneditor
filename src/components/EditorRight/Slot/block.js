@@ -57,7 +57,7 @@ export default class Block extends React.Component {
 
 	render() {
 		// trace('block.render1', this.props)
-		var { id, height, index, name } = this.props
+		var { id, height, imageSrc, index, name, text, type } = this.props
 
 		var blockAttr = {
 			ref: 'block',
@@ -68,6 +68,7 @@ export default class Block extends React.Component {
 			style: {
 				background: '#aaa',
 				height: height + 'px',
+				overflow: 'hidden',
 				position: 'absolute',
 				top: (index * height) + 'px',
 				width: '100%',
@@ -75,14 +76,64 @@ export default class Block extends React.Component {
 			}
 		}
 
-		const idStyles = {
+		const nameStyle = {
+			display: 'block',
+			position: 'absolute',
+			top: 0,
+			left: 0,
 			background: 'black',
 			color: 'yellow'
 		}
+
+		var content
+		if (type === 'image') {
+			var s = { 
+				backgroundImage: `url(${imageSrc})`,
+				width: '100%',
+				height: '100%',
+				backgroundSize: 'auto 100%'
+			}
+			content = (<div style={s}></div>)
+		} else if (type === 'text') {
+			content = (<p>{text}</p>)
+		} else if (type === 'textplusimage') {
+			var leftImage = {
+				float: 'left',
+				backgroundImage: `url(${imageSrc})`,
+				backgroundSize: 'auto 100%',
+			    width: '50%',
+			    height: '80px',
+			    // background: 'blue',
+			    overflow: 'hidden'
+			}
+
+			var rightText = {
+				float: 'left',
+				height: '80px',
+				margin: '0',
+				width: '50%'
+			}
+
+			content = (
+				<div>
+					<div style={leftImage}></div>
+					<div style={rightText}>{text}</div>
+				</div>
+			)
+		}
+
+		
+
+
+		// const idStyles = {
+		// 	background: 'black',
+		// 	color: 'yellow'
+		// }
 				
 		return (
 			<div {...blockAttr}>
-				<span className="name">{name}<span style={idStyles}>{id}</span></span>
+				{content}
+				<span style={nameStyle}>{name}{id}</span>
 			</div>
 		)
 	}

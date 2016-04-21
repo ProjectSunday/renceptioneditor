@@ -24,9 +24,38 @@ class EditorRight extends React.Component {
 			boxShadow: '0px 0px 17px -3px rgba(0,0,0,0.41)',
 			height: '600px',
 			background: 'white',
-			padding: '0 30px 0px 30px',
-			margin: '30px 0 0 0',
+			padding: '0',
+			margin: '15px 0 0 0',
 			overflow: 'scroll'
+		}
+
+		var middleRow = {
+			className: 'row',
+			style: {
+				margin: 0
+			}
+		}
+
+		var middleLeft = {
+			className: 'col-xs-6',
+			style: {
+				paddingRight: '7px'
+			}
+		}
+
+		var middleRight = {
+			className: 'col-xs-6',
+			style: {
+				paddingLeft: '7px'
+			}
+		}
+
+
+		var bottomRow = {
+			className: 'row',
+			style: {
+				margin: 0
+			}
 		}
 
 		return (
@@ -36,15 +65,15 @@ class EditorRight extends React.Component {
 						<Slot id={slotIds[0]} />
 					</div>
 				</div>
-				<div className="row">
-					<div className="col-xs-6">
+				<div {...middleRow}>
+					<div {...middleLeft}>
 						<Slot id={slotIds[1]} />
 					</div>
-					<div className="col-xs-6">
+					<div {...middleRight}>
 						<Slot id={slotIds[2]} />
 					</div>
 			 	</div>
-			 	<div className="row">
+			 	<div {...bottomRow}>
 					<div className="col-xs-12">
 						<Slot id={slotIds[3]} />
 					</div>

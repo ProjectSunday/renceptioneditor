@@ -48,12 +48,13 @@ module.exports = {
 				test: /\.css$/, 
 				loaders: [ 'style', 'css' ] },
 			{ 
-				test: /\.(png|ico)$/, 
+				test: /\.(png|ico|svg)$/, 
 				loader: 'file?name=[name].[ext]',
+				exclude: node_modules,
 				include: src
 			},
 			{ 
-				test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+				test: /\.(woff|woff2|eot|ttf|svg)$/, 
 				loader: 'url-loader?limit=100000',
 				exclude: src
 			}

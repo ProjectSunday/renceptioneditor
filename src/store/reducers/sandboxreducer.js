@@ -1,55 +1,70 @@
 import Immutable from 'immutable'
 
 
-
+const ipsum = 'Bacon ipsum dolor amet short ribs hamburger chicken, fatback capicola tri-tip kielbasa biltong cow doner meatball meatloaf flank alcatra. Bresaola porchetta tenderloin, ground round pork chop beef salami. Capicola doner alcatra short ribs pancetta. Shank leberkas kevin frankfurter porchetta hamburger filet mignon tail bacon shankle turducken beef ribs flank chuck ham hock. Ham leberkas frankfurter, drumstick t-bone tongue alcatra ball tip. Porchetta brisket andouille swine, tri-tip pancetta ham flank cupim ball tip pastrami strip steak jerky. Shoulder chuck hamburger pork belly ball tip bacon cow.';
 
 
 const sampleBlocks = [
 	{
 		id: 100,
-		name: 'image'
+		name: 'imagename',
+		type: 'image',
+		imageSrc: 'defaultimage.svg'
 	},
 	{
 		id: 101,
-		name: 'text'
+		name: 'textname',
+		type: 'text',
+		text: ipsum
 	},
 	{
 		id: 102,
-		name: 'textplusimage'
+		name: 'textname',
+		type: 'text',
+		text: ipsum
 	},
 	{
 		id: 103,
-		name: 'imageimage'
+		name: 'textplusimagename',
+		type: 'textplusimage',
+		imageSrc: 'defaultimage.svg',
+		text: ipsum
 	},
 	{
 		id: 104,
-		name: 'texttext'
+		name: 'textplusimagename',
+		type: 'textplusimage',
+		imageSrc: 'defaultimage.svg',
+		text: ipsum
+
 	},
 	{
 		id: 105,
-		name: 'textplusimagetextplusimage'
+		name: 'textname',
+		type: 'text',
+		text: ipsum
 	}
 ]
 
 const sampleSlots = [
 	{
 		id: 1000,
-		blocks: [ 100, 101, 102 ],
+		blocks: [ 100, 101 ],
 		dropZone: { index: -1 }
 	},
 	{
 		id: 1001,
-		blocks: [ 103 ],
+		blocks: [ 102 ],
 		dropZone: { index: -1 }
 	},
 	{
 		id: 1002,
-		blocks: [ 104 ],
+		blocks: [ 103 ],
 		dropZone: { index: -1 }
 	},
 	{
 		id: 1003,
-		blocks: [ 105 ],
+		blocks: [ 104, 105 ],
 		dropZone: { index: -1 }
 	}
 ]

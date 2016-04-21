@@ -19,14 +19,14 @@ class EditorLeft extends React.Component {
 
 	render() {
 
-		var { masterBlocks } = this.props
+		var { masterBlocks, activeTexture } = this.props
 
 		var editorLeftAttr = {
 			style: {
 				border: '1px solid #ddd',
 				boxShadow: '0px 0px 17px -3px rgba(0,0,0,0.41)',
 				padding: '6px',
-				margin: '30px 0 0 0',
+				margin: '15px 0 0 0',
 				height: '600px',
 				background: 'white'
 			}

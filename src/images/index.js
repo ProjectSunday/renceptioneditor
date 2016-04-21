@@ -17,3 +17,8 @@ import './textplusimageblock.png'
 import './imageblock-drag.png'
 import './textblock-drag.png'
 import './textplusimageblock-drag.png'
+
+
+//blocks
+
+import './defaultimage.svg'
